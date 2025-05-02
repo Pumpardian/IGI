@@ -1,0 +1,20 @@
+Number of sentences: 5
+Number of declarative sentences: 4
+Number of interrogative sentences: 0
+Number of imperative sentences: 1
+Average sentence length: 81.0
+Average word length: 5.391304347826087
+Number of emoticons: 3
+Uppercase english letters: ['N', 'W', 'S', 'P', 'T']
+a...ab...bc...c pattern replacement: Nowdays technologies are used in every sphere of our life.
+We are became addicted to, most likely, every of them!
+Social networks became crucial for our daily lifes. People spend too much time in virtual worlds,
+ communicating with friends, sharing videos and photos.
+ Technologies are giving us access to big information sources, providing online shopping,
+ giving us the opportunity to work and study online. ;--))) ;;--))) ;-) -- ]] )))) ;;;
+ qqq qqq abc
+ qwertyuiopasd
+ fghjklzxcvbnm
+Number of words with max length: 3
+Words with dot or comma on end: ['life.', 'to,', 'likely,', 'lifes.', 'worlds,', 'friends,', 'photos.', 'sources,', 'shopping,', 'online.']
+Largest word that ends on e: sphere
