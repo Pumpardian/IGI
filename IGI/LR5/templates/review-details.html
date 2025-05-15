@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>{{ review.title }}</h2>
+
+<p><strong>User:</strong> {{ review.user.username }}</p>
+<p><strong>Rating:</strong> {{ review.rating }}</p>
+<p><strong>Publish Date (Local time):</strong> {{ review.get_local_time }}</p>
+<p><strong>Publish Date (UTC):</strong> {{ review.get_utc_time }}</p>
+
+<p>{{ review.text }}</p>
+
+<a href="{% url 'review-list' %}" class="btn btn-secondary">Return to review list</a>
+{% endblock %}

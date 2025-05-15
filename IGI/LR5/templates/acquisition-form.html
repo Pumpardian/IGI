@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>{% if object %}Edit{% else %}Addition{% endif %} of acquisition</h2>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">Save</button>
+</form>
+
+<a href="{% url 'acquisition-list' %}" class="btn btn-info">Cancel</a>
+{% endblock %}

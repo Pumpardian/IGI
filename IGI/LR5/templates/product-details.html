@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>{{ product.title }}</h2>
+
+<p>{{ product.description }}</p>
+<p>Price: {{ product.price }}</p>
+<p>Type: {{ product.type }}</p>
+{% if request.user.is_authenticated and request.user.is_staff %}
+    <p>Part number: {{ product.part_number }}</p>
+    <p>Suppliers: {{ product.get_suppliers }}</p>
+{% endif %}
+
+{% if product.photo %}
+    <img src="{{ product.photo.url }}" alt="{{ product.title }}" style="width: 300px;">
+{% else %}
+    <p>Photo is unavailable</p>
+{% endif %}
+
+<a href="{% url 'product-list' %}" class="btn btn-info">Return to product list</a>
+{% endblock %}

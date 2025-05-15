@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>PromoCodes List</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Code</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for promocode in object_list %}
+        <tr>
+            <td>{{promocode.code}}</td>
+            <td>{{promocode.status}}</td>
+            <td>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

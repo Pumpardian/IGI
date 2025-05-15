@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Product List</h2>
+
+<form method="get" class="form-inline">
+    <input type="text" name="query" placeholder="Searching..." value="{{ request.GET.query }}" class="form-control">
+    
+    <select name="sort" class="form-control">
+        <option value="title">By title</option>
+        <option value="price">By price</option>
+        <option value="type">By type</option>
+    </select>
+
+    <button type="submit" class="btn btn-primary">Search</button>
+    {% if request.user.is_staff %}
+        <a href="{% url 'product-create'%}" class="btn btn-primary">Add</a>
+    {% endif %}
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Type</th>
+            <th>Price</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for product in object_list %}
+        <tr>
+            <td>{{ product.title }}</td>
+            <td>{{ product.type }}</td>
+            <td>{{ product.price }}</td>
+            <td>
+                {% if request.user.is_authenticated %}
+                    <a href="{% url 'product-details' product.id %}" class="btn btn-primary">Details</a>
+                    {% if request.user.is_staff %}
+                        <a href="{% url 'product-update' product.id %}" class="btn btn-secondary">Edit</a>
+                        <a href="{% url 'product-delete' product.id %}" class="btn btn-danger">Delete</a>
+                    {% endif %}
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
