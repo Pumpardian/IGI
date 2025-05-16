@@ -34,19 +34,19 @@ urlpatterns = [
                   path('products/', views.ProductListView.as_view(), name='product-list'),
                   re_path(r'^products/(?P<pk>\d+)/$', views.ProductDetailsView.as_view(), name='product-details'),
                   path('products/new/', views.ProductCreateView.as_view(), name='product-create'),
-                  re_path(r'^products/(?P<pk>\d+)/edit/', views.ProductUpdateView.as_view(), name='product-update'),
-                  re_path(r'^products/(?P<pk>\d+)/delete/', views.ProductDeleteView.as_view(), name='product-delete'),
+                  re_path(r'^products/(?P<pk>\d+)/edit/$', views.ProductUpdateView.as_view(), name='product-update'),
+                  re_path(r'^products/(?P<pk>\d+)/delete/$', views.ProductDeleteView.as_view(), name='product-delete'),
 
                   path('acquisitions/', views.AcquisitionListView.as_view(), name='acquisition-list'),
                   re_path(r'^acquisitions/(?P<pk>\d+)/$', views.AcquisitionDetailsView.as_view(), name='acquisition-details'),
                   path('acquisitions/new/', views.AcquisitionCreateView.as_view(), name='acquisition-create'),
-                  re_path(r'^acquisitions/(?P<pk>\d+)/edit/', views.AcquisitionUpdateView.as_view(), name='acquisition-update'),
-                  re_path(r'^acquisitions/(?P<pk>\d+)/delete/', views.AcquisitionDeleteView.as_view(), name='acquisition-delete'),
+                  re_path(r'^acquisitions/(?P<pk>\d+)/edit/$', views.AcquisitionUpdateView.as_view(), name='acquisition-update'),
+                  re_path(r'^acquisitions/(?P<pk>\d+)/delete/$', views.AcquisitionDeleteView.as_view(), name='acquisition-delete'),
 
                   path('suppliers/', views.SupplierListView.as_view(), name='supplier-list'),
                   path('suppliers/new/', views.SupplierCreateView.as_view(), name='supplier-create'),
-                  re_path(r'^suppliers/(?P<pk>\d+)/edit/', views.SupplierUpdateView.as_view(), name='supplier-update'),
-                  re_path(r'^suppliers/(?P<pk>\d+)/delete/', views.SupplierDeleteView.as_view(), name='supplier-delete'),
+                  re_path(r'^suppliers/(?P<pk>\d+)/edit/$', views.SupplierUpdateView.as_view(), name='supplier-update'),
+                  re_path(r'^suppliers/(?P<pk>\d+)/delete/$', views.SupplierDeleteView.as_view(), name='supplier-delete'),
 
                   path('articles/', views.ArticleListView.as_view(), name='article-list'),
                   re_path(r'^articles/(?P<pk>\d+)/$',
@@ -54,9 +54,9 @@ urlpatterns = [
                   # LEAVE THAT THING UNTIL STR-WEB
                   #
                   #path('articles/new', views.ArticleCreateView.as_view(), name='article-create'),
-                  #re_path(r'^articles/(?P<year>[0-9]{4})-(?P<month>[0-9]{1,2})-(?P<day>[0-9]{1,2})/(?P<pk>\d+)/edit$',
+                  #re_path(r'^articles/(?P<pk>\d+)/edit/$',
                   #        views.ArticleUpdateView.as_view(), name='article-update'),
-                  #re_path(r'^articles/(?P<year>[0-9]{4})-(?P<month>[0-9]{1,2})-(?P<day>[0-9]{1,2})/(?P<pk>\d+)/delete$',
+                  #re_path(r'^articles/(?P<pk>\d+)/delete/$',
                   #        views.ArticleDeleteView.as_view(), name='article-delete'),
 
                   path('faq/', views.FAQListView.as_view(), name='faq-list'),

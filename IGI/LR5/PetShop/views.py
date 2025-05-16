@@ -454,8 +454,6 @@ class StatisticsView(TemplateView):
         string = base64.b64encode(buf.read())
         uri = urllib.parse.quote(string)
         context['hist'] = uri
-        buf.flush()
-        buf.close()
         plt.close()
         return context
 
