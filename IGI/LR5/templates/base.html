@@ -51,22 +51,28 @@
                     <a class="nav-link" href="{% url 'statistics' %}">Statistics</a>
                 </li>
 
-                {% if request.user.is_authenticated and request.user.is_staff %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'acquisition-list' %}">Acquisitions</a>
-                    </li>
+                {% if request.user.is_authenticated %}
+                    {% if request.user.is_staff %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'acquisition-list' %}">Acquisitions</a>
+                        </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'supplier-list' %}">Suppliers</a>
-                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'supplier-list' %}">Suppliers</a>
+                        </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'promocode-list' %}">PromoCodes</a>
-                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'promocode-list' %}">PromoCodes</a>
+                        </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'currency-rates' %}">Currency Rates</a>
-                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'currency-rates' %}">Currency Rates</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'cart' %}">Cart</a>
+                        </li>
+                    {% endif %}
                 {% endif %}
 
                 <li class="nav-item">

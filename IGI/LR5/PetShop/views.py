@@ -9,7 +9,7 @@ from .models import *
 from django.db.models import Count, Sum, Q
 from .forms import *
 import requests
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 import pandas as pd
 from django.http import HttpResponseForbidden
 from functools import wraps
@@ -29,6 +29,94 @@ def aboutpage(request):
 class PolicyView(TemplateView):
     model = Policy
     template_name = 'policy.html'
+
+
+class CartView(ListView):
+    model = CartItem
+    template_name = 'cart.html'
+    context_object_name = 'cart_items'
+
+    def get_queryset(self):
+        cart, created = Cart.objects.get_or_create(user=self.request.user)
+        cart_items = CartItem.objects.filter(cart=cart).select_related('product')
+        
+        query = self.request.GET.get('query', '')
+        sort_by = self.request.GET.get('sort', 'product__title')
+
+        logger.debug(f"Fetching cart items with query: '{query}' and sort by: '{sort_by}'")
+
+        if query:
+            cart_items = cart_items.filter(
+                Q(product__title__icontains=query) |
+                Q(product__description__icontains=query) |
+                Q(product__price__icontains=query)
+            )
+            logger.debug(f"Filtered cart items count: {cart_items.count()}")
+        
+        return cart_items.order_by(sort_by)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        cart_items = context['cart_items']
+        total_price = sum(item.product.price * item.quantity for item in cart_items)
+        
+        context['total_price'] = total_price
+        context['cart'] = Cart.objects.get(user=self.request.user)
+        
+        return context
+
+
+def add_to_cart(request, pk):
+    if not request.user.is_authenticated:
+        return redirect('login') + f'?next={request.path}'
+    
+    product = get_object_or_404(Product, id=pk)
+    cart, created = Cart.objects.get_or_create(user=request.user)
+    
+    quantity = int(request.POST.get('quantity', 1))
+
+    cart_item, created = CartItem.objects.get_or_create(
+        cart=cart,
+        product=product,
+        defaults={'quantity': quantity}
+    )
+    
+    if not created:
+        cart_item.quantity += quantity
+        cart_item.save()
+    
+    messages.success(request, f"Added {quantity} {product.title} to your cart")
+    return redirect('product-details', pk=pk)
+
+
+def update_cart_item(request, pk):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    
+    cart_item = get_object_or_404(CartItem, id=pk, cart__user=request.user)
+    
+    try:
+        quantity = int(request.POST.get('quantity', 1))
+    except ValueError:
+        messages.error(request, "Invalid quantity")
+        return redirect('cart')
+    
+    cart_item.quantity = quantity
+    cart_item.save()
+    messages.success(request, "Quantity updated")
+    
+    return redirect('cart')
+
+
+def remove_from_cart(request, pk):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    
+    cart_item = get_object_or_404(CartItem, id=pk, cart__user=request.user)
+    cart_item.delete()
+    messages.success(request, "Item removed from cart")
+    return redirect('cart')
 
 
 class ProductListView(ListView):

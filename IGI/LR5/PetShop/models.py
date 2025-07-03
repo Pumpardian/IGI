@@ -107,6 +107,15 @@ class Review(models.Model):
         return self.title
 
 
+class Supplier(models.Model):
+    name = models.CharField(max_length=20)
+    contact_phone = models.CharField(max_length=20)
+    address = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
+
+
 class PromoCode(models.Model):
     code = models.CharField(max_length=50)
     status = models.BooleanField()
@@ -114,6 +123,29 @@ class PromoCode(models.Model):
     def __str__(self):
         return self.code
 
+
+class ProductType(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
+
+
+class Product(models.Model):
+    title = models.CharField(max_length=100)
+    description = models.TextField()
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    type = models.ForeignKey(ProductType, on_delete=models.SET_NULL, null=True)
+    part_number = models.CharField(max_length=20)
+    suppliers = models.ManyToManyField(Supplier, related_name='products')
+    photo = models.ImageField(upload_to='media/')
+
+    def get_suppliers(self):
+        return "\n".join([s.name for s in self.suppliers.all()])
+    
+    def __str__(self):
+        return self.title
+    
 
 class CustomUser(AbstractUser):
     is_staff = models.BooleanField(default=False)
@@ -131,33 +163,24 @@ class CustomUser(AbstractUser):
             raise ValidationError("Phone number format should be +375 (25) XXX-XX-XX")
 
 
-class ProductType(models.Model):
-    name = models.CharField(max_length=50)
+class Cart(models.Model):
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='carts')
+    products = models.ManyToManyField(Product, through='CartItem', related_name='carts')
 
     def __str__(self):
-        return self.name
+        return f"{self.user.username}'s cart"
 
 
-class Supplier(models.Model):
-    name = models.CharField(max_length=20)
-    contact_phone = models.CharField(max_length=20)
-    address = models.CharField(max_length=50)
+class CartItem(models.Model):
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+
+    class Meta:
+        unique_together = ('cart', 'product')
 
     def __str__(self):
-        return self.name
-
-
-class Product(models.Model):
-    title = models.CharField(max_length=100)
-    description = models.TextField()
-    price = models.DecimalField(max_digits=10, decimal_places=2)
-    type = models.ForeignKey(ProductType, on_delete=models.SET_NULL, null=True)
-    part_number = models.CharField(max_length=20)
-    suppliers = models.ManyToManyField(Supplier, related_name='products')
-    photo = models.ImageField(upload_to='media/')
-
-    def get_suppliers(self):
-        return "\n".join([s.name for s in self.suppliers.all()])
+        return f"{self.quantity} x {self.product.name} in {self.cart}"
 
 
 class Acquisition(models.Model):
@@ -179,9 +202,3 @@ class Acquisition(models.Model):
     
     def __str__(self):
         return self.part_number
-    
-#TODO
-#
-# Add to Cart
-#
-#

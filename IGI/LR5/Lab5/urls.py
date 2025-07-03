@@ -31,10 +31,15 @@ urlpatterns = [
                   path('about/', views.aboutpage, name='about'),
                   path('policy/', views.PolicyView.as_view(), name='policy'),
 
+                  path('cart/', views.CartView.as_view(), name='cart'),
+                  re_path(r'^cart/(?P<pk>\d+)/update/$', views.update_cart_item, name='update-cart-item'),
+                  re_path(r'^cart/(?P<pk>\d+)/remove/$', views.remove_from_cart, name='remove-from-cart'),
+
                   path('products/', views.ProductListView.as_view(), name='product-list'),
                   re_path(r'^products/(?P<pk>\d+)/$', views.ProductDetailsView.as_view(), name='product-details'),
                   path('products/new/', views.ProductCreateView.as_view(), name='product-create'),
                   re_path(r'^products/(?P<pk>\d+)/edit/$', views.ProductUpdateView.as_view(), name='product-update'),
+                  re_path(r'^products/(?P<pk>\d+)/add-to-cart/$', views.add_to_cart, name='add-to-cart'),
                   re_path(r'^products/(?P<pk>\d+)/delete/$', views.ProductDeleteView.as_view(), name='product-delete'),
 
                   path('acquisitions/', views.AcquisitionListView.as_view(), name='acquisition-list'),
