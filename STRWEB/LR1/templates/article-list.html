@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Article List</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Publish Date (Local time)</th>
+            <th>Publish Date (UTC)</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for article in object_list %}
+        <tr>
+            <td>{{article.title}}</td>
+            <td>{{article.get_local_time}}</td>
+            <td>{{article.get_utc_time}}</td>
+            <td>
+                <a class="btn btn-primary" href="{% url 'article-details' pk=article.id %}">Details</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

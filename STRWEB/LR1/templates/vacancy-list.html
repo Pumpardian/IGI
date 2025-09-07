@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Vacancy List</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for vacancy in object_list %}
+        <tr>
+            <td>{{ vacancy.title }}</td>
+            <td>
+                <a href="{% url 'vacancy-details' vacancy.id %}" class="btn btn-primary">Details</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

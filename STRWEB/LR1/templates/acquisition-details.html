@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>{{ acquisition.part_number }}</h2>
+
+<p>Supplier: {{ acquisition.supplier }}</p>
+<p>Date (Local time): {{ acquisition.get_local_time }}</p>
+<p>Date (UTC): {{ acquisition.get_utc_time }}</p>
+<p>Amount: {{ acquisition.amount }}</p>
+<p>Sale price: {{ acquisition.sale_price }}</p>
+<p>Price: {{ acquisition.price }}</p>
+
+<a href="{% url 'acquisition-list' %}" class="btn btn-info">Return to acquisition list</a>
+{% endblock %}
