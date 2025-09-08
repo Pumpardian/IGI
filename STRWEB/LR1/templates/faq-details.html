@@ -1,8 +1,7 @@
 {% extends 'base.html' %}
-
+{% block title %}Pet Shop: {{ faq.question }}{% endblock title %}
+{% block header %}{{ faq.question }}{% endblock header %}
 {% block content %}
-<h2>{{ faq.question }}</h2>
-
 <p><strong>Publish Date (Local time):</strong> {{ faq.get_local_time }}</p>
 <p><strong>Publish Date (UTC):</strong> {{ faq.get_utc_time }}</p>
 

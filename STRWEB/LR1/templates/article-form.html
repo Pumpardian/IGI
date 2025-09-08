@@ -1,8 +1,7 @@
 {% extends 'base.html' %}
-
+{% block title %}PetShop: {{ object.title }}{% endblock title %}
+{% block header %}{% if object %}Edit{% else %}Addition{% endif %} of article{% endblock header %}
 {% block content %}
-<h2>{% if object %}Edit{% else %}Addition{% endif %} of article</h2>
-
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}

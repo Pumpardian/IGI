@@ -1,8 +1,7 @@
 {% extends 'base.html' %}
-
+{% block title %}Pet Shop: {{acquisition.title}}{% endblock title %}
+{% block header %}{{ acquisition.part_number }}{% endblock header %}
 {% block content %}
-<h2>{{ acquisition.part_number }}</h2>
-
 <p>Supplier: {{ acquisition.supplier }}</p>
 <p>Date (Local time): {{ acquisition.get_local_time }}</p>
 <p>Date (UTC): {{ acquisition.get_utc_time }}</p>

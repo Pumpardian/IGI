@@ -1,36 +1,35 @@
 {% extends 'base.html' %}
-
+{% block title %}Pet Shop: Sign Up{% endblock title %}
+{% block header %}Sign Up{% endblock header %}
 {% block content %}
-  <h2>Sign Up</h2>
+<form method="post" id="userCreationForm">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Sign Up</button>
+</form>
 
-  <form method="post" id="userCreationForm">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Sign Up</button>
-  </form>
+<script>
+  document.getElementById('id_birth_date').addEventListener('change', function() {
+    const birthDate = new Date(this.value);
+    const today = new Date();
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
 
-  <script>
-    document.getElementById('id_birth_date').addEventListener('change', function() {
-      const birthDate = new Date(this.value);
-      const today = new Date();
-      let age = today.getFullYear() - birthDate.getFullYear();
-      const m = today.getMonth() - birthDate.getMonth();
-      if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-        age--;
-      }
+    if (age < 18) {
+      alert('You must be at least 18 years old to register.');
+      this.value = '';
+    }
+  });
 
-      if (age < 18) {
-        alert('You must be at least 18 years old to register.');
-        this.value = '';
-      }
-    });
-
-    document.getElementById('id_phone').addEventListener('submit',
-     (event) => { event.preventDefault() }, function() {
-      const phone = new String(this.value);
-      if (RegExp('+375\s+\d{2}\s+\d{3}\s+\d{2}\s+\d{2}' | phone)) {
-        alert('Phone number format should be +375 XX XXX XX XX (spaces are not necessary).');
-      }
-    });
-  </script>
+  document.getElementById('id_phone').addEventListener('submit',
+    (event) => { event.preventDefault() }, function() {
+    const phone = new String(this.value);
+    if (RegExp('+375\s+\d{2}\s+\d{3}\s+\d{2}\s+\d{2}' | phone)) {
+      alert('Phone number format should be +375 XX XXX XX XX (spaces are not necessary).');
+    }
+  });
+</script>
 {% endblock %}

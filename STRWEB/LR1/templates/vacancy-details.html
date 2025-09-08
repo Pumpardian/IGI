@@ -1,8 +1,7 @@
 {% extends 'base.html' %}
-
+{% block title %}Pet Shop: {{ vacancy.title }}{% endblock title %}
+{% block header %}{{ vacancy.title }}{% endblock header %}
 {% block content %}
-<h2>{{ vacancy.title }}</h2>
-
 <p>{{ vacancy.description }}</p>
 
 <a href="{% url 'vacancy-list' %}" class="btn btn-secondary">Return to vacancy list</a>

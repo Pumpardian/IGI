@@ -1,8 +1,7 @@
 {% extends 'base.html' %}
-
+{% block title %}Pet Shop: Suppliers{% endblock title %}
+{% block header %}Supplier List{% endblock header %}
 {% block content %}
-<h2>Supplier List</h2>
-
 <form method="get" class="form-inline">
     <input type="text" name="query" placeholder="Searching..." value="{{ request.GET.query }}" class="form-control">
     

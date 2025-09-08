@@ -1,8 +1,7 @@
 {% extends 'base.html' %}
-
+{% block title %}Pet Shop: {{ contact.description }}{% endblock title %}
+{% block header %}Contact: {{ contact.description }}{% endblock header %}
 {% block content %}
-<h2>Contact: {{ contact.description }}</h2>
-
 <p>Phone number: {{ contact.phone }}</p>
 <p>Email: {{ contact.email }}</p>
 {% if contact.photo %}
