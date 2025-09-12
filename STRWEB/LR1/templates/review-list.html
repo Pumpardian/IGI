@@ -2,31 +2,15 @@
 {% block title %}Pet Shop: Reviews{% endblock title %}
 {% block header %}Reviews{% endblock header %}
 {% block content %}
-<table class="table">
-    <thead>
-        <tr>
-            <th>Title</th>
-            <th>Rating</th>
-            <th>User</th>
-            <th>Publish Date (Local time)</th>
-            <th>Publish Date (UTC)</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-
-    <tbody>
-        {% for review in object_list %}
-        <tr>
-            <td>{{review.title}}</td>
-            <td>{{review.rating}}</td>
-            <td>{{review.user.username}}</td>
-            <td>{{review.get_local_time}}</td>
-            <td>{{review.get_utc_time}}</td>
-            <td>
-                <a class="btn btn-primary" href="{% url 'review-details' pk=review.id %}">Details</a>
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<dl>
+    {% for review in object_list %}
+    <dt class="mt-4">
+        <span style="font-size: 30px;">{{ review.rating }} {{ review.title }} - {{ review.user.username }}</span>
+         <small title="{{ review.get_utc_time }} UTC">{{ review.get_local_time }}</small><br/>
+    </dt>
+    <dd>
+        <span style="font-size: 25px;">{{ review.text }}</span>
+    </dd>
+    {% endfor %}
+</dl>
 {% endblock %}

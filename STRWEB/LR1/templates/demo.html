@@ -1,0 +1,245 @@
+{% extends 'base.html' %}
+{% block title %}Pet Shop: Demo{% endblock title %}
+{% block header %}Demonstration{% endblock header %}
+{% block content %}
+{% load static %}
+<article itemscope itemtype="http://schema.org/WebPage">
+  <h2 itemprop="name">Demo page with HTML elements</h2>
+ 
+   <!-- Vertical navigation -->
+   <h3>Vertical navigation:</h3>
+   <nav>
+     <ul style="list-style-type: none; padding: 0;">
+       <li><a href="{% url 'homepage' %}">Home</a></li>
+       <li><a href="{% url 'product-list' %}">Products</a></li>
+       <li><a href="{% url 'contact-list' %}">Contacts</a></li>
+       <li><a href="{% url 'about' %}">About</a></li>
+     </ul>
+   </nav>
+
+   <!-- Publish date -->
+   <p>This page has been published on: <time datetime="2025-09-12">12 september 2025</time>.</p>
+
+    <!-- Common link -->
+  <p>Visit <a href="https://www.example.com">another page</a>.</p>
+
+  <!-- Anchor link -->
+  <p>Move to <a href="#section1">section 1</a>.</p>
+
+  <!-- Download link -->
+  <p>Download document: <a href="{% static 'documents/example.pdf' %}" download>Download PDF</a>.</p>
+
+  <!-- Outer link (new tab) -->
+  <p>Visit other internet resource: <a href="https://www.google.com" target="_blank" rel="noopener noreferrer">Google</a>.</p>
+
+  <!-- Code listing -->
+  <div itemprop="exampleOfWork" itemscope itemtype="http://schema.org/SoftwareSourceCode">
+    <pre><code itemprop="text">
+    # Python example
+    <strong>def hello_world():</strong>
+        print("Hello, World!")
+    </code></pre>
+  </div>
+
+    <!-- Poem with fixed string -->
+    <h3>Четверостишие:</h3>
+    <pre>
+        Мелькнула тень, и мир замер,
+        В ночи струится свет вдали.
+        Прошло мгновенье - и вдруг снова
+        Заговорили ветры дней.
+    </pre>
+    
+    <form action="/submit" method="post">
+        <!-- Text field with validation -->
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required minlength="2" maxlength="30" placeholder="Enter your name">
+        
+        <!-- Email field with validation -->
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required placeholder="Enter your email">
+        
+        <!-- Password field with validation -->
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required minlength="8" placeholder="Enter password">
+      
+        <!-- Number field with validation -->
+        <label for="age">Age:</label>
+        <input type="number" id="age" name="age" required min="18" max="100" placeholder="Enter your age">
+        
+        <!-- Dropdown -->
+        <label for="country">Country:</label>
+        <select id="country" name="country" required>
+          <option value="">Choose country</option>
+          <option value="ru">Russia</option>
+          <option value="us">USA</option>
+          <option value="de">Germany</option>
+        </select>
+        
+        <!-- Date field with validation -->
+        <label for="dob">Date of birth:</label>
+        <input type="date" id="dob" name="dob" required>
+        
+        <!-- Checkbox -->
+        <label for="subscribe">Subscribe to our news</label>
+        <input type="checkbox" id="subscribe" name="subscribe">
+        
+        <!-- Radio buttons -->
+        <p>Choose your gender:</p>
+        <label><input type="radio" name="gender" value="male" required> Male</label>
+        <label><input type="radio" name="gender" value="female" required> Female</label>
+        
+        <!-- URL field -->
+        <label for="website">Website:</label>
+        <input type="url" id="website" name="website" placeholder="https://example.com">
+      
+        <!-- Upload file field -->
+        <label for="resume">Upload:</label>
+        <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx">
+        
+        <!-- Multiline text field -->
+        <label for="comments">Comments:</label>
+        <textarea id="comments" name="comments" rows="4" cols="50" placeholder="Your comments"></textarea>
+        
+        <!-- Submit button -->
+        <button type="submit">Sumbit</button>
+        
+        <!-- Reset button -->
+        <button type="reset">Reset</button>
+      </form>
+      
+      
+
+  <!-- Ommits and Definitions -->
+  <dl>
+    <dt><abbr title="Hypertext Markup Language">HTML</abbr></dt>
+    <dd itemprop="about">Markup language used for creating and displaying web pages.</dd>
+  
+    <dt><abbr title="Cascading Style Sheets">CSS</abbr></dt>
+    <dd itemprop="about"><dfn>CSS</dfn> (Cascading Style Sheets) — Stylesheet language to make your markup page more alive.</dd>
+
+    <dt><abbr title="JavaScript">JS</abbr></dt>
+    <dd itemprop="about"><dfn>JavaScript</dfn> — Program language mainly for webpage scripting to create visual effects and events.</dd>
+  </dl>
+
+  <!-- Cites -->
+  <div itemprop="citation" itemscope itemtype="http://schema.org/CreativeWork">
+    <blockquote itemprop="text">
+      <strong>"This is block cite that can even contain multiple lines of text
+        and can be used to show your big cite in text"</strong>
+    </blockquote>
+    <p itemprop="author">
+      Как сказал кто-то важный:
+      <q itemprop="text"><mark>Я знаю, что ничего не знаю.</mark></q>
+    </p>
+  </div>
+
+    <!-- Embedded list example -->
+    <h3>Embedded list example:</h3>
+    <ul>
+      <li>Element 1
+        <ul>
+          <li>Subelement 1.1</li>
+          <li>Subelement 1.2</li>
+        </ul>
+      </li>
+      <li>Element 2</li>
+    </ul>
+
+  <!-- Figures and signs -->
+  <figure itemscope itemtype="http://schema.org/ImageObject">
+    <img
+      src="{% static 'images/example.jpg' %}"
+      alt="Image example"
+      width="50%"
+      itemprop="contentUrl"
+    />
+    <figcaption itemprop="description">Description for the <strong>image</strong>.</figcaption>
+  </figure>
+  
+    <!-- Section anchor -->
+    <h3 id="section1">Section 1</h3>
+    <p>This is text example for section, you can move here using anchor.</p>
+
+  <!-- Table -->
+  <table border="1" cellpadding="5" cellspacing="0">
+    <thead>
+      <tr>
+        <th id="th-name">Name</th>
+        <th id="th-age">Age</th>
+        <th id="th-city" colspan="2">Location</th>
+      </tr>
+      <tr>
+        <th colspan="2"></th>
+        <th id="th-country">Country</th>
+        <th id="th-city-name">City</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td headers="th-name">Alex</td>
+        <td headers="th-age">31</td>
+        <td headers="th-country th-city-name" colspan="2">Russia, Moscow</td>
+      </tr>
+      <tr>
+        <td headers="th-name">Mary</td>
+        <td headers="th-age">27</td>
+        <td headers="th-country">Russia</td>
+        <td headers="th-city-name">Saint-Petersburg</td>
+      </tr>
+      <tr>
+        <td headers="th-name">Ivan</td>
+        <td headers="th-age">35</td>
+        <td headers="th-country">Russia</td>
+        <td headers="th-city-name">Novosibirsk</td>
+      </tr>
+      <tr>
+        <td headers="th-name">John</td>
+        <td headers="th-age">40</td>
+        <td headers="th-country">USA</td>
+        <td headers="th-city-name">New York</td>
+      </tr>
+    </tbody>
+  </table>
+  
+      
+
+  <!-- Iframe, video & audio -->
+  <iframe
+    itemprop="video"
+    itemscope
+    itemtype="http://schema.org/VideoObject"
+    src="https://www.youtube.com/embed/X23kjQWSyPQ"
+    style="border: none; width: 30%; height: 315px"
+  ></iframe>
+  <video
+    itemprop="video"
+    itemscope
+    itemtype="http://schema.org/VideoObject"
+    controls
+    width="30%"
+    height="360"
+  >
+    <source
+      src="{% static 'videos/example.mp4' %}"
+      type="video/mp4"
+      itemprop="contentUrl"
+    />
+    Your browser doesnt support video.
+  </video>
+
+  <audio
+    itemprop="audio"
+    itemscope
+    itemtype="http://schema.org/AudioObject"
+    controls
+  >
+    <source
+      src="{% static 'audio/example.mp3' %}"
+      type="audio/mpeg"
+      itemprop="contentUrl"
+    />
+    Your browser doesnt support audio.
+  </audio>
+</article>
+{% endblock %}

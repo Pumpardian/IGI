@@ -24,6 +24,8 @@ import PetShop.views as views
 urlpatterns = [
                   path('', views.homepage, name="homepage"),
                   path('home', views.homepage, name="homepage"),
+                  path('demo/', views.demopage, name='demo'),
+                  path('payment/', views.payment_success, name='payment-success'),
 
                   path('signup/', views.SignUpView.as_view(), name='signup'),
                   path('admin/', admin.site.urls),
@@ -32,6 +34,7 @@ urlpatterns = [
                   path('policy/', views.PolicyView.as_view(), name='policy'),
 
                   path('cart/', views.CartView.as_view(), name='cart'),
+                  path("cart/apply-promo/", views.ApplyPromoCodeView.as_view(), name="apply-promocode"),
                   re_path(r'^cart/(?P<pk>\d+)/update/$', views.update_cart_item, name='update-cart-item'),
                   re_path(r'^cart/(?P<pk>\d+)/remove/$', views.remove_from_cart, name='remove-from-cart'),
 
@@ -65,7 +68,6 @@ urlpatterns = [
                   #        views.ArticleDeleteView.as_view(), name='article-delete'),
 
                   path('faq/', views.FAQListView.as_view(), name='faq-list'),
-                  re_path(r'^faq/(?P<pk>\d+)/$', views.FAQDetailView.as_view(), name='faq-details'),
 
                   path('vacancies/', views.VacancyListView.as_view(), name='vacancy-list'),
                   re_path(r'^vacancies/(?P<pk>\d+)/$', views.VacancyDetailView.as_view(), name='vacancy-details'),

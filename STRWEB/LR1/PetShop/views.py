@@ -1,3 +1,4 @@
+from decimal import Decimal
 import urllib.parse
 from django.db.models.functions import TruncDay
 from django.urls import reverse_lazy
@@ -26,6 +27,18 @@ def aboutpage(request):
     return render(request, 'about.html', {'company': company})
 
 
+def demopage(request):
+    return render(request, 'demo.html')
+
+
+def payment_success(request):
+    cart, created = Cart.objects.get_or_create(user=request.user)
+    cart.promocode = None
+    cart.products.clear()
+    cart.save()
+    return render(request, 'payment-success.html')
+
+
 class PolicyView(TemplateView):
     model = Policy
     template_name = 'policy.html'
@@ -36,7 +49,7 @@ class CartView(ListView):
     template_name = 'cart.html'
     context_object_name = 'cart_items'
 
-    def get_queryset(self):
+    def get(self, request):
         cart, created = Cart.objects.get_or_create(user=self.request.user)
         cart_items = CartItem.objects.filter(cart=cart).select_related('product')
         
@@ -52,19 +65,37 @@ class CartView(ListView):
                 Q(product__price__icontains=query)
             )
             logger.debug(f"Filtered cart items count: {cart_items.count()}")
-        
-        return cart_items.order_by(sort_by)
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        
-        cart_items = context['cart_items']
+
         total_price = sum(item.product.price * item.quantity for item in cart_items)
         
-        context['total_price'] = total_price
-        context['cart'] = Cart.objects.get(user=self.request.user)
-        
-        return context
+        if cart.promocode:
+            discount = cart.promocode.discount / Decimal("100")
+            total_price = total_price * (Decimal("1.00") - discount)
+
+        context = {
+            "total_price": round(total_price, 2),
+            'cart': Cart.objects.get(user=self.request.user),
+            'promocode': cart.promocode,
+            'cart_items': cart_items
+        }
+
+        return render(request, "cart.html", context)
+
+
+class ApplyPromoCodeView(TemplateView):
+    def post(self, request):
+        promocode = request.POST.get("promocode")
+        cart = get_object_or_404(Cart, user=request.user)
+        promo = PromoCode.objects.filter(code=promocode, status=True).first()
+
+        if promo:
+            cart.promocode = promo
+            cart.save()
+        else:
+            cart.promocode = None
+            cart.save()
+
+        return redirect("cart")
 
 
 def add_to_cart(request, pk):

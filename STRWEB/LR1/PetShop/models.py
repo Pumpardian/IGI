@@ -27,7 +27,15 @@ class Article(models.Model):
     
 
 class Company(models.Model):
+    name = models.CharField(max_length=50)
     info = models.TextField()
+    video = models.URLField(blank=True, null=True)
+    history = models.TextField(blank=True, null=True)
+    requisites = models.TextField(blank=True, null=True)
+    certificate_image = models.ImageField(upload_to='media/certificates/', blank=True, null=True)
+
+    def __str__(self):
+        return self.name
 
 
 class FAQ(models.Model):
@@ -119,10 +127,17 @@ class Supplier(models.Model):
 class PromoCode(models.Model):
     code = models.CharField(max_length=50)
     status = models.BooleanField()
+    discount = models.DecimalField(decimal_places=2, max_digits=5)
 
     def __str__(self):
         return self.code
-
+    
+    def isActive(self):
+        if self.status is True:
+            return 'Active'
+        else:
+            return 'Expired'
+    
 
 class ProductType(models.Model):
     name = models.CharField(max_length=50)
@@ -138,7 +153,7 @@ class Product(models.Model):
     type = models.ForeignKey(ProductType, on_delete=models.SET_NULL, null=True)
     part_number = models.CharField(max_length=20)
     suppliers = models.ManyToManyField(Supplier, related_name='products')
-    photo = models.ImageField(upload_to='media/')
+    photo = models.ImageField(upload_to='media/products/')
 
     def get_suppliers(self):
         return "\n".join([s.name for s in self.suppliers.all()])
@@ -166,6 +181,7 @@ class CustomUser(AbstractUser):
 class Cart(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='carts')
     products = models.ManyToManyField(Product, through='CartItem', related_name='carts')
+    promocode = models.ForeignKey(PromoCode, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return f"{self.user.username}'s cart"
@@ -202,3 +218,11 @@ class Acquisition(models.Model):
     
     def __str__(self):
         return self.part_number
+    
+class Partner(models.Model):
+    company_name = models.CharField(max_length=20)
+    logo = models.ImageField(upload_to='media/partners/')
+    link = models.URLField(blank=True, null=True)
+
+    def __str__(self):
+        return self.company_name

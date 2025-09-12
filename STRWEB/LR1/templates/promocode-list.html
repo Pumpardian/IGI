@@ -6,6 +6,7 @@
     <thead>
         <tr>
             <th>Code</th>
+            <th>Discount</th>
             <th>Status</th>
             <th>Actions</th>
         </tr>
@@ -14,8 +15,9 @@
     <tbody>
         {% for promocode in object_list %}
         <tr>
-            <td>{{promocode.code}}</td>
-            <td>{% if promocode.status %} Active {% else %} Expired {% endif %}</td>
+            <td>{{ promocode.code }}</td>
+            <td>{{ promocode.discount }}</td>
+            <td>{{ promocode.isActive }}</td>
             <td>
             </td>
         </tr>

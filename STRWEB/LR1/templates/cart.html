@@ -2,7 +2,6 @@
 {% block title %}Pet Shop: Cart{% endblock title %}
 {% block header %}Cart{% endblock header %}
 {% block content %}
-<p>Total: ${{ total_price }}</p>
 
 <table class="table">
     <thead>
@@ -36,5 +35,22 @@
         </tr>
         {% endfor %}
     </tbody>
+
+    <h3>Total price: {{ total_price }}</h3>
+
+    <form method="post" action="{% url 'apply-promocode' %}">
+        {% csrf_token %}
+        <input type="text" name="promocode" placeholder="Enter promocode">
+        <button type="submit">Apply promocode</button>
+    </form>
+
+    {% if promocode %}
+        <h4>Promocode: {{ promocode.code }} (discount: {{ promocode.discount }}%)</h4>
+    {% endif %}
+    
+    <form method="get" action="{% url 'payment-success' %}">
+        <button type="submit">Move to payment</button>
+    </form>
+
 </table>
 {% endblock %}
