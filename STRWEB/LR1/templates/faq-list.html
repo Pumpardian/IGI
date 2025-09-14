@@ -2,6 +2,12 @@
 {% block title %}Pet Shop: FAQ{% endblock title %}
 {% block header %}FAQ{% endblock header %}
 {% block content %}
+
+{% if request.user.is_staff %}
+    <a href="{% url 'faq-create'%}" class="btn btn-primary">Add</a>
+    <br></br>
+{% endif %}
+
 <dl>
     {% for faq in object_list %}
     <dt class="mt-4">
@@ -11,6 +17,10 @@
     <dd>
         <span style="font-size: 25px;"><b>A.</b> {{ faq.answer }}</span>
     </dd>
+    {% if request.user.is_staff %}
+        <a class="btn btn-secondary" href="{% url 'faq-update' pk=faq.id %}">Edit</a>
+        <a class="btn btn-danger" href="{% url 'faq-delete' pk=faq.id %}">Delete</a>
+    {% endif %}
     {% endfor %}
 </dl>
 {% endblock %}

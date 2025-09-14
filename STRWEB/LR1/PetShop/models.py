@@ -7,11 +7,20 @@ import pytz
 import phonenumbers
 
 
+class Banner(models.Model):
+    image = models.ImageField(upload_to="media/banners/")
+    link = models.URLField(blank=True, null=True)
+
+    def __str__(self):
+        return f"Banner {self.id}"
+
+
 class Article(models.Model):
     title = models.CharField(max_length=100)
+    summary = models.TextField()
     content = models.TextField()
     publish_date = models.DateTimeField(auto_now_add=True)
-    image = models.ImageField(upload_to='media/articles/')
+    image = models.ImageField(upload_to='media/articles/', blank=True)
 
     def __str__(self):
         return self.title
@@ -28,6 +37,7 @@ class Article(models.Model):
 
 class Company(models.Model):
     name = models.CharField(max_length=50)
+    logo = models.ImageField(upload_to='media/', blank=True, null=True)
     info = models.TextField()
     video = models.URLField(blank=True, null=True)
     history = models.TextField(blank=True, null=True)
@@ -57,6 +67,7 @@ class FAQ(models.Model):
 
 
 class Contact(models.Model):
+    name = models.CharField(max_length=50)
     photo = models.ImageField(upload_to='media/contacts/', blank=True)
     description = models.TextField()
     phone = models.CharField(max_length=20)

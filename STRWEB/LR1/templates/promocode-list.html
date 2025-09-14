@@ -2,6 +2,12 @@
 {% block title %}Pet Shop: Promocodes{% endblock title %}
 {% block header %}Promocode List{% endblock header %}
 {% block content %}
+
+{% if request.user.is_staff %}
+    <a href="{% url 'promocode-create'%}" class="btn btn-primary">Add</a>
+    <br></br>
+{% endif %}
+
 <table class="table">
     <thead>
         <tr>
@@ -19,6 +25,8 @@
             <td>{{ promocode.discount }}</td>
             <td>{{ promocode.isActive }}</td>
             <td>
+                <a class="btn btn-secondary" href="{% url 'promocode-update' pk=promocode.id %}">Edit</a>
+                <a class="btn btn-danger" href="{% url 'promocode-delete' pk=promocode.id %}">Delete</a>
             </td>
         </tr>
         {% endfor %}

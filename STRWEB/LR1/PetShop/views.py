@@ -266,7 +266,6 @@ class SupplierListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
 class SupplierCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     form_class = SupplierAddOrUpdateForm
     model = Supplier
-    fields = ['name', 'address']
     template_name = 'supplier-form.html'
 
     def test_func(self):
@@ -283,8 +282,8 @@ class SupplierCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 
 
 class SupplierUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    form_class = SupplierAddOrUpdateForm
     model = Supplier
-    fields = ['name', 'contact_phone', 'address']
     template_name = 'supplier-form.html'
 
     def test_func(self):
@@ -425,53 +424,51 @@ class ArticleDetailView(DetailView):
     template_name = 'article-details.html'
 
 
-# LEAVE THAT THING UNTIL STR-WEB 
-#
-# class ArticleCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
-#     model = Article
-#     fields = ['title', 'content', 'image']
-#     template_name = 'article-form.html'
+class ArticleCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    model = Article
+    fields = ['title', 'summary', 'content', 'image']
+    template_name = 'article-form.html'
 
-#     def test_func(self):
-#         has_permission = (self.request.user.is_authenticated and self.request.user.is_staff)
-#         if not has_permission:
-#             logger.warning(f"User {self.request.user.username} failed to pass test_func in ArticleCreateView")
-#         return has_permission
+    def test_func(self):
+        has_permission = (self.request.user.is_authenticated and self.request.user.is_staff)
+        if not has_permission:
+            logger.warning(f"User {self.request.user.username} failed to pass test_func in ArticleCreateView")
+        return has_permission
 
-#     def form_valid(self, form):
-#         logger.info(f"Article created by {self.request.user.username}: {form.cleaned_data['title']}")
-#         return super().form_valid(form)
+    def form_valid(self, form):
+        logger.info(f"Article created by {self.request.user.username}: {form.cleaned_data['title']}")
+        return super().form_valid(form)
 
-#     success_url = reverse_lazy('article-list')
+    success_url = reverse_lazy('article-list')
 
 
-# class ArticleUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-#     model = Article
-#     fields = ['title', 'content', 'image']
-#     template_name = 'article-form.html'
+class ArticleUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Article
+    fields = ['title', 'summary', 'content', 'image']
+    template_name = 'article-form.html'
 
-#     def test_func(self):
-#         has_permission = (self.request.user.is_authenticated and self.request.user.is_staff)
-#         if not has_permission:
-#             logger.warning(f"User {self.request.user.username} failed to pass test_func in ArticleUpdateView")
-#         return has_permission
+    def test_func(self):
+        has_permission = (self.request.user.is_authenticated and self.request.user.is_staff)
+        if not has_permission:
+            logger.warning(f"User {self.request.user.username} failed to pass test_func in ArticleUpdateView")
+        return has_permission
 
-#     def form_valid(self, form):
-#         logger.info(f"Article updated by {CustomUser.username}: {form.cleaned_data['title']}")
-#         return super().form_valid(form)
+    def form_valid(self, form):
+        logger.info(f"Article updated by {CustomUser.username}: {form.cleaned_data['title']}")
+        return super().form_valid(form)
 
-#     success_url = reverse_lazy('article-list')
+    success_url = reverse_lazy('article-list')
 
 
-# class ArticleDeleteView(DeleteView):
-#     model = Article
-#     template_name = 'article-confirm-delete.html'
+class ArticleDeleteView(DeleteView):
+    model = Article
+    template_name = 'article-confirm-delete.html'
 
-#     def delete(self, request, *args, **kwargs):
-#         logger.info(f"User {request.user.username} is deleting article with id {kwargs.get('pk')}")
-#         return super().delete(request, *args, **kwargs)
+    def delete(self, request, *args, **kwargs):
+        logger.info(f"User {request.user.username} is deleting article with id {kwargs.get('pk')}")
+        return super().delete(request, *args, **kwargs)
 
-#     success_url = reverse_lazy('article-list')
+    success_url = reverse_lazy('article-list')
 
 
 class FAQListView(ListView):
@@ -479,24 +476,179 @@ class FAQListView(ListView):
     template_name = 'faq-list.html'
 
 
-class FAQDetailView(DetailView):
+class FAQCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = FAQ
-    template_name = 'faq-details.html'
+    fields = ['question', 'answer']
+    template_name = 'faq-form.html'
+
+    def test_func(self):
+        has_permission = (self.request.user.is_authenticated and self.request.user.is_staff)
+        if not has_permission:
+            logger.warning(f"User {self.request.user.username} failed to pass test_func in FAQCreateView")
+        return has_permission
+
+    def form_valid(self, form):
+        logger.info(f"FAQ created by {self.request.user.username}: {form.cleaned_data['question']}")
+        return super().form_valid(form)
+
+    success_url = reverse_lazy('faq-list')
+
+
+class FAQUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = FAQ
+    fields = ['question', 'answer']
+    template_name = 'faq-form.html'
+
+    def test_func(self):
+        has_permission = (self.request.user.is_authenticated and self.request.user.is_staff)
+        if not has_permission:
+            logger.warning(f"User {self.request.user.username} failed to pass test_func in FAQUpdateView")
+        return has_permission
+
+    def form_valid(self, form):
+        logger.info(f"FAQ updated by {CustomUser.username}: {form.cleaned_data['question']}")
+        return super().form_valid(form)
+
+    success_url = reverse_lazy('faq-list')
+
+
+class FAQDeleteView(DeleteView):
+    model = FAQ
+    template_name = 'faq-confirm-delete.html'
+
+    def delete(self, request, *args, **kwargs):
+        logger.info(f"User {request.user.username} is deleting faq with id {kwargs.get('pk')}")
+        return super().delete(request, *args, **kwargs)
+
+    success_url = reverse_lazy('faq-list')
 
 
 class ReviewListView(ListView):
     model = Review
     template_name = 'review-list.html'
 
+    def get(self, request):
+        user = self.request.user
 
-class ReviewDetailView(DetailView):
+        if ((user.is_authenticated is False) or user.is_staff):
+            context = {
+                "review": None,
+                "canHaveReview": False,
+                "hasReview": False,
+                "reviews": Review.objects.all()
+            }
+            return render(request, "review-list.html", context)
+        
+        hasReview = Review.objects.filter(user=user).exists()
+        context = {
+            "review": Review.objects.filter(user=user).first(),
+            "canHaveReview": True,
+            "hasReview": hasReview,
+            "reviews": Review.objects.all()
+        }
+
+        return render(request, "review-list.html", context)
+    
+
+
+class ReviewCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    form_class = ReviewForm
     model = Review
-    template_name = 'review-details.html'
+    template_name = 'review-form.html'
+
+    def test_func(self):
+        has_permission = (self.request.user.is_authenticated and Review.objects.filter(user=self.request.user).first() is None)
+        if not has_permission:
+            logger.warning(f"User {self.request.user.username} failed to pass test_func in ReviewCreateView")
+        return has_permission
+
+    def form_valid(self, form):
+        logger.info(f"Review created by {self.request.user.username}: {form.cleaned_data['title']}")
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+    success_url = reverse_lazy('review-list')
+
+
+class ReviewUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    form_class = ReviewForm
+    model = Review
+    template_name = 'review-form.html'
+
+    def test_func(self):
+        has_permission = (self.request.user.is_authenticated and Review.objects.get(pk=self.kwargs.get('pk'), user=self.request.user) is not None)
+        if not has_permission:
+            logger.warning(f"User {self.request.user.username} failed to pass test_func in ReviewUpdateView")
+        return has_permission
+
+    def form_valid(self, form):
+        logger.info(f"Review updated by {CustomUser.username}: {form.cleaned_data['title']}")
+        return super().form_valid(form)
+
+    success_url = reverse_lazy('review-list')
+
+
+class ReviewDeleteView(DeleteView):
+    model = Review
+    template_name = 'review-confirm-delete.html'
+
+    def delete(self, request, *args, **kwargs):
+        logger.info(f"User {request.user.username} is deleting review with id {kwargs.get('pk')}")
+        return super().delete(request, *args, **kwargs)
+
+    success_url = reverse_lazy('review-list')
 
 
 class PromocodeListView(ListView):
     model = PromoCode
     template_name = 'promocode-list.html'
+
+
+class PromocodeCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    model = PromoCode
+    fields = ['code', 'discount', 'status']
+    template_name = 'promocode-form.html'
+
+    def test_func(self):
+        has_permission = (self.request.user.is_authenticated and self.request.user.is_staff)
+        if not has_permission:
+            logger.warning(f"User {self.request.user.username} failed to pass test_func in PromocodeCreateView")
+        return has_permission
+
+    def form_valid(self, form):
+        logger.info(f"Promocode created by {self.request.user.username}: {form.cleaned_data['code']}")
+        return super().form_valid(form)
+
+    success_url = reverse_lazy('promocode-list')
+
+
+class PromocodeUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = PromoCode
+    fields = ['code', 'discount', 'status']
+    template_name = 'promocode-form.html'
+
+    def test_func(self):
+        has_permission = (self.request.user.is_authenticated and self.request.user.is_staff)
+        if not has_permission:
+            logger.warning(f"User {self.request.user.username} failed to pass test_func in PromocodeUpdateView")
+        return has_permission
+
+    def form_valid(self, form):
+        logger.info(f"Promocode updated by {CustomUser.username}: {form.cleaned_data['code']}")
+        return super().form_valid(form)
+
+    success_url = reverse_lazy('promocode-list')
+
+
+class PromocodeDeleteView(DeleteView):
+    model = PromoCode
+    template_name = 'promocode-confirm-delete.html'
+
+    def delete(self, request, *args, **kwargs):
+        logger.info(f"User {request.user.username} is deleting promocode with id {kwargs.get('pk')}")
+        return super().delete(request, *args, **kwargs)
+
+    success_url = reverse_lazy('promocode-list')
 
 
 class VacancyListView(ListView):
@@ -509,6 +661,53 @@ class VacancyDetailView(DetailView):
     template_name = 'vacancy-details.html'
 
 
+class VacancyCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    model = Vacancy
+    fields = ['title', 'description']
+    template_name = 'vacancy-form.html'
+
+    def test_func(self):
+        has_permission = (self.request.user.is_authenticated and self.request.user.is_staff)
+        if not has_permission:
+            logger.warning(f"User {self.request.user.username} failed to pass test_func in VacancyCreateView")
+        return has_permission
+
+    def form_valid(self, form):
+        logger.info(f"Vacancy created by {self.request.user.username}: {form.cleaned_data['title']}")
+        return super().form_valid(form)
+
+    success_url = reverse_lazy('vacancy-list')
+
+
+class VacancyUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Vacancy
+    fields = ['title', 'description']
+    template_name = 'vacancy-form.html'
+
+    def test_func(self):
+        has_permission = (self.request.user.is_authenticated and self.request.user.is_staff)
+        if not has_permission:
+            logger.warning(f"User {self.request.user.username} failed to pass test_func in VacancyUpdateView")
+        return has_permission
+
+    def form_valid(self, form):
+        logger.info(f"Vacancy updated by {CustomUser.username}: {form.cleaned_data['question']}")
+        return super().form_valid(form)
+
+    success_url = reverse_lazy('vacancy-list')
+
+
+class VacancyDeleteView(DeleteView):
+    model = Vacancy
+    template_name = 'vacancy-confirm-delete.html'
+
+    def delete(self, request, *args, **kwargs):
+        logger.info(f"User {request.user.username} is deleting vacancy with id {kwargs.get('pk')}")
+        return super().delete(request, *args, **kwargs)
+
+    success_url = reverse_lazy('vacancy-list')
+
+
 class ContactListView(ListView):
     model = Contact
     template_name = 'contact-list.html'
@@ -519,10 +718,64 @@ class ContactDetailView(DetailView):
     template_name = 'contact-details.html'
 
 
+class ContactCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    form_class = ContactAddOrUpdateForm
+    model = Contact
+    template_name = 'contact-form.html'
+
+    def test_func(self):
+        has_permission = (self.request.user.is_authenticated and self.request.user.is_staff)
+        if not has_permission:
+            logger.warning(f"User {self.request.user.username} failed to pass test_func in ContactCreateView")
+        return has_permission
+
+    def form_valid(self, form):
+        logger.info(f"Contact created by {self.request.user.username}: {form.cleaned_data['name']}")
+        return super().form_valid(form)
+
+    success_url = reverse_lazy('contact-list')
+
+
+class ContactUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    form_class = ContactAddOrUpdateForm
+    model = Contact
+    template_name = 'contact-form.html'
+
+    def test_func(self):
+        has_permission = (self.request.user.is_authenticated and self.request.user.is_staff)
+        if not has_permission:
+            logger.warning(f"User {self.request.user.username} failed to pass test_func in ContactUpdateView")
+        return has_permission
+
+    def form_valid(self, form):
+        logger.info(f"Contact updated by {CustomUser.username}: {form.cleaned_data['name']}")
+        return super().form_valid(form)
+
+    success_url = reverse_lazy('contact-list')
+
+
+class ContactDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Contact
+    template_name = 'contact-confirm-delete.html'
+
+    def test_func(self):
+        has_permission = (self.request.user.is_authenticated and self.request.user.is_staff)
+        if not has_permission:
+            logger.warning(f"User {self.request.user.username} failed to pass test_func in ContactDeleteView")
+        return has_permission
+
+    def delete(self, request, *args, **kwargs):
+        logger.info(f"User {request.user.username} is deleting contact with id {kwargs.get('pk')}")
+        return super().delete(request, *args, **kwargs)
+
+    success_url = reverse_lazy('contact-list')
+
+
 class SignUpView(CreateView):
     form_class = CustomUserCreationForm
     success_url = reverse_lazy('login')
     template_name = 'signup.html'
+
 
 def staff_only():
     def decorator(view_func):
@@ -601,6 +854,22 @@ def cat_fact(request):
     data = facts['fact']
     messages.info(request, data)
 
+
 def homepage(request):
     cat_fact(request)
-    return render(request, 'home.html')
+
+    banners = Banner.objects.all()
+    latestNews = Article.objects.last()
+    partners = Partner.objects.all()
+    products = Product.objects.all()
+    company = Company.objects.first()
+
+    context = {
+        "banners": banners,
+        "latestNews": latestNews,
+        "partners": partners,
+        "company": company,
+        "products": products
+    }
+
+    return render(request, 'home.html', context)

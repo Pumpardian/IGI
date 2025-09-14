@@ -2,8 +2,16 @@
 {% block title %}Pet Shop: Reviews{% endblock title %}
 {% block header %}Reviews{% endblock header %}
 {% block content %}
+{% if canHaveReview %}
+    {% if hasReview %}
+        <a href="{% url 'review-update' review.id %}" class="btn btn-secondary">Edit Review</a>
+    {% else %}
+        <a href="{% url 'review-create' %}" class="btn btn-primary">Add Review</a>
+    {% endif %}
+    <br></br>
+{% endif %}
 <dl>
-    {% for review in object_list %}
+    {% for review in reviews %}
     <dt class="mt-4">
         <span style="font-size: 30px;">{{ review.rating }} {{ review.title }} - {{ review.user.username }}</span>
          <small title="{{ review.get_utc_time }} UTC">{{ review.get_local_time }}</small><br/>

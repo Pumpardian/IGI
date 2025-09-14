@@ -59,31 +59,42 @@ urlpatterns = [
                   path('articles/', views.ArticleListView.as_view(), name='article-list'),
                   re_path(r'^articles/(?P<pk>\d+)/$',
                           views.ArticleDetailView.as_view(), name='article-details'),
-                  # LEAVE THAT THING UNTIL STR-WEB
-                  #
-                  #path('articles/new', views.ArticleCreateView.as_view(), name='article-create'),
-                  #re_path(r'^articles/(?P<pk>\d+)/edit/$',
-                  #        views.ArticleUpdateView.as_view(), name='article-update'),
-                  #re_path(r'^articles/(?P<pk>\d+)/delete/$',
-                  #        views.ArticleDeleteView.as_view(), name='article-delete'),
+
+                  path('articles/new', views.ArticleCreateView.as_view(), name='article-create'),
+                  re_path(r'^articles/(?P<pk>\d+)/edit/$',
+                          views.ArticleUpdateView.as_view(), name='article-update'),
+                  re_path(r'^articles/(?P<pk>\d+)/delete/$',
+                          views.ArticleDeleteView.as_view(), name='article-delete'),
 
                   path('faq/', views.FAQListView.as_view(), name='faq-list'),
+                  path('faq/new/', views.FAQCreateView.as_view(), name='faq-create'),
+                  re_path(r'^faq/(?P<pk>\d+)/edit/$', views.FAQUpdateView.as_view(), name='faq-update'),
+                  re_path(r'^faq/(?P<pk>\d+)/delete/$', views.FAQDeleteView.as_view(), name='faq-delete'),
 
                   path('vacancies/', views.VacancyListView.as_view(), name='vacancy-list'),
                   re_path(r'^vacancies/(?P<pk>\d+)/$', views.VacancyDetailView.as_view(), name='vacancy-details'),
+                  path('vacancies/new/', views.VacancyCreateView.as_view(), name='vacancy-create'),
+                  re_path(r'^vacancies/(?P<pk>\d+)/edit/$', views.VacancyUpdateView.as_view(), name='vacancy-update'),
+                  re_path(r'^vacancies/(?P<pk>\d+)/delete/$', views.VacancyDeleteView.as_view(), name='vacancy-delete'),
 
                   path('contacts/', views.ContactListView.as_view(), name='contact-list'),
-                  re_path(r'^contacts/(?P<pk>\d+)/$', views.ContactDetailView.as_view(), name='contact-details'),
+                  path('contacts/new/', views.ContactCreateView.as_view(), name='contact-create'),
+                  re_path(r'^contacts/(?P<pk>\d+)/edit/$', views.ContactUpdateView.as_view(), name='contact-update'),
+                  re_path(r'^contacts/(?P<pk>\d+)/delete/$', views.ContactDeleteView.as_view(), name='contact-delete'),
 
                   path('reviews/', views.ReviewListView.as_view(), name='review-list'),
-                  re_path(r'^reviews/(?P<pk>\d+)/$', views.ReviewDetailView.as_view(), name='review-details'),
+                  path('reviews/new/', views.ReviewCreateView.as_view(), name='review-create'),
+                  re_path(r'^reviews/(?P<pk>\d+)/edit/$', views.ReviewUpdateView.as_view(), name='review-update'),
+                  re_path(r'^reviews/(?P<pk>\d+)/delete/$', views.ReviewDeleteView.as_view(), name='review-delete'),
 
                   path('promocodes/', views.PromocodeListView.as_view(), name='promocode-list'),
+                  path('promocodes/new/', views.PromocodeCreateView.as_view(), name='promocode-create'),
+                  re_path(r'^promocodes/(?P<pk>\d+)/edit/$', views.PromocodeUpdateView.as_view(), name='promocode-update'),
+                  re_path(r'^promocodes/(?P<pk>\d+)/delete/$', views.PromocodeDeleteView.as_view(), name='promocode-delete'),
 
                   path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
                   path('logout/', auth_views.LogoutView.as_view(), name='logout'),
 
                   path('currency-rates/', views.currency_rates_view, name='currency-rates'),
-                  #path('map/', map_view, name='map-view'),
                   path('statistics/', views.StatisticsView.as_view(), name='statistics')
               ] + static(views.settings.MEDIA_URL, document_root=views.settings.MEDIA_ROOT)

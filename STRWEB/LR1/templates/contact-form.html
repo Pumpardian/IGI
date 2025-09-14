@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
-{% block title %}Pet Shop: {% if object %} {{ object.name }} {% else %} new supplier {% endif %} {% endblock title %}
-{% block header %}{% if object %}Edit{% else %}Addition{% endif %} of supplier{% endblock header %}
+{% block title %}PetShop: {% if object %} {{ object.name }} {% else %} new contact {% endif %} {% endblock title %}
+{% block header %}{% if object %}Edit{% else %}Addition{% endif %} of contact{% endblock header %}
 {% block content %}
 <form method="post" enctype="multipart/form-data", id="form">
     {% csrf_token %}
@@ -9,7 +9,7 @@
 </form>
 
 <script>
-    document.getElementById('id_contact_phone').addEventListener('submit',
+    document.getElementById('id_phone').addEventListener('submit',
      (event) => { event.preventDefault() }, function() {
       const phone = new String(this.value);
       if (RegExp('+375\s+\d{2}\s+\d{3}\s+\d{2}\s+\d{2}' | phone)) {
@@ -18,5 +18,5 @@
     });
 </script>
 
-<a href="{% url 'supplier-list' %}" class="btn btn-info">Cancel</a>
+<a href="{% url 'contact-list' %}" class="btn btn-info">Cancel</a>
 {% endblock %}

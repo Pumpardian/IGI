@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}PetShop: {{ object.title }}{% endblock title %}
+{% block title %}PetShop: {% if object %} {{ object.title }} {% else %} new article{% endif %} {% endblock title %}
 {% block header %}{% if object %}Edit{% else %}Addition{% endif %} of article{% endblock header %}
 {% block content %}
 <form method="post" enctype="multipart/form-data">

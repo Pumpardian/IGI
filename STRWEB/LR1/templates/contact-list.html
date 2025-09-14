@@ -2,27 +2,28 @@
 {% block title %}Pet Shop: Contacts{% endblock title %}
 {% block header %}Contact List{% endblock header %}
 {% block content %}
-<table class="table">
-    <thead>
-        <tr>
-            <th>Description</th>
-            <th>Phone number</th>
-            <th>Email</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
+    {% if request.user.is_staff %}
+        <a href="{% url 'contact-create'%}" class="btn btn-primary">Add</a>
+        <br></br>
+    {% endif %}
 
-    <tbody>
-        {% for contact in object_list %}
-        <tr>
-            <td>{{ contact.description }}</td>
-            <td>{{ contact.phone }}</td>
-            <td>{{ contact.email }}</td>
-            <td>
-                <a href="{% url 'contact-details' contact.id %}" class="btn btn-primary">Details</a>
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+    {% for contact in object_list %}
+    <div style="border: 1px solid #ddd; border-radius: 5px;">
+        {% if contact.photo %}
+            <img src="{{ contact.photo.url }}" style="width: 127px; float: left; margin-right: 15px;">
+        {% endif %}
+        {% if request.user.is_staff %}
+        <div style="width: 127px; float: right; margin-left: 15px;">
+            <a class="btn btn-secondary" href="{% url 'contact-update' pk=contact.id %}">Edit</a>
+            <a class="btn btn-danger" href="{% url 'contact-delete' pk=contact.id %}">Delete</a>
+        </div>
+        {% endif %}
+        <h3>{{ contact.name }}</h3>
+        <p><strong>Description:</strong> {{ contact.description }}</p>
+        <p><strong>Phone:</strong> {{ contact.phone }}</p>
+        <p><strong>Email:</strong> <a href="mailto:{{ contact.email }}">{{ contact.email }}</a></p>
+    </div>
+    {% empty %}
+    <p>Contact data isnt available.</p>
+    {% endfor %}
 {% endblock %}
