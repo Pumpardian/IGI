@@ -3,14 +3,14 @@
 {% block header %}Home Page{% endblock header %}
 {% block content %}
 <div class="logo">
-    {% if logo %}
-        <img src="{{ company.logo }}" alt="Company logo" style="max-width: 200px; height: auto;">
+    {% if company.logo %}
+        <img src="{{ company.logo.url }}" alt="Company logo" style="max-width: 200px; height: auto;">
         <p>{{ company.name }}</p>
     {% else %}
         <p>Company logo is missing</p>
     {% endif %}
 </div>
-<br></br>
+<br/>
 
 <div class="latest-news">
     {% if latestNews %}
@@ -20,7 +20,7 @@
         <a href="{% url 'article-details' latestNews.id %}">Read more</a>
     {% endif %}
 </div>
-<br></br>
+<br/>
 
 <div class="partners">
     <h2>Our Partners</h2>
@@ -30,7 +30,7 @@
         </a>
     {% endfor %}
 </div>
-<br></br>
+<br/>
 
 <div class="products">
     <h2>Our Products</h2>
@@ -49,7 +49,7 @@
         </div>
     {% endfor %}
 </div>
-<br></br>
+<br/>
 
 <div class="banners">
     {% for banner in banners %}

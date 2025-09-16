@@ -6,19 +6,23 @@
 <article itemscope itemtype="http://schema.org/WebPage">
   <h2 itemprop="name">Demo page with HTML elements</h2>
  
-   <!-- Vertical navigation -->
-   <h3>Vertical navigation:</h3>
-   <nav>
-     <ul style="list-style-type: none; padding: 0;">
-       <li><a href="{% url 'homepage' %}">Home</a></li>
-       <li><a href="{% url 'product-list' %}">Products</a></li>
-       <li><a href="{% url 'contact-list' %}">Contacts</a></li>
-       <li><a href="{% url 'about' %}">About</a></li>
-     </ul>
-   </nav>
+  <!-- Vertical navigation -->
+  <h3>Vertical navigation:</h3>
+  <nav>
+    <ul style="list-style-type: none; padding: 0;">
+      <li><a href="{% url 'homepage' %}">Home</a></li>
+      <li><a href="{% url 'product-list' %}">Products</a></li>
+      <li><a href="{% url 'contact-list' %}">Contacts</a></li>
+      <li><a href="{% url 'about' %}">About</a></li>
+    </ul>
+  </nav>
 
-   <!-- Publish date -->
-   <p>This page has been published on: <time datetime="2025-09-12">12 september 2025</time>.</p>
+  <details>
+    
+  </details>
+
+  <!-- Publish date -->
+  <p>This page has been published on: <time datetime="2025-09-12">12 september 2025</time>.</p>
 
     <!-- Common link -->
   <p>Visit <a href="https://www.example.com">another page</a>.</p>

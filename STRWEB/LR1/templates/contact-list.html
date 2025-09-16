@@ -4,13 +4,13 @@
 {% block content %}
     {% if request.user.is_staff %}
         <a href="{% url 'contact-create'%}" class="btn btn-primary">Add</a>
-        <br></br>
+        <br/>
     {% endif %}
 
     {% for contact in object_list %}
     <div style="border: 1px solid #ddd; border-radius: 5px;">
         {% if contact.photo %}
-            <img src="{{ contact.photo.url }}" style="width: 127px; float: left; margin-right: 15px;">
+            <img src="{{ contact.photo.url }}" style="width: 127px; height: 162px; float: left; margin-right: 15px;">
         {% endif %}
         {% if request.user.is_staff %}
         <div style="width: 127px; float: right; margin-left: 15px;">

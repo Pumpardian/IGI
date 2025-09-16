@@ -691,7 +691,7 @@ class VacancyUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return has_permission
 
     def form_valid(self, form):
-        logger.info(f"Vacancy updated by {CustomUser.username}: {form.cleaned_data['question']}")
+        logger.info(f"Vacancy updated by {CustomUser.username}: {form.cleaned_data['title']}")
         return super().form_valid(form)
 
     success_url = reverse_lazy('vacancy-list')

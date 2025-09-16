@@ -4,7 +4,7 @@
 {% block content %}
     {% if request.user.is_staff %}
         <a href="{% url 'article-create'%}" class="btn btn-primary">Add new article</a>
-        <br></br>
+        <br/>
     {% endif %}
 
     {% for article in object_list %}
@@ -19,6 +19,6 @@
             <a class="btn btn-danger" href="{% url 'article-delete' pk=article.id %}">Delete</a>
         {% endif %}
 
-        <br></br>
+        <br/>
     {% endfor %}
 {% endblock %}

@@ -12,7 +12,7 @@
     document.getElementById('id_phone').addEventListener('submit',
      (event) => { event.preventDefault() }, function() {
       const phone = new String(this.value);
-      if (RegExp('+375\s+\d{2}\s+\d{3}\s+\d{2}\s+\d{2}' | phone)) {
+      if (RegExp('+375\s*\d{2}\s*\d{3}\s*\d{2}\s*\d{2}' | phone)) {
         alert('Phone number format should be +375 XX XXX XX XX (spaces are not necessary).');
       }
     });
