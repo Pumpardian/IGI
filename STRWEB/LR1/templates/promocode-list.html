@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}Pet Shop: Promocodes{% endblock title %}
+{% block header %}Promocode List{% endblock header %}
+{% block content %}
+
+{% if request.user.is_staff %}
+    <a href="{% url 'promocode-create'%}" class="btn btn-primary">Add</a>
+    <br/>
+{% endif %}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Code</th>
+            <th>Discount</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for promocode in object_list %}
+        <tr>
+            <td>{{ promocode.code }}</td>
+            <td>{{ promocode.discount }}</td>
+            <td>{{ promocode.isActive }}</td>
+            <td>
+                <a class="btn btn-secondary" href="{% url 'promocode-update' pk=promocode.id %}">Edit</a>
+                <a class="btn btn-danger" href="{% url 'promocode-delete' pk=promocode.id %}">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}PetShop: {{article.title}}{% endblock title %}
+{% block header %}{{article.title}} <small title="{{ article.get_utc_time }} UTC">{{ article.get_local_time }}</small>{% endblock header %}
+{% block content %}
+{% if article.image %}
+    <img src="{{ article.image.url }}" style="max-width: 100%; height: auto;">
+{% endif %}
+<p>{{ article.content }}</p>
+
+<a href="{% url 'article-list' %}" class="btn btn-secondary">Return to article list</a>
+{% endblock %}

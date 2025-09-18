@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}Pet Shop: Vacancies{% endblock title %}
+{% block header %}Vacancies{% endblock header %}
+{% block content %}
+{% if request.user.is_staff %}
+    <a href="{% url 'vacancy-create'%}" class="btn btn-primary">Add</a>
+    <br/>
+{% endif %}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for vacancy in object_list %}
+        <tr>
+            <td>{{ vacancy.title }}</td>
+            <td>
+                <a href="{% url 'vacancy-details' vacancy.id %}" class="btn btn-primary">Details</a>
+                {% if request.user.is_staff %}
+                    <a class="btn btn-secondary" href="{% url 'vacancy-update' pk=vacancy.id %}">Edit</a>
+                    <a class="btn btn-danger" href="{% url 'vacancy-delete' pk=vacancy.id %}">Delete</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

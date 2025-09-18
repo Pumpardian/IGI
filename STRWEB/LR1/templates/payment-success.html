@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block title %}Pet Shop: Payment{% endblock title %}
+{% block header %}Your payment was successful{% endblock header %}
+{% block content %}
+    <p>Спасибо за ваш заказ.</p>
+    <a href="{% url 'homepage' %}">Return to Homepage</a>
+{% endblock %}

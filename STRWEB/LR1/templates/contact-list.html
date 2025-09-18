@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}Pet Shop: Contacts{% endblock title %}
+{% block header %}Contact List{% endblock header %}
+{% block content %}
+    {% if request.user.is_staff %}
+        <a href="{% url 'contact-create'%}" class="btn btn-primary">Add</a>
+        <br/>
+    {% endif %}
+
+    {% for contact in object_list %}
+    <div style="border: 1px solid #ddd; border-radius: 5px;">
+        {% if contact.photo %}
+            <img src="{{ contact.photo.url }}" style="width: 127px; height: 162px; float: left; margin-right: 15px;">
+        {% endif %}
+        {% if request.user.is_staff %}
+        <div style="width: 127px; float: right; margin-left: 15px;">
+            <a class="btn btn-secondary" href="{% url 'contact-update' pk=contact.id %}">Edit</a>
+            <a class="btn btn-danger" href="{% url 'contact-delete' pk=contact.id %}">Delete</a>
+        </div>
+        {% endif %}
+        <h3>{{ contact.name }}</h3>
+        <p><strong>Description:</strong> {{ contact.description }}</p>
+        <p><strong>Phone:</strong> {{ contact.phone }}</p>
+        <p><strong>Email:</strong> <a href="mailto:{{ contact.email }}">{{ contact.email }}</a></p>
+    </div>
+    {% empty %}
+    <p>Contact data isnt available.</p>
+    {% endfor %}
+{% endblock %}

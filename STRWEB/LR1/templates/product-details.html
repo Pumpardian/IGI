@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}Pet Shop: {{ product.title }}{% endblock title %}
+{% block header %}{{ product.title }}{% endblock header %}
+{% block content %}
+<p>{{ product.description }}</p>
+<p>Price: {{ product.price }}</p>
+<p>Type: {{ product.type }}</p>
+{% if request.user.is_authenticated and request.user.is_staff %}
+    <p>Part number: {{ product.part_number }}</p>
+    <p>Suppliers: {{ product.get_suppliers }}</p>
+{% endif %}
+
+{% if product.photo %}
+    <img src="{{ product.photo.url }}" alt="{{ product.title }}" style="width: 300px;">
+{% else %}
+    <p>Photo is unavailable</p>
+{% endif %}
+
+{# Add to Cart section #}
+{% if request.user.is_authenticated %}
+    <form method="post" action="{% url 'add-to-cart' product.id %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="quantity">Quantity:</label>
+            <input type="number" id="quantity" name="quantity" min="1" value="1">
+        </div>
+        <button type="submit" class="btn btn-primary">Add to Cart</button>
+    </form>
+{% endif %}
+
+<a href="{% url 'product-list' %}" class="btn btn-info">Return to product list</a>
+{% endblock %}

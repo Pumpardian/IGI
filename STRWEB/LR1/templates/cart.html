@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block title %}Pet Shop: Cart{% endblock title %}
+{% block header %}Cart{% endblock header %}
+{% block content %}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for item in cart_items %}
+        <tr>
+            <td>{{ item.product.title }}</td>
+            <td>{{ item.product.price }}</td>
+            <td>
+                <form method="post" action="{% url 'update-cart-item' item.id %}" class="form-inline">
+                    {% csrf_token %}
+                    <input type="number" name="quantity" value="{{ item.quantity }}" min="1">
+                    <button type="submit" class="btn-primary">Update</button>
+                </form>
+            </td>
+            <td>
+                <a href="{% url 'remove-from-cart' item.id %}" class="btn-danger">Remove</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5">Your cart is empty</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+
+    <h3>Total price: {{ total_price }}</h3>
+
+    <form method="post" action="{% url 'apply-promocode' %}">
+        {% csrf_token %}
+        <input type="text" name="promocode" placeholder="Enter promocode">
+        <button type="submit">Apply promocode</button>
+    </form>
+
+    {% if promocode %}
+        <h4>Promocode: {{ promocode.code }} (discount: {{ promocode.discount }}%)</h4>
+    {% endif %}
+    
+    <form method="get" action="{% url 'payment-success' %}">
+        <button type="submit">Move to payment</button>
+    </form>
+
+</table>
+{% endblock %}

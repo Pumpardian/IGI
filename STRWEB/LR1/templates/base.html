@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta name="author" content="Daniil Baskin">
+    <meta name="description" content="Pet Shop is perfect shop for your lovely friends. Come visit us!">
+    <meta charset="utf-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Pet Shop{% endblock title %}</title>
+
+    {% load static %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="icon" href="{% static '../media/logo.jpg' %}" type="image/jpeg">
+</head>
+<body>
+<header>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="collapse navbar-collapse" id="navbarNavHead">
+        <time>{{current_time}}</time>
+
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'homepage' %}">Home</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'article-list' %}">Articles</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'product-list' %}">Products</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'contact-list' %}">Contacts</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'faq-list' %}">FAQ</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'review-list' %}">Reviews</a>
+            </li>
+
+            {% if request.user.is_authenticated %}
+                {% if request.user.is_staff %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'acquisition-list' %}">Acquisitions</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'supplier-list' %}">Suppliers</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'promocode-list' %}">PromoCodes</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'currency-rates' %}">Currency Rates</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'cart' %}">Cart</a>
+                    </li>
+                {% endif %}
+            {% endif %}
+        </ul>
+
+        <ul class="navbar-nav ml-auto">
+            {% if request.user.is_authenticated %}
+            <li class="nav-item">
+                <form action="{% url 'logout' %}" method="post" class="form-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-link nav-link" style="display: inline; padding: 0; background: none; border: none;">Log Out</button>
+                </form>
+            </li>
+
+            {% else %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'login' %}">Log In</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'signup'%}">Sign Up</a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
+
+{% for message in messages %}
+<div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
+    {{message}}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+{% endfor %}
+    
+</header>
+
+    <div class="container mt-4">
+        <h1>{% block header %}Pet Shop{% endblock header %}</h1>
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<footer class="footer bg-light py-3 mt-auto">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="collapse navbar-collapse" id="navbarNavFoot">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'about' %}">About</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'policy' %}">Policy</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'vacancy-list' %}">Vacancies</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'statistics' %}">Statistics</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <hr>
+    <span class="text-muted">&nbsp;&nbsp;&nbsp; @Pet Shop. 2025. All rights reserved.</span>
+</footer>
+</body>
+</html>

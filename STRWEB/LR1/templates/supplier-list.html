@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %}Pet Shop: Suppliers{% endblock title %}
+{% block header %}Supplier List{% endblock header %}
+{% block content %}
+<form method="get" class="form-inline">
+    <input type="text" name="query" placeholder="Searching..." value="{{ request.GET.query }}" class="form-control">
+    
+    <select name="sort" class="form-control">
+        <option value="name">By name</option>
+        <option value="contact_phone">By </option>
+        <option value="address">By type</option>
+    </select>
+
+    <button type="submit" class="btn btn-primary">Search</button>
+    {% if request.user.is_staff %}
+        <a href="{% url 'supplier-create'%}" class="btn btn-primary">Add</a>
+    {% endif %}
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Contact phone</th>
+            <th>Address</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for supplier in object_list %}
+        <tr>
+            <td>{{ supplier.name }}</td>
+            <td>{{ supplier.contact_phone }}</td>
+            <td>{{ supplier.address }}</td>
+            <td>
+                {% if request.user.is_authenticated and request.user.is_staff %}
+                    <a href="{% url 'supplier-update' supplier.id %}" class="btn btn-secondary">Edit</a>
+                    <a href="{% url 'supplier-delete' supplier.id %}" class="btn btn-danger">Delete</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

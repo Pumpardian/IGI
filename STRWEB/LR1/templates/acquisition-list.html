@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block title %}Pet Shop: Aquisitions{% endblock title %}
+{% block header %}Aquisition History{% endblock header %}
+{% block content %}
+<form method="get" class="form-inline">
+    <input type="text" name="query" placeholder="Searching..." value="{{ request.GET.query }}" class="form-control">
+    
+    <select name="sort" class="form-control">
+        <option value="part_number">By part number</option>
+        <option value="supplier">By supplier</option>
+        <option value="date">By date</option>
+    </select>
+
+    <button type="submit" class="btn btn-primary">Search</button>
+    {% if request.user.is_staff %}
+        <a href="{% url 'acquisition-create'%}" class="btn btn-primary">Add</a>
+    {% endif %}
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Part number</th>
+            <th>Supplier</th>
+            <th>Date (Local time)</th>
+            <th>Date (UTC)</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for acquisition in object_list %}
+        <tr>
+            <td>{{ acquisition.part_number }}</td>
+            <td>{{ acquisition.supplier }}</td>
+            <td>{{ acquisition.get_local_time }}</td>
+            <td>{{ acquisition.get_utc_time }}</td>
+            <td>
+                <a href="{% url 'acquisition-details' acquisition.id %}" class="btn btn-primary">Details</a>
+                {% if request.user.is_authenticated and request.user.is_staff %}
+                    <a href="{% url 'acquisition-update' acquisition.id %}" class="btn btn-secondary">Edit</a>
+                    <a href="{% url 'acquisition-delete' acquisition.id %}" class="btn btn-danger">Delete</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
