@@ -4,7 +4,11 @@
 {% block content %}
 <div class="logo">
     {% if company.logo %}
-        <img src="{{ company.logo.url }}" alt="Company logo" style="max-width: 200px; height: auto;">
+        <img src="{{ company.logo.url }}" 
+            srcset="{{ company.logo.url }} 1x,
+            {{ company.logo.url }} 2x,
+            {{ company.logo.url }} 3x"
+            alt="Company logo">
         <p>{{ company.name }}</p>
     {% else %}
         <p>Company logo is missing</p>

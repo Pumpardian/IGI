@@ -6,6 +6,8 @@
 <article itemscope itemtype="http://schema.org/WebPage">
   <h2 itemprop="name">Demo page with HTML elements</h2>
  
+  <p hidden id="hiddenElement" class="hidden" style="font-size: large;" dir="rtl" tabindex="999">Hidden paragraph</p>
+
   <!-- Vertical navigation -->
   <h3>Vertical navigation:</h3>
   <nav>
@@ -17,15 +19,16 @@
     </ul>
   </nav>
 
+  <!-- Details -->
   <details>
-    
+    <summary>This is an example of details!</summary>And also reserved things: &lt; &gt; &nbsp; &quot; &trade; &reg; &copy;
   </details>
 
   <!-- Publish date -->
-  <p>This page has been published on: <time datetime="2025-09-12">12 september 2025</time>.</p>
+  <p contenteditable="true" spellcheck="true">This page has been published on: <time datetime="2025-09-12">12 september 2025</time>.</p>
 
     <!-- Common link -->
-  <p>Visit <a href="https://www.example.com">another page</a>.</p>
+  <p translate="yes">Visit <a href="https://www.example.com">another page</a>.</p>
 
   <!-- Anchor link -->
   <p>Move to <a href="#section1">section 1</a>.</p>
@@ -59,9 +62,12 @@
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" required minlength="2" maxlength="30" placeholder="Enter your name">
         
-        <!-- Email field with validation -->
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required placeholder="Enter your email">
+        <fieldset title="Log In Info">
+          <legend>User Info</legend>
+          <!-- Email field with validation -->
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" required placeholder="Enter your email">
+        </fieldset>
         
         <!-- Password field with validation -->
         <label for="password">Password:</label>
@@ -109,7 +115,7 @@
         <button type="submit">Sumbit</button>
         
         <!-- Reset button -->
-        <button type="reset">Reset</button>
+        <button type="reset" accesskey="r">Reset</button>
       </form>
       
       
@@ -153,11 +159,10 @@
   <!-- Figures and signs -->
   <figure itemscope itemtype="http://schema.org/ImageObject">
     <img
-      src="{% static 'images/example.jpg' %}"
+      src="https://placehold.co/600x400/3498db/white?text=Example+Image"
       alt="Image example"
       width="50%"
-      itemprop="contentUrl"
-    />
+      itemprop="contentUrl">
     <figcaption itemprop="description">Description for the <strong>image</strong>.</figcaption>
   </figure>
   
@@ -213,7 +218,7 @@
     itemprop="video"
     itemscope
     itemtype="http://schema.org/VideoObject"
-    src="https://www.youtube.com/embed/X23kjQWSyPQ"
+    src="https://www.youtube.com/embed/S1x0HWc-iaE?si=yZoLkhGmlAIr9u_b"
     style="border: none; width: 30%; height: 315px"
   ></iframe>
   <video
@@ -223,9 +228,11 @@
     controls
     width="30%"
     height="360"
+    muted
+    autoplay
   >
     <source
-      src="{% static 'videos/example.mp4' %}"
+      src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
       type="video/mp4"
       itemprop="contentUrl"
     />
@@ -239,7 +246,7 @@
     controls
   >
     <source
-      src="{% static 'audio/example.mp3' %}"
+      src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
       type="audio/mpeg"
       itemprop="contentUrl"
     />
