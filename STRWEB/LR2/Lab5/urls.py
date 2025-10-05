@@ -72,7 +72,6 @@ urlpatterns = [
                   re_path(r'^faq/(?P<pk>\d+)/delete/$', views.FAQDeleteView.as_view(), name='faq-delete'),
 
                   path('vacancies/', views.VacancyListView.as_view(), name='vacancy-list'),
-                  re_path(r'^vacancies/(?P<pk>\d+)/$', views.VacancyDetailView.as_view(), name='vacancy-details'),
                   path('vacancies/new/', views.VacancyCreateView.as_view(), name='vacancy-create'),
                   re_path(r'^vacancies/(?P<pk>\d+)/edit/$', views.VacancyUpdateView.as_view(), name='vacancy-update'),
                   re_path(r'^vacancies/(?P<pk>\d+)/delete/$', views.VacancyDeleteView.as_view(), name='vacancy-delete'),

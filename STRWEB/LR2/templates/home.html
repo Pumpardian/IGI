@@ -2,65 +2,103 @@
 {% block title %}Pet Shop{% endblock title %}
 {% block header %}Home Page{% endblock header %}
 {% block content %}
-<div class="logo">
-    {% if company.logo %}
-        <img src="{{ company.logo.url }}" 
-            srcset="{{ company.logo.url }} 1x,
-            {{ company.logo.url }} 2x,
-            {{ company.logo.url }} 3x"
-            alt="Company logo">
-        <p>{{ company.name }}</p>
-    {% else %}
-        <p>Company logo is missing</p>
-    {% endif %}
-</div>
-<br/>
 
-<div class="latest-news">
+<div class="aquarium-container">
+    <div class="aquarium">
+        <div class="fish"></div>
+        <div class="fish"></div>
+        <div class="fish"></div>
+        <div class="fish"></div>
+        
+        <div class="seaweed"></div>
+        <div class="seaweed"></div>
+        <div class="seaweed"></div>
+        <div class="seaweed"></div>
+        <div class="seaweed"></div>
+        <div class="seaweed"></div>
+        <div class="seaweed"></div>
+        <div class="seaweed"></div>
+        <div class="seaweed"></div>
+        <div class="seaweed"></div>
+        <div class="seaweed"></div>
+        
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        
+        <div class="shop-title">{{ company.name }}</div>
+    </div>
+</div>
+
+<div class="preloader">
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+</div>
+
+<section class="latest-news">
     {% if latestNews %}
         <h2>Latest news</h2>
-        <h3>{{ latestNews.title }}</h3>
-        <p>{{ latestNews.summary }}</p>
-        <a href="{% url 'article-details' latestNews.id %}">Read more</a>
+        <div class="news-card">
+            <h3>{{ latestNews.title }}</h3>
+            <p>{{ latestNews.summary }}</p>
+            <a class="btn" href="{% url 'article-details' latestNews.id %}">Read more</a>
+        </div>
     {% endif %}
-</div>
-<br/>
+</section>
 
-<div class="partners">
+<section class="partners">
     <h2>Our Partners</h2>
+    <div class="partners-list">
     {% for partner in partners %}
-        <a href="{{ partner.link }}">
-            <img src="{{ partner.logo.url }}" alt="{{ partner.company_name }}" style="max-width: 150px; height: auto;">
+        <a class="partner-item" href="{{ partner.link }}">
+            <img class="partner-logo" src="{{ partner.logo.url }}" title="{{ partner.company_name }}" alt="{{ partner.company_name }}">
         </a>
     {% endfor %}
-</div>
-<br/>
+    </div>
+</section>
 
-<div class="products">
+<section class="products">
     <h2>Our Products</h2>
+    <div class="product-list">
     {% for product in products %}
-        <div class="product">
+        <a class="product-card" href="{% url 'product-details' product.id %}">
+
             {% if product.photo %}
-                <img src="{{ product.photo.url }}" style="max-width: 100px; height: auto;">
+                <img class="product-image" src="{{ product.photo.url }}">
+            {% else %}
+            <div class="no-image">Photo is missing</div>
             {% endif %}
 
-            <h3>
-                <a href="{% url 'product-details' product.id %}">{{ product.title }}</a>
-            </h3>
+            <h3 class="product-title">{{ product.title }}</h3>
 
-            <p>{{ product.description }}</p>
-            <p>Price: {{ product.price }}</p>
-        </div>
-    {% endfor %}
-</div>
-<br/>
-
-<div class="banners">
-    {% for banner in banners %}
-        <a href="{{ banner.link }}">
-            <img src="{{ banner.image.url }}" alt="Banner">
+            <p class="product-description">{{ product.description }}</p>
+            <p class="product-price">Price: {{ product.price }}</p>
         </a>
     {% endfor %}
-</div>
+    </div>
+</section>
+
+<section class="banners">
+    <div class="banner-list">
+    {% for banner in banners %}
+        <div class="banner-item">
+            <img class="banner-image" src="{{ banner.image.url }}" alt="Banner">
+        </div>
+    {% endfor %}
+    </div>
+</section>
 
 {% endblock %}

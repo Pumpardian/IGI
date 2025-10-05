@@ -8,8 +8,10 @@
     <button type="submit" class="btn btn-success">Save</button>
 </form>
 
+<div class="container">
 {% if object %}
     <a href="{% url 'review-delete' object.id %}" class="btn btn-primary">Delete</a>
 {% endif %}
 <a href="{% url 'review-list' %}" class="btn btn-info">Cancel</a>
+</div>
 {% endblock %}

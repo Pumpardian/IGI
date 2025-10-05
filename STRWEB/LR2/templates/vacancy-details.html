@@ -1,8 +1,0 @@
-{% extends 'base.html' %}
-{% block title %}Pet Shop: {{ vacancy.title }}{% endblock title %}
-{% block header %}{{ vacancy.title }}{% endblock header %}
-{% block content %}
-<p>{{ vacancy.description }}</p>
-
-<a href="{% url 'vacancy-list' %}" class="btn btn-secondary">Return to vacancy list</a>
-{% endblock %}

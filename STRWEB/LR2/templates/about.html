@@ -2,6 +2,74 @@
 {% block title %}Pet Shop: About{% endblock title %}
 {% block header %}About us{% endblock header %}
 {% block content %}
-<p>{{ company.info }}</p>
-<img src="{{ company.certificate_image.url }}">
+{% load static %}
+
+<section class="section">
+{% if company %}
+  <div class="company-info">
+    {% if company.logo %}
+    <img src="{{ company.logo.url }}" alt="Logo" class="company-logo-img" />
+    {% else %}
+    <p>Logo is missing</p>
+    {% endif %}
+
+    <div class="company-details">
+      <div class="company-section">
+        <h3>Company info</h3>
+        <p>{{ company.info }}</p>
+      </div>
+      <div class="company-section">
+        <h3>Company history</h3>
+        <p>{{ company.history }}</p>
+      </div>
+      <div class="company-section">
+        <h3>Requisites</h3>
+        <p><i>{{ company.requisites }}</i></p>
+      </div>
+      {% if company.certificate_image %}
+      <div class="company-section">
+        <h3>Cerificate</h3>
+        <div class="certificate">
+          <div class="certificate-content">
+            <h4>CERTIFICATE</h4>
+            <p>Declared, that</p>
+            <h2>Pet Shop</h2>
+            <p>get recognition for</p>
+            <h3>High quality of service</h3>
+            <p>
+              Receive date:
+              <span>June 01, 2025</span>
+            </p>
+            <p>
+              Certificate number:
+              <span>12345-67890</span>
+            </p>
+            <div class="certificate-signature">
+              <p>General director</p>
+              <img src="{% static 'images/signature.png' %}" alt="Signature" />
+            </div>
+          </div>
+          <div class="certificate-border"></div>
+        </div>
+      </div>
+      {% endif %} {% if company.video %}
+      <div class="company-section">
+        <h3>Campany video</h3>
+        <div class="video-container">
+          <iframe
+            src="{{ company.video }}"
+            title="Company video"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+  {% else %}
+  <p>Company info is missing</p>
+{% endif %}
+</section>
+
 {% endblock %}

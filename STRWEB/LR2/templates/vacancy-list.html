@@ -7,27 +7,25 @@
     <br/>
 {% endif %}
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Title</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-
-    <tbody>
-        {% for vacancy in object_list %}
-        <tr>
-            <td>{{ vacancy.title }}</td>
-            <td>
-                <a href="{% url 'vacancy-details' vacancy.id %}" class="btn btn-primary">Details</a>
-                {% if request.user.is_staff %}
-                    <a class="btn btn-secondary" href="{% url 'vacancy-update' pk=vacancy.id %}">Edit</a>
-                    <a class="btn btn-danger" href="{% url 'vacancy-delete' pk=vacancy.id %}">Delete</a>
-                {% endif %}
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<section class="section">
+  <div class="vacancies-container">
+    {% for job in object_list %}
+    <div class="job-card">
+      <h3 class="job-title">{{ job.title }}</h3>
+      <p class="job-description">
+        <strong>Description:</strong>
+        {{ job.description }}
+      </p>
+      {% if request.user.is_staff %}
+      <div class="container">
+        <a class="btn" href="{% url 'vacancy-update' pk=job.id %}">Edit</a>
+        <a class="btn" href="{% url 'vacancy-delete' pk=job.id %}">Delete</a>
+      </div>
+      {% endif %}
+    </div>
+    {% empty %}
+    <p>As for now, there is no vacancies</p>
+    {% endfor %}
+  </div>
+</section>
 {% endblock %}

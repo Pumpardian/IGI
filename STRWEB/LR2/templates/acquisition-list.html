@@ -36,11 +36,13 @@
             <td>{{ acquisition.get_local_time }}</td>
             <td>{{ acquisition.get_utc_time }}</td>
             <td>
+                <div class="container">
                 <a href="{% url 'acquisition-details' acquisition.id %}" class="btn btn-primary">Details</a>
                 {% if request.user.is_authenticated and request.user.is_staff %}
                     <a href="{% url 'acquisition-update' acquisition.id %}" class="btn btn-secondary">Edit</a>
                     <a href="{% url 'acquisition-delete' acquisition.id %}" class="btn btn-danger">Delete</a>
                 {% endif %}
+                </div>
             </td>
         </tr>
         {% endfor %}

@@ -34,10 +34,12 @@
             <td>{{ supplier.contact_phone }}</td>
             <td>{{ supplier.address }}</td>
             <td>
+                <div class="container">
                 {% if request.user.is_authenticated and request.user.is_staff %}
                     <a href="{% url 'supplier-update' supplier.id %}" class="btn btn-secondary">Edit</a>
                     <a href="{% url 'supplier-delete' supplier.id %}" class="btn btn-danger">Delete</a>
                 {% endif %}
+                </div>
             </td>
         </tr>
         {% endfor %}

@@ -8,19 +8,27 @@
     <br/>
 {% endif %}
 
-<dl>
+<section class="section">
+    <div class="faq-container"></div>
     {% for faq in object_list %}
-    <dt class="mt-4">
-        <span style="font-size: 30px;">Q. {{ faq.question }}</span>
-         <small title="{{ faq.get_utc_time }} UTC">{{ faq.get_local_time }}</small>
-    </dt>
-    <dd>
-        <span style="font-size: 25px;"><b>A.</b> {{ faq.answer }}</span>
-    </dd>
-    {% if request.user.is_staff %}
-        <a class="btn btn-secondary" href="{% url 'faq-update' pk=faq.id %}">Edit</a>
-        <a class="btn btn-danger" href="{% url 'faq-delete' pk=faq.id %}">Delete</a>
-    {% endif %}
+        <details class="faq-item">
+            <summary>
+                {{ faq.question }} 
+                
+                <small title="{{ faq.get_utc_time }} UTC">{{ faq.get_local_time }}</small>
+
+                {% if request.user.is_staff %}
+                <div class="container">
+                    <a class="btn" href="{% url 'faq-update' pk=faq.id %}">Edit</a>
+                    <a class="btn" href="{% url 'faq-delete' pk=faq.id %}">Delete</a>
+                </div>
+                {% endif %}
+            </summary>
+            <div class="faq-answer">
+            <p>{{ faq.answer }}</p>
+            </div>
+        </details>
     {% endfor %}
-</dl>
+    </div>
+</section>
 {% endblock %}

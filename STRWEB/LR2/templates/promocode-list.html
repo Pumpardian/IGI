@@ -8,28 +8,32 @@
     <br/>
 {% endif %}
 
-<table class="table">
-    <thead>
+<section class="section">
+    <table class="table">
+      <thead>
         <tr>
-            <th>Code</th>
-            <th>Discount</th>
-            <th>Status</th>
-            <th>Actions</th>
+          <th>Code</th>
+          <th>Discount</th>
+          <th>Status</th>
+          <th>Actions</th>
         </tr>
-    </thead>
-
-    <tbody>
-        {% for promocode in object_list %}
+      </thead>
+      <tbody>
+        {% for promo in object_list %}
         <tr>
-            <td>{{ promocode.code }}</td>
-            <td>{{ promocode.discount }}</td>
-            <td>{{ promocode.isActive }}</td>
-            <td>
-                <a class="btn btn-secondary" href="{% url 'promocode-update' pk=promocode.id %}">Edit</a>
-                <a class="btn btn-danger" href="{% url 'promocode-delete' pk=promocode.id %}">Delete</a>
-            </td>
+          <td>{{ promo.code }}</td>
+          <td>{{ promo.discount }}%</td>
+          <td>{{ promo.isActive }}</td>
+          <td>
+            <div class="container">
+              <a class="btn btn-secondary" href="{% url 'promocode-update' pk=promo.id %}">Edit</a>
+              <a class="btn btn-danger" href="{% url 'promocode-delete' pk=promo.id %}">Delete</a>
+            </div>
+          </td>
         </tr>
         {% endfor %}
-    </tbody>
-</table>
+      </tbody>
+    </table>
+  </section>
+
 {% endblock %}

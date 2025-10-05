@@ -10,15 +10,26 @@
     {% endif %}
     <br/>
 {% endif %}
-<dl>
-    {% for review in reviews %}
-    <dt class="mt-4">
-        <span style="font-size: 30px;">{{ review.rating }} {{ review.title }} - {{ review.user.username }}</span>
-         <small title="{{ review.get_utc_time }} UTC">{{ review.get_local_time }}</small><br/>
-    </dt>
-    <dd>
-        <span style="font-size: 25px;">{{ review.text }}</span>
-    </dd>
-    {% endfor %}
-</dl>
+
+<section class="section">
+    <div class="comments-container">
+        {% for review in reviews %}
+        <div class="comment-card">
+            <div class="comment-header">
+                <div class="d-flex align-items-center gap-3">
+                    <span class="comment-rating">{{ review.rating }} ★</span>
+                    <h3 class="comment-title">{{ review.title }}</h3>
+                </div>
+                <div class="comment-user">@{{ review.user.username }}</div>
+            </div>
+            
+            <small class="comment-time" title="{{ review.get_utc_time }} UTC">
+                📅 {{ review.get_local_time }}
+            </small>
+            
+            <p class="comment-text mt-3">{{ review.text }}</p>
+        </div>
+        {% endfor %}
+    </div>
+</section>
 {% endblock %}

@@ -656,11 +656,6 @@ class VacancyListView(ListView):
     template_name = 'vacancy-list.html'
 
 
-class VacancyDetailView(DetailView):
-    model = Vacancy
-    template_name = 'vacancy-details.html'
-
-
 class VacancyCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Vacancy
     fields = ['title', 'description']

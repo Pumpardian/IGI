@@ -9,5 +9,7 @@
 <p>Sale price: {{ acquisition.sale_price }}</p>
 <p>Price: {{ acquisition.price }}</p>
 
-<a href="{% url 'acquisition-list' %}" class="btn btn-info">Return to acquisition list</a>
+<div class="container">
+<a href="{% url 'acquisition-list' %}" class="btn">Return to acquisition list</a>
+</div>
 {% endblock %}

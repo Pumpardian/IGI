@@ -5,7 +5,9 @@
 {% if article.image %}
     <img src="{{ article.image.url }}" style="max-width: 100%; height: auto;">
 {% endif %}
-<p>{{ article.content }}</p>
+<p class="article-content">{{ article.content }}</p>
 
+<div class="container">
 <a href="{% url 'article-list' %}" class="btn btn-secondary">Return to article list</a>
+</div>
 {% endblock %}

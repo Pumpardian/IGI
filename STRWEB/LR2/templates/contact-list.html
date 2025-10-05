@@ -7,23 +7,31 @@
         <br/>
     {% endif %}
 
-    {% for contact in object_list %}
-    <div style="border: 1px solid #ddd; border-radius: 5px;">
-        {% if contact.photo %}
-            <img src="{{ contact.photo.url }}" style="width: 127px; height: 162px; float: left; margin-right: 15px;">
-        {% endif %}
-        {% if request.user.is_staff %}
-        <div style="width: 127px; float: right; margin-left: 15px;">
-            <a class="btn btn-secondary" href="{% url 'contact-update' pk=contact.id %}">Edit</a>
-            <a class="btn btn-danger" href="{% url 'contact-delete' pk=contact.id %}">Delete</a>
+<section class="section">
+    <div class="contacts-container">
+        {% for contact in object_list %}
+        <div class="contact-card">
+            {% if contact.photo %}
+            <div class="contact-photo-container">
+                <img class="contact-photo" src="{{ contact.photo.url }}">
+            </div>
+            {% endif %}
+            {% if request.user.is_staff %}
+            <div class="container">
+                <a class="btn btn-secondary" href="{% url 'contact-update' pk=contact.id %}">Edit</a>
+                <a class="btn btn-danger" href="{% url 'contact-delete' pk=contact.id %}">Delete</a>
+            </div>
+            {% endif %}
+            <div class="card-body">
+                <h3 class="card-name">{{ contact.name }}</h3>
+                <p class="card-text"><strong>Description:</strong> {{ contact.description }}</p>
+                <p class="card-text"><strong>Phone:</strong> {{ contact.phone }}</p>
+                <p class="card-text"><strong>Email:</strong> <a class="contact-email" href="mailto:{{ contact.email }}">{{ contact.email }}</a></p>
+            </div>
         </div>
-        {% endif %}
-        <h3>{{ contact.name }}</h3>
-        <p><strong>Description:</strong> {{ contact.description }}</p>
-        <p><strong>Phone:</strong> {{ contact.phone }}</p>
-        <p><strong>Email:</strong> <a href="mailto:{{ contact.email }}">{{ contact.email }}</a></p>
+        {% empty %}
+        <p class="no-contacts">Contact data isnt available.</p>
+        {% endfor %}
     </div>
-    {% empty %}
-    <p>Contact data isnt available.</p>
-    {% endfor %}
+</section>
 {% endblock %}

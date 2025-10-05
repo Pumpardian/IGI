@@ -3,22 +3,26 @@
 {% block header %}Article List{% endblock header %}
 {% block content %}
     {% if request.user.is_staff %}
-        <a href="{% url 'article-create'%}" class="btn btn-primary">Add new article</a>
-        <br/>
+        <a href="{% url 'article-create'%}" class="btn btn-primary">Add new article</a><br><br>
     {% endif %}
 
+    <div id="news-container">
     {% for article in object_list %}
-        <h3>{{article.title}} <small title="{{ article.get_utc_time }} UTC">{{ article.get_local_time }}</small></h3>
-        {% if article.image %}
-            <img src="{{ article.image.url }}" style="width: 150px; height: auto;">
-        {% endif %}
-        <p>{{ article.summary }}</p>
-        <a class="btn btn-primary" href="{% url 'article-details' pk=article.id %}">Read more</a>
-        {% if request.user.is_staff %}
-            <a class="btn btn-secondary" href="{% url 'article-update' pk=article.id %}">Edit</a>
-            <a class="btn btn-danger" href="{% url 'article-delete' pk=article.id %}">Delete</a>
-        {% endif %}
-
-        <br/>
+        <div class="news-item">
+            <h3>{{ article.title }} <small title="{{ article.get_utc_time }} UTC">{{ article.get_local_time }}</small></h3>
+            {% if article.image %}
+                <img class="news-image" src="{{ article.image.url }}">
+            {% endif %}
+            <p>{{ article.summary }}</p>
+            <br><br>
+            <div class="container">
+            <a class="btn btn-primary" href="{% url 'article-details' pk=article.id %}">Read more</a>
+            {% if request.user.is_staff %}
+                <a class="btn btn-secondary" href="{% url 'article-update' pk=article.id %}">Edit</a>
+                <a class="btn btn-danger" href="{% url 'article-delete' pk=article.id %}">Delete</a>
+            {% endif %}
+            </div>
+        </div>
     {% endfor %}
+    </div>
 {% endblock %}
