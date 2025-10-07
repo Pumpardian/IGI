@@ -4,6 +4,7 @@
 {% block content %}
 
 <table class="table">
+    <caption>Total price: {{ total_price }}</caption>
     <thead>
         <tr>
             <th>Product</th>
@@ -35,8 +36,6 @@
         </tr>
         {% endfor %}
     </tbody>
-
-    <h3>Total price: {{ total_price }}</h3>
 
     <form method="post" action="{% url 'apply-promocode' %}">
         {% csrf_token %}

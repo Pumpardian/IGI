@@ -5,8 +5,8 @@
     --secondary-color: lightseagreen;
     --background-color: lightslategray;
     --main-background-color: #5e5e6e;
-    --nav-bg-color: burlywood;
-    --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --nav-bg-color: skyblue;
+    --font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
     --text-color: aliceblue;
     --muted-text-color: gray;
     --link-color: lightblue;
@@ -32,7 +32,7 @@
 header {
     background: var(--primary-color);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-    position: sticky;
+    position: fixed;
     top: 0;
     width: 100%;
     z-index: 999;
@@ -79,10 +79,15 @@ main > div.container {
     letter-spacing: 0.5em;
     text-transform: uppercase;
     text-align: center;
+    font-kerning: normal;
 }
 
 a {
     transition: color var(--transition-speed), background-color var(--transition-speed);
+}
+
+.nav-button:visited {
+    color: var(--nav-link-color);
 }
 
 button,
@@ -228,7 +233,7 @@ nav {
     }
 }
 
-@media (max-width: 768px) {
+@media screen and (max-width: 768px) {
     .nav-menu {
       position: fixed;
       top: 0;
@@ -299,6 +304,7 @@ h1 {
 
 h2 {
     text-transform: capitalize;
+    font-variant: small-caps;
     font-size: 2.5em;
     margin-bottom: 10px;
 }
@@ -319,6 +325,15 @@ table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 20px;
+    caption-side: bottom;
+    letter-spacing: 0.1em;
+}
+
+caption {
+    font-size: 1.5em;
+    font-weight: bold;
+    font-style: italic;
+    font-variant: small-caps;
 }
 
 td:empty, th:empty, td:blank {
@@ -335,6 +350,7 @@ table td {
   
 table th {
     background-color: var(--background-color);
+    text-transform: uppercase;
 }
   
 table tr:nth-child(even) {
@@ -347,6 +363,8 @@ table tr:nth-child(odd) {
 
 .article-content {
     color: black;
+    columns: 2;
+    text-indent: 20px;
 }
 
 .article-content::first-letter {
@@ -435,7 +453,7 @@ table tr:nth-child(odd) {
     align-items: center;
     border: 2px solid black;
     border-radius: 4em 0.5em 4em 0.5em;
-    background-color: darkslategray;
+    background-color: var(--secondary-color);
     padding: 1.5em;
     box-shadow: 1px 3px 10px #1e1e1e;
 }
@@ -508,7 +526,6 @@ img.partner-logo {
 .products h2 {
     text-align: center;
     margin-bottom: 20px;
-    color: var(--secondary-color);
 }
 
 .product-list {
