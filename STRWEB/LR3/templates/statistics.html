@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}Pet Shop: Statistics{% endblock title %}
+{% block header %}Statistics{% endblock header %}
+{% block content %}
+<div>
+    <h2>User age statistics</h2>
+    <p>Average age: {{ average_age }}</p>
+    <p>Median age: {{ median_age }}</p>
+
+    <h2>Product types</h2>
+    <p>Most popular type: {{ most_popular_type.name }} ({{ most_popular_type.count }} times)</p>
+    <p>Most expensive type: {{ most_expensive_type.name }} ({{ most_expensive_type.total_income }})</p>
+
+    <h2>Review rates</h2>
+    <img src="data:image/png;base64,{{ hist }}", alt="", height="500", width="500">
+</div>
+{% endblock %}

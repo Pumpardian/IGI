@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Pet Shop: Currency Rates{% endblock title %}
+{% block header %}Currency Rates{% endblock header %}
+{% block content %}
+<div class="container mt-4">
+    <div class="currency-rates">
+        <h2>Current currency rates</h2>
+        <p>USD rate: {{ usd_rate }} BYN</p>
+        <p>EUR rate: {{ eur_rate }} BYN</p>
+    </div>
+</div>
+{% endblock %}

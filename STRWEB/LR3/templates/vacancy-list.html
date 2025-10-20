@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}Pet Shop: Vacancies{% endblock title %}
+{% block header %}Vacancies{% endblock header %}
+{% block content %}
+{% if request.user.is_staff %}
+    <a href="{% url 'vacancy-create'%}" class="btn btn-primary">Add</a>
+    <br/>
+{% endif %}
+
+<section class="section">
+  <div class="vacancies-container">
+    {% for job in object_list %}
+    <div class="job-card">
+      <h3 class="job-title">{{ job.title }}</h3>
+      <p class="job-description">
+        <strong>Description:</strong>
+        {{ job.description }}
+      </p>
+      {% if request.user.is_staff %}
+      <div class="container">
+        <a class="btn" href="{% url 'vacancy-update' pk=job.id %}">Edit</a>
+        <a class="btn" href="{% url 'vacancy-delete' pk=job.id %}">Delete</a>
+      </div>
+      {% endif %}
+    </div>
+    {% empty %}
+    <p>As for now, there is no vacancies</p>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

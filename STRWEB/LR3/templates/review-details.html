@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Pet Shop: {{ review.user.username }}'s review{% endblock title %}
+{% block header %}{{ review.title }}{% endblock header %}
+{% block content %}
+<p><strong>User:</strong> {{ review.user.username }}</p>
+<p><strong>Rating:</strong> {{ review.rating }}</p>
+<p><strong>Publish Date (Local time):</strong> {{ review.get_local_time }}</p>
+<p><strong>Publish Date (UTC):</strong> {{ review.get_utc_time }}</p>
+
+<p>{{ review.text }}</p>
+
+<div class="container">
+<a href="{% url 'review-list' %}" class="btn btn-secondary">Return to review list</a>
+</div>
+{% endblock %}

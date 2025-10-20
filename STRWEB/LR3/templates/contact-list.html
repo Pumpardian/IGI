@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}Pet Shop: Contacts{% endblock title %}
+{% block header %}Contact List{% endblock header %}
+{% block content %}
+    {% if request.user.is_staff %}
+        <a href="{% url 'contact-create'%}" class="btn btn-primary">Add</a>
+        <br/>
+    {% endif %}
+
+<section class="section">
+    <div class="contacts-container">
+        {% for contact in object_list %}
+        <div class="contact-card">
+            {% if contact.photo %}
+            <div class="contact-photo-container">
+                <img class="contact-photo" src="{{ contact.photo.url }}">
+            </div>
+            {% endif %}
+            {% if request.user.is_staff %}
+            <div class="container">
+                <a class="btn btn-secondary" href="{% url 'contact-update' pk=contact.id %}">Edit</a>
+                <a class="btn btn-danger" href="{% url 'contact-delete' pk=contact.id %}">Delete</a>
+            </div>
+            {% endif %}
+            <div class="card-body">
+                <h3 class="card-name">{{ contact.name }}</h3>
+                <p class="card-text"><strong>Description:</strong> {{ contact.description }}</p>
+                <p class="card-text"><strong>Phone:</strong> {{ contact.phone }}</p>
+                <p class="card-text"><strong>Email:</strong> <a class="contact-email" href="mailto:{{ contact.email }}">{{ contact.email }}</a></p>
+            </div>
+        </div>
+        {% empty %}
+        <p class="no-contacts">Contact data isnt available.</p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

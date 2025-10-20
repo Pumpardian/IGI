@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}Pet Shop: {{ object.part_number }}{% endblock title %}
+{% block header %}Are you sure you want to delete "{{ object.part_number }}"?{% endblock header %}
+{% block content %}
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a href="{% url 'acquisition-list' %}" class="btn btn-info">Cancel</a>
+</form>
+{% endblock %}

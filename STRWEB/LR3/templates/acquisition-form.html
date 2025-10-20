@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Pet Shop: {% if object %} {{ object.part_number }} {% else %} new aquisition{% endif %} {% endblock title %}
+{% block header %}{% if object %}Edit{% else %}Addition{% endif %} of acquisition{% endblock header %}
+{% block content %}
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">Save</button>
+</form>
+
+<div class="container">
+<a href="{% url 'acquisition-list' %}" class="btn btn-info">Cancel</a>
+</div>
+{% endblock %}

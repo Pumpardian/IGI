@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}PetShop: {% if object %} {{ object.code }} {% else %} new promocode {% endif %} {% endblock title %}
+{% block header %}{% if object %}Edit{% else %}Addition{% endif %} of promocode{% endblock header %}
+{% block content %}
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">Save</button>
+</form>
+
+<div class="container">
+<a href="{% url 'promocode-list' %}" class="btn btn-info">Cancel</a>
+</div>
+{% endblock %}

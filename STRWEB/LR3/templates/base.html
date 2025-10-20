@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta name="author" content="Daniil Baskin">
+    <meta name="description" content="Pet Shop is perfect shop for your lovely friends. Come visit us!">
+    <meta charset="utf-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Pet Shop{% endblock title %}</title>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/preloader.css' %}">
+    <link rel="stylesheet" href="{% static 'css/animation.css' %}">
+    <link rel="icon" href="{% static '../media/logo.jpg' %}" type="image/jpeg">
+</head>
+<body>
+    <header>
+            <div class="container header-container">
+                <div class="info">
+                    <div class="logo">
+                        <img src="{% static 'images/logo.png' %}"
+                            alt="Pet Shop"
+                            title="Pet Shop">
+                    </div>
+                    &nbsp;&nbsp;    
+                    <time>{{current_time}}</time>
+                </div>
+
+                <nav>
+                <ul class="nav-menu" id="nav-menu">
+                    <li>
+                        <a class="nav-button" href="{% url 'homepage' %}">Home</a>
+                    </li>
+
+                    <li>
+                        <a class="nav-button" href="{% url 'article-list' %}">Articles</a>
+                    </li>
+
+                    <li>
+                        <a class="nav-button" href="{% url 'product-list' %}">Products</a>
+                    </li>
+
+                    <li>
+                        <a class="nav-button" href="{% url 'contact-list' %}">Contacts</a>
+                    </li>
+
+                    <li>
+                        <a class="nav-button" href="{% url 'faq-list' %}">FAQ</a>
+                    </li>
+
+                    <li>
+                        <a class="nav-button" href="{% url 'review-list' %}">Reviews</a>
+                    </li>
+
+                    <li>
+                        <a class="nav-button" href="{% url 'vacancy-list' %}">Vacancies</a>
+                    </li>
+
+                    <li>
+                        <a class="nav-button" href="{% url 'statistics' %}">Statistics</a>
+                    </li>
+
+                    {% if request.user.is_authenticated %}
+                        {% if request.user.is_staff %}
+                            <li>
+                                <a class="nav-button" href="{% url 'acquisition-list' %}">Acquisitions</a>
+                            </li>
+
+                            <li>
+                                <a class="nav-button" href="{% url 'supplier-list' %}">Suppliers</a>
+                            </li>
+
+                            <li>
+                                <a class="nav-button" href="{% url 'promocode-list' %}">PromoCodes</a>
+                            </li>
+
+                            <li>
+                                <a class="nav-button" href="{% url 'currency-rates' %}">Currency Rates</a>
+                            </li>
+                        {% else %}
+                            <li>
+                                <a class="nav-button" href="{% url 'cart' %}">Cart</a>
+                            </li>
+                        {% endif %}
+                    {% endif %}
+
+                    <li></li>
+
+                    {% if request.user.is_authenticated %}
+                    <li>
+                        <form action="{% url 'logout' %}" method="post" class="form-inline">
+                            {% csrf_token %}
+                            <button type="submit">Log Out</button>
+                        </form>
+                    </li>
+
+                    {% else %}
+                    <li>
+                        <a class="nav-button" href="{% url 'login' %}">Log In</a>
+                    </li>
+
+                    <li>
+                        <a class="nav-button" href="{% url 'signup'%}">Sign Up</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+            </div>
+        </nav>
+
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    </header>
+
+    <div class="messages">
+    {% for message in messages %}
+        <div class="message alert">
+            <div class="message-progress">
+            </div>
+            {{message}}
+            <button type="button" data-dismiss="alert">
+                <span>&times;</span>
+            </button>
+        </div>
+    {% endfor %}
+    </div>
+
+    <main>
+        <div class="container">
+            <h1>{% block header %}Pet Shop{% endblock header %}</h1>
+
+            {% block content %}
+            {% endblock %}
+        </div>
+    </main>
+
+    <footer>
+        <nav>
+            <div class="container" id="navbarNavFoot">
+                <a class="nav-button" href="{% url 'about' %}">About</a>
+
+                <a class="nav-button" href="{% url 'policy' %}">Policy</a>
+            </div>
+
+            <span class="text-muted nowrap">@Pet Shop. 2025. All rights reserved.</span>
+        </nav>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          const hamburger = document.getElementById("hamburger");
+          const navMenu = document.getElementById("nav-menu");
+  
+          hamburger.addEventListener("click", function (event) {
+            navMenu.classList.add("active");
+            event.stopPropagation();
+          });
+  
+          document.addEventListener("click", function (event) {
+            if (!navMenu.contains(event.target) && !hamburger.contains(event.target)) {
+                navMenu.classList.remove("active");
+            }
+          });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title %}Pet Shop: FAQ{% endblock title %}
+{% block header %}FAQ{% endblock header %}
+{% block content %}
+
+{% if request.user.is_staff %}
+    <a href="{% url 'faq-create'%}" class="btn btn-primary">Add</a>
+    <br/>
+{% endif %}
+
+<section class="section">
+    <div class="faq-container"></div>
+    {% for faq in object_list %}
+        <details class="faq-item">
+            <summary>
+                {{ faq.question }} 
+                
+                <small title="{{ faq.get_utc_time }} UTC">{{ faq.get_local_time }}</small>
+
+                {% if request.user.is_staff %}
+                <div class="container">
+                    <a class="btn" href="{% url 'faq-update' pk=faq.id %}">Edit</a>
+                    <a class="btn" href="{% url 'faq-delete' pk=faq.id %}">Delete</a>
+                </div>
+                {% endif %}
+            </summary>
+            <div class="faq-answer">
+            <p>{{ faq.answer }}</p>
+            </div>
+        </details>
+    {% endfor %}
+    </div>
+</section>
+{% endblock %}

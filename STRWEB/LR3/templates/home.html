@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% block title %}Pet Shop{% endblock title %}
+{% block header %}<h1 class="company-name">{{ company.name }}</h1>{% endblock header %}
+{% block content %}
+
+<div class="aquarium-container">
+    <div class="aquarium">
+        <div class="fish"></div>
+        <div class="fish"></div>
+        <div class="fish"></div>
+        <div class="fish"></div>
+        
+        <div class="seaweed"></div>
+        <div class="seaweed"></div>
+        <div class="seaweed"></div>
+        <div class="seaweed"></div>
+        <div class="seaweed"></div>
+        <div class="seaweed"></div>
+        <div class="seaweed"></div>
+        <div class="seaweed"></div>
+        <div class="seaweed"></div>
+        <div class="seaweed"></div>
+        <div class="seaweed"></div>
+        
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        
+        <div class="shop-title">{{ company.name }}</div>
+    </div>
+</div>
+
+<div class="preloader">
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+</div>
+
+<section class="latest-news">
+    {% if latestNews %}
+        <h2>Latest news</h2>
+        <div class="news-card">
+            <h3>{{ latestNews.title }}</h3>
+            <p>{{ latestNews.summary }}</p>
+            <a class="btn" href="{% url 'article-details' latestNews.id %}">Read more</a>
+        </div>
+    {% endif %}
+</section>
+
+<section class="partners">
+    <h2>Our Partners</h2>
+    <div class="partners-list">
+    {% for partner in partners %}
+        <a class="partner-item" href="{{ partner.link }}">
+            <img class="partner-logo" src="{{ partner.logo.url }}" title="{{ partner.company_name }}" alt="{{ partner.company_name }}">
+        </a>
+    {% endfor %}
+    </div>
+</section>
+
+<section class="products">
+    <h2>Our Products</h2>
+    <div class="product-list">
+    {% for product in products %}
+        <a class="product-card" href="{% url 'product-details' product.id %}">
+
+            {% if product.photo %}
+                <img class="product-image" src="{{ product.photo.url }}">
+            {% else %}
+            <div class="no-image">Photo is missing</div>
+            {% endif %}
+
+            <h3 class="product-title">{{ product.title }}</h3>
+
+            <p class="product-description">{{ product.description }}</p>
+            <p class="product-price">Price: {{ product.price }}</p>
+        </a>
+    {% endfor %}
+    </div>
+</section>
+
+<section class="banners">
+    <div class="banner-list">
+    {% for banner in banners %}
+        <div class="banner-item">
+            <img class="banner-image" src="{{ banner.image.url }}" alt="Banner">
+        </div>
+    {% endfor %}
+    </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}PetShop: {% if object %} {{ object.title }} {% else %} new review{% endif %} {% endblock title %}
+{% block header %}{% if object %}Edit{% else %}Addition{% endif %} of review{% endblock header %}
+{% block content %}
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">Save</button>
+</form>
+
+<div class="container">
+{% if object %}
+    <a href="{% url 'review-delete' object.id %}" class="btn btn-primary">Delete</a>
+{% endif %}
+<a href="{% url 'review-list' %}" class="btn btn-info">Cancel</a>
+</div>
+{% endblock %}
