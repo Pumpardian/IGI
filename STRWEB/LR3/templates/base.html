@@ -24,6 +24,7 @@
                     </div>
                     &nbsp;&nbsp;    
                     <time>{{current_time}}</time>
+                    <div id="themeSwitch"></div>
                 </div>
 
                 <nav>
@@ -152,6 +153,9 @@
         </nav>
     </footer>
 
+    <script src="{% static 'js/local_storage.js' %}"></script>
+    <script src="{% static 'js/theme_selector.js' %}"></script>
+    <script src="{% static 'js/age_verification.js' %}"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
           const hamburger = document.getElementById("hamburger");
