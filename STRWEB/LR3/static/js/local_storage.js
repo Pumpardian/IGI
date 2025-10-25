@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function ()
 {
-    const clearButton = document.getElementById("clearStorage");
+    const clearButton = document.getElementById("clear-storage");
 
     if (clearButton)
     {

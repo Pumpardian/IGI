@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/preloader.css' %}">
     <link rel="stylesheet" href="{% static 'css/animation.css' %}">
+    {% block extra_css %}
+    {% endblock %}
     <link rel="icon" href="{% static '../media/logo.jpg' %}" type="image/jpeg">
 </head>
 <body>
@@ -153,9 +155,12 @@
         </nav>
     </footer>
 
+    {% block extra_js %}
     <script src="{% static 'js/local_storage.js' %}"></script>
     <script src="{% static 'js/theme_selector.js' %}"></script>
     <script src="{% static 'js/age_verification.js' %}"></script>
+    {% endblock %}
+
     <script>
         document.addEventListener("DOMContentLoaded", function () {
           const hamburger = document.getElementById("hamburger");

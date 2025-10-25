@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}Pet Shop{% endblock title %}
 {% block header %}<h1 class="company-name">{{ company.name }}</h1>{% endblock header %}
 {% block content %}
@@ -91,7 +92,7 @@
     </div>
 </section>
 
-<section class="banners">
+<!-- <section class="banners">
     <div class="banner-list">
     {% for banner in banners %}
         <div class="banner-item">
@@ -99,6 +100,49 @@
         </div>
     {% endfor %}
     </div>
-</section>
 
+    <div id="bannerSlider"></div>
+</section> -->
+
+<section class="bannerSlider" auto="True" pags="True" navs="True" stopMouseHover="True">
+<div class="banner-container">
+
+    <div class="slider">
+        {% for banner in banners %}
+            <div class="banner" data-url="{{ banner.link }}">
+                <img src="{{ banner.image.url }}" alt="Banner">
+                <div class="caption">{{ banner }}</div>
+            </div>
+        {% endfor %}
+
+        <div class="clickable-zone prev-area">
+            <span class="arrow left-arrow">&lt;</span>
+        </div>
+        <div class="clickable-zone next-area">
+            <span class="arrow right-arrow">&gt;</span>
+        </div>
+
+        <div class="banner-counter" id="banner-counter"></div>
+    </div>
+
+    <div class="pagination" id="pagination"></div>
+    <!-- <form id="interval-form" class="interval-form">
+        <label for="rotation-interval">Interval (seconds)</label>
+        <input type="number" 
+            id="rotation-interval" name="rotation-interval"
+            value="3" min="1" max="10"/>
+        <button type="button" onclick="slider.updateInterval()">Change</button>
+    </form> -->
+</div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/bannerSlider.css' %}">
+{% endblock %}
+
+{% block extra_js %}
+{{ block.super }}
+<script src="{% static 'js/banner_Slider.js' %}"></script>
 {% endblock %}
