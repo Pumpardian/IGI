@@ -73,3 +73,8 @@
 </section>
 
 {% endblock %}
+
+{% block extra_js %}
+{{ block.super }}
+<script src="{% static 'js/form_elements.js' %}"></script>
+{% endblock %}

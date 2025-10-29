@@ -95,5 +95,9 @@ urlpatterns = [
                   path('logout/', auth_views.LogoutView.as_view(), name='logout'),
 
                   path('currency-rates/', views.currency_rates_view, name='currency-rates'),
-                  path('statistics/', views.StatisticsView.as_view(), name='statistics')
+                  path('statistics/', views.StatisticsView.as_view(), name='statistics'),
+
+                  path('task8a/', views.task8a, name='task8a'),
+                  path('task8b/', views.task8b, name='task8b'),
+                  path('chart/', views.chart, name='chart')
               ] + static(views.settings.MEDIA_URL, document_root=views.settings.MEDIA_ROOT)

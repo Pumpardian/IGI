@@ -31,6 +31,18 @@ def demopage(request):
     return render(request, 'demo.html')
 
 
+def task8a(request):
+    return render(request, 'task8a.html')
+
+
+def task8b(request):
+    return render(request, 'task8b.html')
+
+
+def chart(request):
+    return render(request, 'chart.html')
+
+
 def payment_success(request):
     cart, created = Cart.objects.get_or_create(user=request.user)
     cart.promocode = None

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Function & Sequence Chart</title>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    </head>
+    <body>
+        <canvas id="chart" height="100%"></canvas>
+        <script>
+            function sequenceApproximation(x, iterations)
+            {
+                let sum = 0;
+                for (let n = 0; n < iterations; ++n)
+                {
+                    sum += 2 / ((2 * n + 1) * Math.pow(x, 2 * n + 1));
+                }
+                return sum;
+            }
+
+            function mathFunction(x)
+            {
+                return Math.log((x + 1) / (x - 1));
+            }
+
+            const context = document.getElementById("chart").getContext("2d");
+            const chart = new Chart(context,
+            {
+                type: "line",
+                data:
+                {
+                    labels: [],
+                    datasets:
+                    [
+                        {
+                            label: "Sequence Approximation",
+                            data: [],
+                            borderColor: "red",
+                            fill: false,
+                            tension: 0.1,
+                        },
+                        {
+                            label: "Math Function",
+                            data: [],
+                            borderColor: "blue",
+                            fill: false,
+                            tension: 0.1,
+                        },
+                    ],
+                },
+                options:
+                {
+                    responsive: true,
+                    plugins:
+                    {
+                        legend:
+                        {
+                            display: true,
+                            position: "top",
+                        },
+                    },
+                    scales:
+                    {
+                        x:
+                        {
+                            title:
+                            {
+                                display: true,
+                                text: "x",
+                            },
+                        },
+                        y:
+                        {
+                            title:
+                            {
+                                display: true,
+                                text: "F(x)",
+                            },
+                        },
+                    },
+                },
+            });
+
+            const values = [];
+            const xStart = 1;
+            const xEnd = 2;
+            const pointsCount = 100;
+            const iterations = 25;
+            const step = (xEnd - xStart) / pointsCount;
+            const approximationData = [];
+            const mathData = [];
+
+            for (let i = 0; i < pointsCount; ++i)
+            {
+                const x = xStart + i * step;
+                values.push(x.toFixed(2));
+                approximationData.push(sequenceApproximation(x, iterations));
+                mathData.push(mathFunction(x));
+            }
+
+            let i = 0;
+            function addChartPoint()
+            {
+                if (i < pointsCount)
+                {
+                    chart.data.labels.push(values[i]);
+                    chart.data.datasets[0].data.push(approximationData[i]);
+                    chart.data.datasets[1].data.push(mathData[i++]);
+
+                    chart.update();
+                }
+                else
+                {
+                    clearInterval(buildAnimation);
+                }
+            }
+
+            const buildAnimation = setInterval(addChartPoint, 50);
+        </script>
+    </body>
+</html>
