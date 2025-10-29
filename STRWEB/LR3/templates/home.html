@@ -75,6 +75,7 @@
     <h2>Our Products</h2>
     <div class="product-list">
     {% for product in products %}
+    <div class="card-wrapper">
         <a class="product-card" href="{% url 'product-details' product.id %}">
 
             {% if product.photo %}
@@ -88,6 +89,7 @@
             <p class="product-description">{{ product.description }}</p>
             <p class="product-price">Price: {{ product.price }}</p>
         </a>
+    </div>
     {% endfor %}
     </div>
 </section>

@@ -534,6 +534,13 @@ img.partner-logo {
     gap: 20px;
 }
 
+.card-wrapper {
+    min-height: 45ch;
+    position: relative;
+    perspective: 500em;
+    transform-style: preserve-3d;
+}
+
 .product-card {
     background-color: #1e1e1e;
     border: 1px solid #444;
@@ -543,6 +550,49 @@ img.partner-logo {
     transition: transform var(--transition-speed), box-shadow var(--transition-speed);
     display: flex;
     flex-direction: column;
+
+    inset: 1rem;
+    --posx: 50%;
+    --posy: 50%;
+    --rotateX: 0;
+    --rotateY: 0;
+    transform: 
+    perspective(100em)
+    translatez(0em)
+    rotateY(var(--rotateX)) 
+    rotateX(var(--rotateY));
+    transform-style: preserve-3d;
+}
+
+.product-card:after {
+  content: '';
+  position: absolute;
+  inset: 2rem;
+  opacity: 0.3;
+  transform: translatez(-10em);
+  border-radius: inherit;
+  filter: blur(3rem);
+  transform-style: preserve-3d;
+}
+.product-card:before {
+  opacity: 0.5;
+  content: '';
+  position: absolute;
+  inset: 0;
+  mix-blend-mode: color;
+  border-radius: inherit;
+  pointer-events: none;
+  transform-style: preserve-3d;
+}
+
+@keyframes reset-card{
+  to {
+    background-position: 50% 50%;
+    transform: 
+      
+      rotateY(0) 
+      rotateX(0);
+  }
 }
 
 .product-card:hover {

@@ -21,29 +21,31 @@
 <section class="products">
     <div class="product-list">
     {% for product in object_list %}
-        <a class="product-card" href="{% url 'product-details' product.id %}">
+        <div class="card-wrapper">
+            <a class="product-card" href="{% url 'product-details' product.id %}">
 
-            {% if product.photo %}
-                <img class="product-image" src="{{ product.photo.url }}">
-            {% else %}
-            <div class="no-image">Photo is missing</div>
-            {% endif %}
-            <h3 class="product-title">{{ product.title }}</h3>
+                {% if product.photo %}
+                    <img class="product-image" src="{{ product.photo.url }}">
+                {% else %}
+                <div class="no-image">Photo is missing</div>
+                {% endif %}
+                <h3 class="product-title">{{ product.title }}</h3>
 
-            <p class="product-description">{{ product.description }}</p>
-            <p class="product-price">Price: {{ product.price }}</p>
-        </a>
+                <p class="product-description">{{ product.description }}</p>
+                <p class="product-price">Price: {{ product.price }}</p>
+            </a>
         
-        {% if request.user.is_authenticated %}
-        <div class="container">
-            
-            <a href="{% url 'product-details' product.id %}" class="btn btn-primary">Details</a>
-            {% if request.user.is_staff %}
-                <a href="{% url 'product-update' product.id %}" class="btn btn-secondary">Edit</a>
-                <a href="{% url 'product-delete' product.id %}" class="btn btn-danger">Delete</a>
+            {% if request.user.is_authenticated %}
+            <div class="container">
+                
+                <a href="{% url 'product-details' product.id %}" class="btn btn-primary">Details</a>
+                {% if request.user.is_staff %}
+                    <a href="{% url 'product-update' product.id %}" class="btn btn-secondary">Edit</a>
+                    <a href="{% url 'product-delete' product.id %}" class="btn btn-danger">Delete</a>
+                {% endif %}
+            </div>
             {% endif %}
         </div>
-        {% endif %}
     {% endfor %}
     </div>
 </section>
