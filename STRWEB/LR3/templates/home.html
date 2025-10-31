@@ -34,21 +34,6 @@
     </div>
 </div>
 
-<div class="preloader">
-    <div class="bar"></div>
-    <div class="bar"></div>
-    <div class="bar"></div>
-    <div class="bar"></div>
-    <div class="bar"></div>
-    <div class="bar"></div>
-    <div class="bar"></div>
-    <div class="bar"></div>
-    <div class="bar"></div>
-    <div class="bar"></div>
-    <div class="bar"></div>
-    <div class="bar"></div>
-</div>
-
 <section class="latest-news">
     {% if latestNews %}
         <h2>Latest news</h2>
@@ -73,38 +58,24 @@
 
 <section class="products">
     <h2>Our Products</h2>
-    <div class="product-list">
-    {% for product in products %}
-    <div class="card-wrapper">
-        <a class="product-card" href="{% url 'product-details' product.id %}">
-
-            {% if product.photo %}
-                <img class="product-image" src="{{ product.photo.url }}">
-            {% else %}
-            <div class="no-image">Photo is missing</div>
-            {% endif %}
-
-            <h3 class="product-title">{{ product.title }}</h3>
-
-            <p class="product-description">{{ product.description }}</p>
-            <p class="product-price">Price: {{ product.price }}</p>
-        </a>
+    <div class="product-list" id="product-list">
+    
     </div>
-    {% endfor %}
+
+    <div class="pagination">
+      <button id="prev-page" class="btn">Previous</button>
+      <div id="page-numbers"></div>
+      <button id="next-page" class="btn">Next</button>
+    </div>
+
+    <div class="pageSize">
+        <form id="pageSizeForm">
+            <label htmlFor="pageSize">Page size:</label>
+            <input id="pageSize" type="number" min=3 max=10>
+            <button type="submit">Set</button>
+        </form>
     </div>
 </section>
-
-<!-- <section class="banners">
-    <div class="banner-list">
-    {% for banner in banners %}
-        <div class="banner-item">
-            <img class="banner-image" src="{{ banner.image.url }}" alt="Banner">
-        </div>
-    {% endfor %}
-    </div>
-
-    <div id="bannerSlider"></div>
-</section> -->
 
 <section class="bannerSlider" auto="True" pags="True" navs="True" stopMouseHover="True">
 <div class="banner-container">
@@ -128,13 +99,14 @@
     </div>
 
     <div class="pagination" id="pagination"></div>
-    <!-- <form id="interval-form" class="interval-form">
-        <label for="rotation-interval">Interval (seconds)</label>
-        <input type="number" 
-            id="rotation-interval" name="rotation-interval"
-            value="3" min="1" max="10"/>
-        <button type="button" onclick="slider.updateInterval()">Change</button>
-    </form> -->
+
+    {% if request.user.is_authenticated and request.user.is_staff %}
+    <form id="interval-form" class="interval-form">
+        <label for="interval-input">Interval (seconds)</label>
+        <input type="number" id="interval-input" name="interval-input" value="3" min="3" max="15"/>
+        <button type="button" onclick="bannerSlider.setIntervalFromForm()">Set</button>
+    </form>
+    {% endif %}
 </div>
 </section>
 {% endblock %}
@@ -147,4 +119,6 @@
 {% block extra_js %}
 {{ block.super }}
 <script src="{% static 'js/banner_Slider.js' %}"></script>
+<script src="{% static 'js/product_list.js' %}"></script>
+<script src="{% static 'js/battery_api.js' %}"></script>
 {% endblock %}

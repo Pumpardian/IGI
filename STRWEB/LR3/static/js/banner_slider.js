@@ -177,10 +177,6 @@ class BannerSlider
 
     showBanner(index)
     {
-        //Update display style for each banner,
-        //so the banner with index will display,
-        //while the others wont
-
         this.banners.forEach((banner, i) =>
         {
             banner.style.display = i === index ? "block" : "none";
@@ -234,6 +230,21 @@ class BannerSlider
         {
             dot.classList.toggle("active", i === this.currentBanner);
         });
+    }
+
+    setIntervalFromForm()
+    {
+        const intervalInput = document.getElementById("interval-input");
+        const newInterval = parseInt(intervalInput.value);
+        if (newInterval >= 3)
+        {
+            this.delay = newInterval;
+            this.startAutoSliding();
+        }
+        else
+        {
+            alert("Invalid interval");
+        }
     }
 }
 

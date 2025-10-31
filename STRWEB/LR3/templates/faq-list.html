@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}Pet Shop: FAQ{% endblock title %}
 {% block header %}FAQ{% endblock header %}
 {% block content %}
@@ -7,6 +8,13 @@
     <a href="{% url 'faq-create'%}" class="btn btn-primary">Add</a>
     <br/>
 {% endif %}
+
+<section id="top">
+    <img src="{% static 'images/bg.jpg' %}" id="bg" />
+    <img src="{% static 'images/parrot1.png' %}" id="leftParrot" />
+    <h2 id="text">FAQ</h2>
+    <img src="{% static 'images/parrot2.png' %}" id="rightParrot" />
+</section>
 
 <section class="section">
     <div class="faq-container"></div>
@@ -31,4 +39,14 @@
     {% endfor %}
     </div>
 </section>
+{% endblock %}
+
+{% block extra_css %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/scrollAnimation.css' %}"></link>
+{% endblock %}
+
+{% block extra_js %}
+{{ block.super }}
+<script src="{% static 'js/scroll_animation.js' %}"></script>
 {% endblock %}

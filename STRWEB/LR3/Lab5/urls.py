@@ -97,7 +97,12 @@ urlpatterns = [
                   path('currency-rates/', views.currency_rates_view, name='currency-rates'),
                   path('statistics/', views.StatisticsView.as_view(), name='statistics'),
 
+                  path('products/json', views.product_list_json, name='product-list-json'),
+                  path('contacts/json', views.contact_list_json, name='contact-list-json'),
+                  path('contacts/create-from-json', views.create_contact, name='contact-from-json'),
+
                   path('task8a/', views.task8a, name='task8a'),
                   path('task8b/', views.task8b, name='task8b'),
-                  path('chart/', views.chart, name='chart')
+                  path('chart/', views.chart, name='chart'),
+                  path('employee-list/', views.employee_list, name='employee-list')
               ] + static(views.settings.MEDIA_URL, document_root=views.settings.MEDIA_ROOT)

@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}PetShop: contacts{% endblock %}
+{% block header %}Contact List{% endblock header %}
+{% block content %}
+<div class="contact-list-section">
+  <button id="add-contact-button" class="btn">Add contact</button>
+  <div id="add-contact-modal" class="modal">
+    <div class="modal-content">
+      <span class="modal-close" id="modal-close">&times;</span>
+      <h3>Add new contact</h3>
+      <form id="add-contact-form" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" required />
+        </div>
+        <div class="form-group">
+          <label for="photo-url">Photo url</label>
+          <input type="url" id="photo-url" name="photo-url" />
+          <small class="input-error" id="photo-url-error"></small>
+        </div>
+        <div class="form-group">
+          <label for="description">Description</label>
+          <input type="text" id="description" name="description" required />
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Phone</label>
+          <input type="text" id="phone" name="phone" required />
+          <small class="input-error" id="phone-error"></small>
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required />
+        </div>
+        <button type="submit" class="btn" id="submit-contact-button" disabled>Add</button>
+        <div id="form-result" class="form-result"></div>
+      </form>
+    </div>
+  </div>
+
+  <div class="filter-section">
+    <input type="text" id="filter-input" placeholder="Enter something to filter" />
+    <button id="filter-button" class="btn">Search</button>
+  </div>
+
+  <table id="contact-table">
+    <thead>
+      <tr>
+        <th data-column="name">
+          Name
+          <span class="sort-direction"></span>
+        </th>
+        <th data-column="photo-url">
+          Photo
+          <span class="sort-direction"></span>
+        </th>
+        <th data-column="description">
+          Description
+          <span class="sort-direction"></span>
+        </th>
+        <th data-column="phone">
+          Phone
+          <span class="sort-direction"></span>
+        </th>
+        <th data-column="email">
+          Email
+          <span class="sort-direction"></span>
+        </th>
+        <th>Select</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+
+  <div class="pagination">
+    <button id="prev-page" class="btn">&lt;</button>
+    <span id="current-page">1</span>
+    /
+    <span id="total-pages">1</span>
+    <button id="next-page" class="btn">&gt;</button>
+  </div>
+
+  <div id="contact-details" class="contact-details">
+  </div>
+
+  <button id="award-button" class="btn">Award</button>
+
+  <div id="award-text" class="award-text">
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/employees.css' %}"></link>
+{% endblock %}
+
+{% block extra_js %}
+{{ block.super }}
+<script src="{% static 'js/employee_list.js' %}"></script>
+{% endblock %}

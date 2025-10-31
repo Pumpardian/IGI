@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}Pet Shop: Policy{% endblock title %}
 {% block header %}Our Policy{% endblock header %}
 {% block content %}
@@ -21,4 +22,9 @@
         <p>If you have any questions or comments regarding this Privacy Policy, please contact us by email: info@petshop.com.</p>
     </div>
 </section>
+{% endblock %}
+
+{% block extra_js %}
+{{ block.super }}
+<script src="{% static 'js/scroll_animation.js' %}"></script>
 {% endblock %}

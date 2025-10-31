@@ -1,20 +1,38 @@
 @import url(messages.css);
+@import url(clearStorage.css);
 
 :root {
-    --primary-color: skyblue;
-    --secondary-color: lightseagreen;
-    --background-color: lightslategray;
-    --main-background-color: #5e5e6e;
-    --nav-bg-color: skyblue;
     --font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
-    --text-color: aliceblue;
-    --muted-text-color: gray;
-    --link-color: lightblue;
-    --link-hover-color: aquamarine;
-    --nav-link-color: yellowgreen;
-    --nav-link-hover-color: greenyellow;
     --font-size: medium;
     --transition-speed: 0.3s;
+}
+
+[theme="light"] {
+    --primary-color: #6ab0fe;
+    --secondary-color: #26c6da;
+    --background-color: #f8f9fa;
+    --main-background-color: #ffffff;
+    --nav-bg-color: #5b86b7;
+    --text-color: #2c3e50;
+    --muted-text-color: #7f8c8d;
+    --link-color: #3498db;
+    --link-hover-color: #2980b9;
+    --nav-link-color: #ffffff;
+    --nav-link-hover-color: #ecf0f1;
+}
+
+[theme="dark"] {
+    --primary-color: #7ec8e3;
+    --secondary-color: #3dc6c1;
+    --background-color: #2d3748;
+    --main-background-color: #4a5568;
+    --nav-bg-color: #2c5282;
+    --text-color: #e2e8f0;
+    --muted-text-color: #a0aec0;
+    --link-color: #90cdf4;
+    --link-hover-color: #63b3ed;
+    --nav-link-color: #aaf3c6;
+    --nav-link-hover-color: #9ae6b4;
 }
 
 * {
@@ -217,23 +235,39 @@ nav {
     transform: rotate(-45deg) translate(5px, -5px);
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1280px) {
     .logo {
       width: 50px;
       height: 50px;
     }
   
     .nav-button {
-      padding: 6px 10px;
-      font-size: 0.85rem;
+      padding: 4px 8px;
+      font-size: 0.8rem;
     }
   
     .nav-button i {
-      font-size: 0.8rem;
+      font-size: 0.75rem;
     }
 }
 
-@media screen and (max-width: 768px) {
+@media (max-width: 1024px) {
+    .logo {
+      width: 40px;
+      height: 40px;
+    }
+  
+    .nav-button {
+      padding: 2px 4px;
+      font-size: 0.65rem;
+    }
+  
+    .nav-button i {
+      font-size: 0.65rem;
+    }
+}
+
+@media (max-width: 768px) {
     .nav-menu {
       position: fixed;
       top: 0;
@@ -274,6 +308,50 @@ nav {
         margin: 4px 0;
         transition: all 0.3s ease-in-out;
     }
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.pagination .btn {
+  padding: 10px 20px;
+  background-color: var(--primary-color);
+  color: #fff;
+  border: none;
+  border-radius: 1em;
+  cursor: pointer;
+  transition: background-color var(--transition-speed), transform var(--transition-speed);
+}
+
+.pagination .btn:hover:not(:disabled) {
+  background-color: var(--link-hover-color);
+  transform: translateY(-2px);
+}
+
+.pagination .btn:disabled {
+  background-color: gray;
+  cursor: not-allowed;
+}
+
+.pagination div#page-numbers > .btn {
+  border-radius: 50px;
+}
+
+div.pageSize {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+#pageSize {
+    background-color: var(--background-color);
 }
 
 ::selection {
@@ -521,6 +599,11 @@ img.partner-logo {
 
 .products {
     margin: 40px 0;
+    border: 2px solid black;
+    border-radius: 4em 0.5em 4em 0.5em;
+    background-color: var(--secondary-color);
+    padding: 1.5em;
+    box-shadow: 1px 3px 10px #1e1e1e;
   }
   
 .products h2 {
@@ -530,7 +613,7 @@ img.partner-logo {
 
 .product-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: 20px;
 }
 
@@ -1308,4 +1391,8 @@ img.partner-logo {
     .certificate-signature img {
     width: 150px;
     }
+}
+
+.element-remover {
+    background-color: lightcoral;
 }

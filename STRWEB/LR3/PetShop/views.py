@@ -1,4 +1,6 @@
 from decimal import Decimal
+import json
+import os
 import urllib.parse
 from django.db.models.functions import TruncDay
 from django.urls import reverse_lazy
@@ -6,13 +8,14 @@ from django.views.generic import ListView, DetailView, TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
+from django.core.files.base import ContentFile
 from .models import *
 from django.db.models import Count, Sum, Q
 from .forms import *
 import requests
 from django.shortcuts import render, get_object_or_404, redirect
 import pandas as pd
-from django.http import HttpResponseForbidden
+from django.http import HttpResponseForbidden, JsonResponse
 from functools import wraps
 import logging
 from matplotlib import pyplot as plt
@@ -41,6 +44,52 @@ def task8b(request):
 
 def chart(request):
     return render(request, 'chart.html')
+
+
+def employee_list(request):
+    return render(request, 'employee-list.html')
+
+
+def product_list_json(request):
+    products = Product.objects.all().values()
+    product_list = list(products)
+    return JsonResponse(product_list, safe=False)
+
+
+def contact_list_json(request):
+    contacts = Contact.objects.all().values()
+    contact_list = list(contacts)
+    return JsonResponse(contact_list, safe=False)
+
+
+def create_contact(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+
+            contact = Contact(name=data.get('name'),
+                              email=data.get('email'),
+                              phone=data.get('phone'),
+                              description=data.get('description'))
+            
+            image_url = data.get('photo')
+            if image_url:
+                response = requests.get(image_url, stream=True)
+                if response.status_code == 200:
+                    parsed_url = urllib.parse.urlparse(image_url)
+                    filename = os.path.basename(parsed_url.path)
+
+                    if not os.path.splitext(filename)[1]:
+                        filename += ".jpg"
+        
+                    contact.photo.save(filename, ContentFile(response.content), save=False)
+
+                    contact.save()
+
+                    return JsonResponse(contact, status=201)
+
+        except Exception as e:
+            return JsonResponse({"Error": str(e)}, status=400)
 
 
 def payment_success(request):

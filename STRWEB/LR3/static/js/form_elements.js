@@ -17,6 +17,20 @@ document.body.appendChild(toggleLabel);
 document.body.appendChild(toggleInput);
 
 const form = document.createElement("form");
+form.addEventListener("click", (event) =>
+{
+  if (event.target.classList.contains('element-remover'))
+  {
+    const parentDiv = event.target.closest('div');
+
+    const allDivs = Array.from(form.querySelectorAll('div'));
+    const divIndex = allDivs.indexOf(parentDiv);
+
+    formElements.splice(divIndex, 1);
+    parentDiv.remove();
+    localStorage.setItem("formElements", formElements.join("@,@"));
+  }
+});
 
 //Div for creation
 const panel = document.createElement("div");
@@ -111,7 +125,14 @@ createButton.type = "button";
 createButton.textContent = "Create form element";
 createButton.addEventListener("click", function()
 {
-  let newFormElement = document.createElement("input");
+  const div = document.createElement("div");
+
+  const deleteElementButton = document.createElement("button");
+  deleteElementButton.type = "button";
+  deleteElementButton.textContent = "🗑️";
+  deleteElementButton.classList.add("element-remover");
+
+  const newFormElement = document.createElement("input");
   newFormElement.setAttribute("type", "text");
   newFormElement.setAttribute("name", nameInput.value);
   newFormElement.setAttribute("placeholder", placeholderInput.value);
@@ -126,11 +147,10 @@ createButton.addEventListener("click", function()
     newFormElement.setAttribute("readonly", "true");
   }
 
-  form.appendChild(newFormElement);
+  div.appendChild(newFormElement);
+  div.appendChild(deleteElementButton);
+  form.appendChild(div);
   formElements.push(newFormElement.outerHTML);
-
-  alert(newFormElement.outerHTML);
-  alert(newFormElement.innerHTML);
   localStorage.setItem("formElements", formElements.join("@,@"));
 });
 panel.appendChild(createButton);
@@ -139,14 +159,22 @@ panel.appendChild(createButton);
 document.body.appendChild(panel);
 document.body.appendChild(form);
 
-alert(localStorage.getItem("formElements"));
 if (localStorage.getItem("formElements"))
 {
   localStorage.getItem("formElements").split("@,@").forEach((element) =>
   {
-    elementNode = document.createElement("input");
-    form.appendChild(elementNode);
+    const div = document.createElement("div");
+
+    const deleteElementButton = document.createElement("button");
+    deleteElementButton.type = "button";
+    deleteElementButton.textContent = "🗑️";
+    deleteElementButton.classList.add("element-remover");
+
+    const elementNode = document.createElement("input");
+    div.appendChild(elementNode);
     elementNode.outerHTML = element;
+    div.appendChild(deleteElementButton);
+    form.appendChild(div);
     formElements.push(element);
   });
 

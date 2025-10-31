@@ -17,6 +17,7 @@ document.addEventListener("DOMContentLoaded", function ()
     {
         darkTheme = !darkTheme;
         localStorage.setItem("darkTheme", darkTheme);
+        document.documentElement.setAttribute("theme", darkTheme ? "dark" : "light");
         themeUnicodeChar();
     });
 
@@ -31,5 +32,6 @@ document.addEventListener("DOMContentLoaded", function ()
         darkTheme = darkTheme === "true";
     }
     
+    document.documentElement.setAttribute("theme", darkTheme ? "dark" : "light");
     themeUnicodeChar();
 });
