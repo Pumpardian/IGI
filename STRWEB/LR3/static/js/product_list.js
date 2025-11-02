@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function()
 {
-    const productListJsonUrl = '/products/json';
+    const productListJsonUrl = '/product-list/json';
     const isAuthenticated = window.isAuthenticated;
     const isStaff = window.isStaff;
 
@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function()
 
     let currentPage = 1;
     let pageCount = 1;
-    const itemsPerPage = localStorage.getItem("pageSize") ?? (parseInt(localStorage.getItem("pageSize")) || 3);
+    const itemsPerPage = +(localStorage.getItem("pageSize") ?? (parseInt(localStorage.getItem("pageSize")) || 3));
 
     const pageSizeForm = document.getElementById("pageSizeForm");
     pageSizeForm.addEventListener("submit", () =>
@@ -93,7 +93,7 @@ document.addEventListener("DOMContentLoaded", function()
 
             const productCard = document.createElement("a");
             productCard.classList.add("product-card");
-            productCard.href = `/product-details/${product.id}`;
+            productCard.href = `/products/${product.id}`;
 
             let photo;
             if (product.photo)
@@ -137,7 +137,7 @@ document.addEventListener("DOMContentLoaded", function()
                 container.classList.add("container");
 
                 const detailsButton = document.createElement("a");
-                detailsButton.href = `/product-details/${product.id}`;
+                detailsButton.href = `/products/${product.id}`;
                 detailsButton.classList.add("btn", "btn-primary");
                 detailsButton.textContent = "Details";
 
@@ -146,12 +146,12 @@ document.addEventListener("DOMContentLoaded", function()
                 if (isStaff)
                 {
                     const editButton = document.createElement("a");
-                    editButton.href = `/product-update/${product.id}`;
+                    editButton.href = `/products/${product.id}/edit`;
                     editButton.classList.add("btn", "btn-secondary");
                     editButton.textContent = "Edit";
 
                     const deleteButton = document.createElement("a");
-                    deleteButton.href = `/product-delete/${product.id}`;
+                    deleteButton.href = `/products/${product.id}/delete`;
                     deleteButton.classList.add("btn", "btn-danger");
                     deleteButton.textContent = "Delete";
 
@@ -159,7 +159,7 @@ document.addEventListener("DOMContentLoaded", function()
                     container.appendChild(deleteButton);
                 }
 
-                cardWrapper.appendChild(container);
+                productCard.appendChild(container);
             }
 
             productContainer.appendChild(cardWrapper);

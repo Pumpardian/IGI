@@ -97,9 +97,9 @@ urlpatterns = [
                   path('currency-rates/', views.currency_rates_view, name='currency-rates'),
                   path('statistics/', views.StatisticsView.as_view(), name='statistics'),
 
-                  path('products/json', views.product_list_json, name='product-list-json'),
-                  path('contacts/json', views.contact_list_json, name='contact-list-json'),
-                  path('contacts/create-from-json', views.create_contact, name='contact-from-json'),
+                  path('product-list/json', views.product_list_json, name='product-list-json'),
+                  path('contact-list/json', views.contact_list_json, name='contact-list-json'),
+                  path('contact-list/create-from-json', views.create_contact, name='contact-from-json'),
 
                   path('task8a/', views.task8a, name='task8a'),
                   path('task8b/', views.task8b, name='task8b'),

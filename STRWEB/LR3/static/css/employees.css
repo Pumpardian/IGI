@@ -143,10 +143,10 @@
 }
 
 #contact-table img {
-  width: 50px;
-  height: 50px;
+  width: 128px;
+  height: 128px;
   object-fit: cover;
-  border-radius: 50%;
+  border-radius: 33%;
 }
 
 .pagination {

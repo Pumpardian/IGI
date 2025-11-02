@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function()
 {
-    const contactListJsonUrl = '/contacts/json';
-    const createContactJson = '/contacts/create-from-json';
+    const contactListJsonUrl = '/contact-list/json';
+    const createContactJson = '/contact-list/create-from-json';
     let contacts = [];
     let filteredContacts = [];
     let selectedContacts = [];

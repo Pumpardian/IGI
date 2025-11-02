@@ -6,7 +6,7 @@
     box-shadow: 0 0 20px rgba(255, 0, 128, 0.7);
     position: relative;
     z-index: 2;
-    right: 50px;
+    right: 15px;
 }
 
 .pulse {

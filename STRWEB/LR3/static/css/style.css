@@ -45,18 +45,22 @@
     width: 100%;
     margin: 0 auto;
     padding: 20px 0;
+    z-index: 2;
 }
 
 header {
     background: var(--primary-color);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
     position: fixed;
+    height: 100px;
     top: 0;
     width: 100%;
     z-index: 999;
 }
 
 footer {
+    margin-top: 100px;
+    position: relative;
     background: var(--primary-color);
     width: 100%;
 }
@@ -78,6 +82,8 @@ body {
 }
 
 main {
+    position: relative;
+    top: 100px;
     padding-left: 7.5%;
     padding-right: 7.5%;
 }
@@ -613,12 +619,12 @@ img.partner-logo {
 
 .product-list {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 0.33fr));
     gap: 20px;
 }
 
 .card-wrapper {
-    min-height: 45ch;
+    min-height: 60ch;
     position: relative;
     perspective: 500em;
     transform-style: preserve-3d;
