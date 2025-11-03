@@ -10,7 +10,10 @@ async function dislpayBatteryStatus()
 
     const batteryManager = await navigator.getBattery();
     const message = document.createElement("pre");
-    message.textContent = `is charging: ${batteryManager.charging}\ncharging time (sec): ${batteryManager.chargingTime}\ndischarging time (sec): ${batteryManager.dischargingTime}\ncharge level: ${batteryManager.level}`;
+    message.textContent = `is charging: ${batteryManager.charging}
+                            charging time (sec): ${batteryManager.chargingTime}
+                            discharging time (sec): ${batteryManager.dischargingTime}
+                            charge level: ${batteryManager.level}`;
     
     div.appendChild(message);
     div.appendChild(dismiss);

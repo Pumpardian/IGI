@@ -86,10 +86,19 @@ def create_contact(request):
 
                     contact.save()
 
-                    return JsonResponse(contact, status=201)
+                return JsonResponse({"id": contact.id,
+                                        "name": contact.name,
+                                        "email": contact.email,
+                                        "phone": contact.phone,
+                                        "description": contact.description,
+                                        "photo": contact.photo.url if contact.photo else None
+                                    }, status=201)
 
         except Exception as e:
-            return JsonResponse({"Error": str(e)}, status=400)
+            contact.photo.url = 'http://127.0.0.1:8000/media/media/contacts/MikaelaMyers_nTJK3yt.jpg'
+            contact.save()
+            print(f"Error creating contact: {str(e)}")
+            return JsonResponse({"Error": "Failed to create contact"}, status=400)
 
 
 def payment_success(request):

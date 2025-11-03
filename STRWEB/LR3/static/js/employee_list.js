@@ -131,7 +131,7 @@ document.addEventListener("DOMContentLoaded", function()
     {
         event.preventDefault();
         
-        let contact;
+        let contact = {};
         contact.name = nameInput.value.trim();
         contact.description = descriptionInput.value.trim();
         contact.photo = photoUrlInput.value.trim();
@@ -139,7 +139,8 @@ document.addEventListener("DOMContentLoaded", function()
         contact.email = emailInput.value.trim();
 
         try
-        {
+        {   
+            alert(JSON.stringify(contact));
             const response = await fetch(createContactJson,
                 {
                     method: "POST",
@@ -150,11 +151,10 @@ document.addEventListener("DOMContentLoaded", function()
                     },
                     body: JSON.stringify(contact)
                 });
+
             
             if (response.ok)
             {
-                const newContact = await response.json();
-                contacts.push(newContact);
                 loadContactList();
                 formResult.textContent = "Contact added successfuly";
                 formResult.style.color = "green";
@@ -189,7 +189,7 @@ document.addEventListener("DOMContentLoaded", function()
     photoUrlInput.addEventListener("input", () =>
     {
         const photoUrl = photoUrlInput.value;
-        const regexPattern = /^(http(s)?:\/\/).+\.(html|php)$/i;
+        const regexPattern = /^(http(s)?:\/\/).+\.(jpg|png)$/i;
 
         if (regexPattern.test(photoUrl))
         {
@@ -425,9 +425,9 @@ document.addEventListener("DOMContentLoaded", function()
 
     function validateAddition()
     {
-        isValidPhotoUrl = photoUrlError.classList.contains("active")
+        isValidPhotoUrl = !photoUrlError.classList.contains("active")
                         && photoUrlInput.value.trim() !== "";
-        isValidPhone = phoneError.classList.contains("active")
+        isValidPhone = !phoneError.classList.contains("active")
                         && phoneInput.value.trim() !== "";
         isNameValid = nameInput.value.trim() !== "";
         isDescriptionValid = descriptionInput.value.trim() !== "";
@@ -440,12 +440,12 @@ document.addEventListener("DOMContentLoaded", function()
              || !isEmailValid)
         {
             submitContactButton.disabled = true;
-            submitEmployeeBtn.classList.remove("inactive-btn");
+            submitContactButton.classList.add("inactive-btn");
         }
         else
         {
             submitContactButton.disabled = false;
-            submitEmployeeBtn.classList.add("inactive-btn");
+            submitContactButton.classList.remove("inactive-btn");
         }
     }
 
