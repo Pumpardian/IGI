@@ -1,17 +1,22 @@
+const passport = require("passport");
+const authToken = require("../middleware/authMiddleware.js");
+
 module.exports = app => {
     const users = require("../controllers/userController.js");
 
     var router = require("express").Router();
 
-    router.post("/", users.create);
+    router.post("/register", users.create);
 
-    router.get("/:id", users.findOne);
+    router.post("/login", users.login);
 
-    router.put("/:id", users.update);
+    router.get("/:id", authToken, users.findOne);
 
-    router.delete("/:id", users.delete);
+    //router.put("/:id",  users.update);
+
+    router.delete("/:id", authToken, users.delete);
 
     app.use('/api/users', router);
-}
 
-//TODO split to user and auth endpoints
+    app.get("/google", passport.authenticate("google", { scope: [ "profile", "email" ] }));
+}

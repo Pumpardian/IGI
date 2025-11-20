@@ -5,6 +5,7 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const jwt = require("jsonwebtoken");
 const authenticateToken = require("./middleware/authMiddleware");
+const { session } = require("passport");
 
 dotenv.config();
 
@@ -13,19 +14,28 @@ require("./config/auth.config.js")(passport);
 const app = express();
 
 var corsOptions = {
-    origin: "http://localhost:8000",
+    origin: "http://localhost:3000",
     credentials: true
 }
 
 app.use(cors(corsOptions));
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 8000;
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (request, response) => {
     response.json({ message: "Hello World!" });
 });
+
+app.use(
+    session({
+        secret: process.env.SESSION_SECRET || "backup_session_secret",
+        resave: false,
+        saveUninitialized: false,
+        cookie: { secure: false }
+    })
+);
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -49,8 +59,6 @@ app.get(
         res.redirect(`http://localhost:3000?token=${token}`);
     },
 );
-//TODO reg/login endpoints
-
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}.`);
