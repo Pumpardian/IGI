@@ -1,23 +1,46 @@
-import logo from './logo.svg';
+import { Route, Routes, Link } from "react-router-dom";
 import './App.css';
+
+import ProductList from "./components/ProductList.js";
+import AquisitionList from "./components/AquisitionList.js";
+import SupplierList from "./components/SupplierList.js";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
+    <div>
+      <nav className="navbar">
+        <a href="/" className="companyName">
+          PetShop
         </a>
-      </header>
+
+        <ul className="navbar-nav">
+          <li className="nav-item">
+            <Link to={"/products"} className="nav-link">
+              Products
+            </Link>
+          </li>
+
+          <li className="nav-item">
+            <Link to={"/suppliers"} className="nav-link">
+              Suppliers
+            </Link>
+          </li>
+
+          <li className="nav-item">
+            <Link to={"/aquisitions"} className="nav-link">
+              Aquisitions
+            </Link>
+          </li>
+        </ul>
+      </nav>
+
+      <div>
+        <Routes>
+          <Route path="/products" element={<ProductList/>} />
+          <Route path="/suppliers" element={<SupplierList/>} />
+          <Route path="/aquisitions" element={<AquisitionList/>} />
+        </Routes>
+      </div>
     </div>
   );
 }
