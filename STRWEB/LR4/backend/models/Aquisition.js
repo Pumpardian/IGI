@@ -1,12 +1,14 @@
+const { SchemaTypes } = require("mongoose");
+
 module.exports = mongoose => {
     let schema = mongoose.Schema(
         {
             productID: { 
-                type: String,
+                type: SchemaTypes.ObjectId,
                 required: true
             },
             supplierID: { 
-                type: String,
+                type: SchemaTypes.ObjectId,
                 required: true
             },
             price: { 

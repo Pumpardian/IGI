@@ -47,7 +47,7 @@ require("./endpoints/aquisitionEndpoints.js")(app);
 require("./endpoints/productEndpoints.js")(app);
 
 app.get(
-    "/auth/google/callback",
+    "/google/callback",
     passport.authenticate("google", { failureRedirect: "/login" }),
     (req, res) => {
         const token = jwt.sign(
