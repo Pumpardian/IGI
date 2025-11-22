@@ -20,6 +20,7 @@ exports.create = async (request, response) => {
     {
         user = new User({
             username: request.body.username,
+            email: request.body.email,
             googleID: request.body.googleID ?? null
         });
     }
@@ -27,6 +28,7 @@ exports.create = async (request, response) => {
     {
         user = new User({
             username: request.body.username,
+            email: request.body.email,
             password: await bcrypt.hash(request.body.password, 10)
         });
     }
@@ -36,9 +38,16 @@ exports.create = async (request, response) => {
             response.send(data);
         })
         .catch(err => {
-            response.status(500).send({
-                message: err.message ?? "Failed to create user"
-            });
+            if (err.code === 11000) {
+                response.status(400).send({
+                    message: err.message ?? "Failed to create user"
+                });
+            }
+            else {
+                response.status(500).send({
+                    message: err.message ?? "Failed to create user"
+                });
+            }
         });
 };
 

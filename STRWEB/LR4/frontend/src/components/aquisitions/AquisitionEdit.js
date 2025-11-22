@@ -66,7 +66,7 @@ export default function AquisitionEdit() {
     };
 
     return (
-        <div className="container">
+        <>
             <h1>Edit Aquisition</h1>
 
             <form onSubmit={handleEdit}>
@@ -109,6 +109,7 @@ export default function AquisitionEdit() {
                     required
                     type="number"
                     step="any"
+                    min="0"
                     placeholder="price"
                     value={price}
                     onChange={(e) => updatePrice(e.target.value)}
@@ -120,6 +121,7 @@ export default function AquisitionEdit() {
                 <input 
                     required
                     type="number"
+                    min="1"
                     placeholder="count"
                     value={count}
                     onChange={(e) => updateCount(e.target.value)}
@@ -132,11 +134,11 @@ export default function AquisitionEdit() {
                     required
                     type="date"
                     placeholder="date"
-                    value={date}
+                    value={date ? new Date(date).toISOString().split('T')[0] : ''}
                     onChange={(e) => updateDate(e.target.value)}
                 />
                 <button type="submit">Edit</button>
             </form>
-        </div>
+        </>
     );
 }

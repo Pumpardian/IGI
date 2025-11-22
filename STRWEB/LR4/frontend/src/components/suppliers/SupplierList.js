@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { AuthContext } from "../Auth";
 import Axios from "../../axios";
 
@@ -100,7 +100,7 @@ export default class SupplierList extends Component {
         return (
             <AuthContext.Consumer>
                 {(user) => (
-                    <div className="container">
+                    <>
                         <h1>Suppliers</h1>
 
                         <div className="search">
@@ -110,87 +110,87 @@ export default class SupplierList extends Component {
                                 value={this.state.searchQuery}
                                 onChange={(e) => this.setState({ searchQuery: e.target.value })}
                             />
-                        </div>
 
-                        {user && <Link to="/suppliers/create">Add</Link>}
+                            {user && <Link to="/suppliers/create" className="btn">Add</Link>}
+                        </div>
                         
                         {filteredSuppliers.length === 0 ? (
                             <p>No suppliers</p>
                         ) : (
-                            <table className="table">
-                                <thead>
-                                    <tr>
-                                        <th onClick={() => this.handleSort("id")}>
-                                            ID
-                                            {this.state.sortColumn === "id" && (
-                                                <span className="sort-icon">
-                                                    {this.state.sortDirection === "ascending" ? "▲" : "▼"}
-                                                </span>
-                                            )}
-                                        </th>
-                                        <th onClick={() => this.handleSort("name")}>
-                                            Name
-                                            {this.state.sortColumn === "name" && (
-                                                <span className="sort-icon">
-                                                    {this.state.sortDirection === "ascending" ? "▲" : "▼"}
-                                                </span>
-                                            )}
-                                        </th>
-                                        <th onClick={() => this.handleSort("phone")}>
-                                            Phone
-                                            {this.state.sortColumn === "phone" && (
-                                                <span className="sort-icon">
-                                                    {this.state.sortDirection === "ascending" ? "▲" : "▼"}
-                                                </span>
-                                            )}
-                                        </th>
-                                        <th onClick={() => this.handleSort("address")}>
-                                            Address
-                                            {this.state.sortColumn === "address" && (
-                                                <span className="sort-icon">
-                                                    {this.state.sortDirection === "ascending" ? "▲" : "▼"}
-                                                </span>
-                                            )}
-                                        </th>
-                                        <th>Created</th>
-                                        <th>Updated</th>
-                                        {user && <th>Actions</th>}
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {sortedSuppliers.map((supplier) => (
-                                        <tr key={supplier.id}>
-                                            <td>{supplier.id}</td>
-                                            <td>{supplier.name}</td>
-                                            <td>{supplier.phone}</td>
-                                            <td>{supplier.address}</td>
-                                            <td title={this.formatTime(supplier.created_at, { timeZone: "UTC" })}>
-                                                {this.formatTime(supplier.created_at)}
-                                            </td>
-                                            <td title={this.formatTime(supplier.updated_at, { timeZone: "UTC" })}>
-                                                {this.formatTime(supplier.updated_at)}
-                                            </td>
-                                            {user && (
-                                                <td>
-                                                    <Link to={`/suppliers/${supplier.id}/edit`} className="btn btn-secondary">
-                                                        Edit
-                                                    </Link>
-                                                    <button 
-                                                        onClick={() => this.handleDelete(supplier.id)} 
-                                                        className="btn btn-danger"
-                                                    >
-                                                        Delete
-                                                    </button>
-                                                </td>
-                                            )}
+                            <div className="table-container">
+                                <table className="table">
+                                    <thead>
+                                        <tr>
+                                            <th onClick={() => this.handleSort("id")}>
+                                                ID
+                                                {this.state.sortColumn === "id" && (
+                                                    <span className="sort-icon">
+                                                        {this.state.sortDirection === "ascending" ? "▲" : "▼"}
+                                                    </span>
+                                                )}
+                                            </th>
+                                            <th onClick={() => this.handleSort("name")}>
+                                                Name
+                                                {this.state.sortColumn === "name" && (
+                                                    <span className="sort-icon">
+                                                        {this.state.sortDirection === "ascending" ? "▲" : "▼"}
+                                                    </span>
+                                                )}
+                                            </th>
+                                            <th onClick={() => this.handleSort("phone")}>
+                                                Phone
+                                                {this.state.sortColumn === "phone" && (
+                                                    <span className="sort-icon">
+                                                        {this.state.sortDirection === "ascending" ? "▲" : "▼"}
+                                                    </span>
+                                                )}
+                                            </th>
+                                            <th onClick={() => this.handleSort("address")}>
+                                                Address
+                                                {this.state.sortColumn === "address" && (
+                                                    <span className="sort-icon">
+                                                        {this.state.sortDirection === "ascending" ? "▲" : "▼"}
+                                                    </span>
+                                                )}
+                                            </th>
+                                            <th>Created</th>
+                                            <th>Updated</th>
+                                            {user && <th>Actions</th>}
                                         </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        {sortedSuppliers.map((supplier) => (
+                                            <tr key={supplier.id}>
+                                                <td>{supplier.id}</td>
+                                                <td>{supplier.name}</td>
+                                                <td>{supplier.phone}</td>
+                                                <td>{supplier.address}</td>
+                                                <td title={this.formatTime(supplier.createdAt, { timeZone: "UTC" })}>
+                                                    {this.formatTime(supplier.createdAt)}
+                                                </td>
+                                                <td title={this.formatTime(supplier.updatedAt, { timeZone: "UTC" })}>
+                                                    {this.formatTime(supplier.updatedAt)}
+                                                </td>
+                                                {user && (
+                                                    <td>
+                                                        <Link to={`/suppliers/${supplier.id}/edit`} className="btn btn-secondary">
+                                                            Edit
+                                                        </Link>
+                                                        <button 
+                                                            onClick={() => this.handleDelete(supplier.id)} 
+                                                            className="btn btn-danger"
+                                                        >
+                                                            Delete
+                                                        </button>
+                                                    </td>
+                                                )}
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
                         )}
-
-                        <Outlet />
-                    </div>
+                    </>
                 )}
             </AuthContext.Consumer>
         );

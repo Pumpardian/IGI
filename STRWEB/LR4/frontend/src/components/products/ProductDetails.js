@@ -28,7 +28,7 @@ export default function ProductDetails() {
     }
 
     return (
-        <div className="container">
+        <>
             <h1>Product Details</h1>
 
             <p>
@@ -46,6 +46,6 @@ export default function ProductDetails() {
             <p>
                 <strong>Part Number:</strong> {product.partNumber}
             </p>
-        </div>
+        </>
     );
 }

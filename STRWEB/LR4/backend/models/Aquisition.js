@@ -13,11 +13,13 @@ module.exports = mongoose => {
             },
             price: { 
                 type: Number,
-                required: true
+                required: true,
+                min: [0.01, 'Price must be greater than 0']
             },
             count: { 
                 type: Number,
-                required: true
+                required: true,
+                min: [1, 'Count must be at least 1']
             },
             date: { 
                 type: Date,

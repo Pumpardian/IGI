@@ -3,7 +3,14 @@ module.exports = mongoose => {
         {
             username: { 
                 type: String,
-                required: true
+                required: true,
+                unique: true
+            },
+            email: {
+                type: String,
+                required: true,
+                unique: true,
+                match: [/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Please enter a valid email']
             },
             password: { 
                 type: String,
@@ -11,7 +18,17 @@ module.exports = mongoose => {
             },
             googleID: { 
                 type: String,
-                required: false
+                required: false,
+                validate: {
+                    validator: function(value) {
+                        if (value === null) return true;
+                        return new Promise(async (resolve) => {
+                            const existing = await mongoose.model('User').findOne({ googleID: value });
+                            resolve(!existing);
+                        });
+                    },
+                    message: 'Google ID already exists'
+                }
             }
         }
     );

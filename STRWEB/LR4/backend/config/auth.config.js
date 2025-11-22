@@ -36,6 +36,7 @@ module.exports = function (passport) {
 
                     user = await User.create({
                         googleID: profile.id,
+                        email: profile.email,
                         username: profile.displayName,
                     });
 

@@ -7,13 +7,41 @@ export default function SupplierCreate() {
     const [phone, updatePhone] = useState("");
     const [address, updateAddress] = useState("");
     
+    const [phoneError, updatePhoneError] = useState("");
+
     const navigate = useNavigate();
+
+    const validatePhone = (phoneNumber) => {
+        const isValid = /^((\+375|80)\s?\(?\d{2}\)?|8\s?\(?\d{3}\)?)\s?\d{3}[- ]?\d{2}[- ]?\d{2}$/.test(phoneNumber);
+
+        return {
+            isValid,
+            number: phoneNumber
+        };
+    };
+
+    const handlePhoneChange = (value) => {
+        const validation = validatePhone(value);
+        
+        updatePhone(validation.number);
+        updatePhoneError(validation.isValid ? "" : "Please enter a valid phone number");
+    };
 
     const handleCreate = async (e) => {
         e.preventDefault();
 
+        const finalValidation = validatePhone(phone);
+        if (!finalValidation.isValid) {
+            updatePhoneError("Please enter a valid phone number");
+            return;
+        }
+
         try {
-            await Axios.post("/api/suppliers", { name: name, phone: phone, address: address });
+            await Axios.post("/api/suppliers", {
+                name: name,
+                phone: finalValidation.number,
+                address: address
+            });
             navigate("/suppliers");
         } catch (err) {
             console.error("Error while creating supplier: ", err);
@@ -21,7 +49,7 @@ export default function SupplierCreate() {
     };
 
     return (
-        <div className="container">
+        <>
             <h1>Create Supplier</h1>
 
             <form onSubmit={handleCreate}>
@@ -44,8 +72,10 @@ export default function SupplierCreate() {
                     type="text"
                     placeholder="phone"
                     value={phone}
-                    onChange={(e) => updatePhone(e.target.value)}
+                    onChange={(e) => handlePhoneChange(e.target.value)}
+                    className={phoneError ? "error" : ""}
                 />
+                {phoneError && <div className="validation-error">{phoneError}</div>}
 
                 <label>
                     Address
@@ -57,8 +87,13 @@ export default function SupplierCreate() {
                     value={address}
                     onChange={(e) => updateAddress(e.target.value)}
                 />
-                <button type="submit">Create</button>
+                <button 
+                    type="submit"
+                    disabled={phoneError}
+                >
+                    Create
+                </button>
             </form>
-        </div>
+        </>
     );
 }

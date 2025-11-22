@@ -8,12 +8,12 @@ const Navbar = () => {
 
     return (
         <nav>
-            <div>
-                <NavLink to="/" className={`companyName ${({ isActive }) => (isActive ? "active" : "")}`}>
-                    PetShop
+            <div className="info">
+                <NavLink to="/" className={`${({ isActive }) => (isActive ? "active" : "")}`}>
+                    <img src={process.env.PUBLIC_URL + "logo192.png"} className="logo" alt="logo"/>
                 </NavLink>
 
-                <Timezone />
+                <Timezone className="time"/>
             </div>
 
             <ul className="nav-menu">
@@ -51,11 +51,11 @@ const Navbar = () => {
                 </>
                 ) : (
                 <>
-                    <li className="nav-item">
+                    {/* <li className="nav-item">
                         <Link to="/profile" className="nav-link">
                             Profile
                         </Link>
-                    </li>
+                    </li> */}
                     <li className="nav-item">
                         <Link to="/logout" className="nav-link">
                             Log Out

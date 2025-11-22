@@ -22,7 +22,7 @@ export default function ProductCreate() {
     };
 
     return (
-        <div className="container">
+        <>
             <h1>Create Product</h1>
 
             <form onSubmit={handleCreate}>
@@ -54,6 +54,7 @@ export default function ProductCreate() {
                 <input 
                     required
                     type="number"
+                    min="0"
                     step="any"
                     placeholder="price"
                     value={price}
@@ -72,6 +73,6 @@ export default function ProductCreate() {
                 />
                 <button type="submit">Create</button>
             </form>
-        </div>
+        </>
     );
 }

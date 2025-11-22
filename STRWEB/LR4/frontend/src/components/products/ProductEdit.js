@@ -41,7 +41,7 @@ export default function ProductEdit() {
     };
 
     return (
-        <div className="container">
+        <>
             <h1>Edit Product</h1>
 
             <form onSubmit={handleEdit}>
@@ -73,6 +73,7 @@ export default function ProductEdit() {
                 <input 
                     required
                     type="number"
+                    min="0"
                     step="any"
                     placeholder="price"
                     value={price}
@@ -91,6 +92,6 @@ export default function ProductEdit() {
                 />
                 <button type="submit">Edit</button>
             </form>
-        </div>
+        </>
     );
 }

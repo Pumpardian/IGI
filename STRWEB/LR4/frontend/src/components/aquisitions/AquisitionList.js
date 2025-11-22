@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Axios from "../../axios";
 import { AuthContext } from "../Auth";
 
@@ -100,7 +100,7 @@ export default class AquisitionList extends Component {
         return (
             <AuthContext.Consumer>
                 {(user) => (
-                    <div className="container">
+                    <>
                         <h1>Aquisitions</h1>
 
                         <div className="search">
@@ -110,10 +110,10 @@ export default class AquisitionList extends Component {
                                 value={this.state.searchQuery}
                                 onChange={(e) => this.setState({ searchQuery: e.target.value })}
                             />
+
+                            {user && <Link to="/aquisitions/create" className="btn">Add</Link>}
                         </div>
 
-                        {user && <Link to="/aquisitions/create">Add</Link>}
-                        
                         {filteredAquisitions.length === 0 ? (
                             <p>No aquisitions</p>
                         ) : (
@@ -194,11 +194,11 @@ export default class AquisitionList extends Component {
                                             <td title={this.formatTime(aquisition.date, { timeZone: "UTC" })}>
                                                 {this.formatTime(aquisition.date)}
                                             </td>
-                                            <td title={this.formatTime(aquisition.created_at, { timeZone: "UTC" })}>
-                                                {this.formatTime(aquisition.created_at)}
+                                            <td title={this.formatTime(aquisition.createdAt, { timeZone: "UTC" })}>
+                                                {this.formatTime(aquisition.createdAt)}
                                             </td>
-                                            <td title={this.formatTime(aquisition.updated_at, { timeZone: "UTC" })}>
-                                                {this.formatTime(aquisition.updated_at)}
+                                            <td title={this.formatTime(aquisition.updatedAt, { timeZone: "UTC" })}>
+                                                {this.formatTime(aquisition.updatedAt)}
                                             </td>
                                             {user && (
                                                 <td>
@@ -218,9 +218,7 @@ export default class AquisitionList extends Component {
                                 </tbody>
                             </table>
                         )}
-
-                        <Outlet />
-                    </div>
+                    </>
                 )}
             </AuthContext.Consumer>
         );

@@ -49,7 +49,7 @@ export default function AquisitionCreate() {
     };
 
     return (
-        <div className="container">
+        <>
             <h1>Create Aquisition</h1>
 
             <form onSubmit={handleCreate}>
@@ -92,6 +92,7 @@ export default function AquisitionCreate() {
                     required
                     type="number"
                     step="any"
+                    min="0"
                     placeholder="price"
                     value={price}
                     onChange={(e) => updatePrice(e.target.value)}
@@ -103,6 +104,7 @@ export default function AquisitionCreate() {
                 <input 
                     required
                     type="number"
+                    min="1"
                     placeholder="count"
                     value={count}
                     onChange={(e) => updateCount(e.target.value)}
@@ -120,6 +122,6 @@ export default function AquisitionCreate() {
                 />
                 <button type="submit">Create</button>
             </form>
-        </div>
+        </>
     );
 }
