@@ -39,14 +39,17 @@ exports.create = async (request, response) => {
     user.save()
         .then(data => {
             response.send(data);
+            return data.username;
+        })
+        .then(username => {
+            console.log("user registered:", username);
         })
         .catch(err => {
             if (err.code === 11000) {
                 response.status(400).send({
                     message: "User with provided username/email already exists"
                 });
-            }
-            else {
+            } else {
                 response.status(500).send({
                     message: "Failed to sign up (internal server error)"
                 });
@@ -103,7 +106,7 @@ exports.findOne = (request, response) => {
 exports.delete = (request, response) => {
     const id = request.params.id;
 
-    User.findByIdAndRemove(id)
+    User.findByIdAndDelete(id)
         .then(data => {
             if (!data)
             {

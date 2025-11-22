@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import Axios from "../../axios";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../Auth";
+import { useMessage } from "../Messages";
 
 export default function AquisitionCreate() {
     const [productID, updateProductID] = useState("");
@@ -16,6 +17,7 @@ export default function AquisitionCreate() {
     const navigate = useNavigate();
 
     const { user } = useContext(AuthContext);
+    const { showMessage } = useMessage();
 
     useEffect(() => {
         if (!user) {
@@ -49,7 +51,9 @@ export default function AquisitionCreate() {
 
         try {
             await Axios.post("/api/aquisitions", { productID: productID, supplierID: supplierID, price: price, count: count, date: date });
+            
             navigate("/aquisitions");
+            showMessage("Aquisition registered");
         } catch (err) {
             console.error("Error while creating aquisition: ", err.response?.data?.message);
         }
@@ -59,7 +63,7 @@ export default function AquisitionCreate() {
         <>
             <h1>Create Aquisition</h1>
 
-            <form onSubmit={handleCreate}>
+            <form onSubmit={handleCreate} onInvalid={showMessage("You've filled every field, right?")}>
                 <label>
                     Product
                 </label>

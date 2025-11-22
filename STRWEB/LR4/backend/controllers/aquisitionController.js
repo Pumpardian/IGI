@@ -97,7 +97,7 @@ exports.update = (request, response) => {
 exports.delete = (request, response) => {
     const id = request.params.id;
 
-    Aquisition.findByIdAndRemove(id)
+    Aquisition.findByIdAndDelete(id)
         .then(data => {
             if (!data)
             {

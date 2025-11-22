@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../Auth";
+import { MessageContext } from "../Messages";
 import Axios from "../../axios";
 
 export default class ProductList extends Component {
@@ -26,7 +27,7 @@ export default class ProductList extends Component {
         fetch();
     }
 
-    handleDelete = async (id, user) => {
+    handleDelete = async (id, user, showMessage) => {
         if (!user) {
             console.log("User not authenticated");
             return;
@@ -37,6 +38,8 @@ export default class ProductList extends Component {
             this.setState(prevState => ({
                 products: prevState.products.filter(product => product.id !== id)
             }));
+
+            showMessage("Product deleted");
         } catch (err) {
             console.error("Error while deleting product: ", err.response?.data?.message);
         }
@@ -44,7 +47,7 @@ export default class ProductList extends Component {
 
     formatTime = (dateString, options) => {
         const date = new Date(dateString);
-        return date.toLocaleTimeString("en-US", options);
+        return date.toLocaleString("en-US", options);
     };
 
     getFilteredProducts() {
@@ -61,69 +64,73 @@ export default class ProductList extends Component {
         return (
             <AuthContext.Consumer>
                 {({ user, signIn, logOut }) => (
-                    <>
-                        <h1>Products</h1>
+                    <MessageContext.Consumer>
+                        {({ showMessage }) => (
+                        <>
+                            <h1>Products</h1>
 
-                        <div className="search">
-                            <input
-                                type="text"
-                                placeholder="Type to search..."
-                                value={this.state.searchQuery}
-                                onChange={(e) => this.setState({ searchQuery: e.target.value })}
-                            />
+                            <div className="search">
+                                <input
+                                    type="text"
+                                    placeholder="Type to search..."
+                                    value={this.state.searchQuery}
+                                    onChange={(e) => this.setState({ searchQuery: e.target.value })}
+                                />
 
-                            {user && <Link to="/products/create" className="btn">Add</Link>}
-                        </div>
-                        
-                        {filteredProducts.length === 0 ? (
-                            <p>No products</p>
-                        ) : (
-                            <div className="table-container">
-                                <div className="product-list">
-                                    {filteredProducts.map((product) => (
-                                        <div className="card-wrapper" key={product.id}>
-                                            <div className="product-card">
-                                                <h3 className="product-title">
-                                                    {product.title}
-                                                </h3>
-                                                <p className="product-description">
-                                                    {product.description}
-                                                </p>
-                                                <p className="product-price">
-                                                    {product.price}
-                                                </p>
-                                                <p title={this.formatTime(product.createdAt, { timeZone: "UTC" })} className="product-description">
-                                                    {`Created: ${this.formatTime(product.createdAt)}`}
-                                                </p>
-                                                <p title={this.formatTime(product.updatedAt, { timeZone: "UTC" })} className="product-description">
-                                                    {`Updated: ${this.formatTime(product.updatedAt)}`}
-                                                </p>
-                                                <div className="container">
-                                                    <Link to={`/products/${product.id}`} className="btn btn-primary">
-                                                        View
-                                                    </Link>
+                                {user && <Link to="/products/create" className="btn">Add</Link>}
+                            </div>
+                            
+                            {filteredProducts.length === 0 ? (
+                                <p>No products</p>
+                            ) : (
+                                <div className="table-container">
+                                    <div className="product-list">
+                                        {filteredProducts.map((product) => (
+                                            <div className="card-wrapper" key={product.id}>
+                                                <div className="product-card">
+                                                    <h3 className="product-title">
+                                                        {product.title}
+                                                    </h3>
+                                                    <p className="product-description">
+                                                        {product.description}
+                                                    </p>
+                                                    <p className="product-price">
+                                                        {product.price}
+                                                    </p>
+                                                    <p title={this.formatTime(product.createdAt, { timeZone: "UTC" })} className="product-description">
+                                                        {`Created: ${this.formatTime(product.createdAt)}`}
+                                                    </p>
+                                                    <p title={this.formatTime(product.updatedAt, { timeZone: "UTC" })} className="product-description">
+                                                        {`Updated: ${this.formatTime(product.updatedAt)}`}
+                                                    </p>
+                                                    <div className="container">
+                                                        <Link to={`/products/${product.id}`} className="btn btn-primary">
+                                                            View
+                                                        </Link>
 
-                                                    {user && (
-                                                        <>
-                                                            <Link to={`/products/${product.id}/edit`} className="btn btn-secondary">
-                                                                Edit
-                                                            </Link>
-                                                            <button 
-                                                                onClick={() => this.handleDelete(product.id, user)} 
-                                                                className="btn btn-danger"
-                                                            >
-                                                                Delete
-                                                            </button>
-                                                        </>
-                                                    )}
+                                                        {user && (
+                                                            <>
+                                                                <Link to={`/products/${product.id}/edit`} className="btn btn-secondary">
+                                                                    Edit
+                                                                </Link>
+                                                                <button 
+                                                                    onDoubleClick={() => this.handleDelete(product.id, user, showMessage)} 
+                                                                    className="btn btn-danger"
+                                                                >
+                                                                    Delete
+                                                                </button>
+                                                            </>
+                                                        )}
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    ))}
+                                        ))}
+                                    </div>
                                 </div>
-                            </div>
+                                )}
+                            </>
                         )}
-                    </>
+                    </MessageContext.Consumer>
                 )}
             </AuthContext.Consumer>
         );

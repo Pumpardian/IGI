@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import Axios from "../../axios";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../Auth";
+import { useMessage } from "../Messages";
 
 export default function ProductCreate() {
     const [title, updateTitle] = useState("");
@@ -12,6 +13,7 @@ export default function ProductCreate() {
     const navigate = useNavigate();
 
     const { user } = useContext(AuthContext);
+    const { showMessage } = useMessage();
 
     useEffect(() => {
         if (!user) {
@@ -24,7 +26,9 @@ export default function ProductCreate() {
 
         try {
             await Axios.post("/api/products", { title: title, description: description, price: price, partNumber: partNumber });
+
             navigate("/products");
+            showMessage(`Product ${title} created`);
         } catch (err) {
             console.error("Error while creating product: ", err.response?.data?.message);
         }
@@ -34,7 +38,7 @@ export default function ProductCreate() {
         <>
             <h1>Create Product</h1>
 
-            <form onSubmit={handleCreate}>
+            <form onSubmit={handleCreate} onInvalid={showMessage("You've filled every field, right?")}>
                 <label>
                     Title
                 </label>

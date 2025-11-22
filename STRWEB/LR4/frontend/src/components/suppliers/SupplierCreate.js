@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import Axios from "../../axios";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../Auth";
+import { useMessage } from "../Messages";
 
 export default function SupplierCreate() {
     const [name, updateName] = useState("");
@@ -13,6 +14,7 @@ export default function SupplierCreate() {
     const navigate = useNavigate();
 
     const { user } = useContext(AuthContext);
+    const { showMessage } = useMessage();
 
     const validatePhone = (phoneNumber) => {
         const isValid = /^((\+375|80)\s?\(?\d{2}\)?|8\s?\(?\d{3}\)?)\s?\d{3}[- ]?\d{2}[- ]?\d{2}$/.test(phoneNumber);
@@ -51,7 +53,9 @@ export default function SupplierCreate() {
                 phone: finalValidation.number,
                 address: address
             });
+            
             navigate("/suppliers");
+            showMessage(`Supplier ${name} created`);
         } catch (err) {
             console.error("Error while creating supplier: ", err.response?.data?.message);
         }
@@ -61,7 +65,7 @@ export default function SupplierCreate() {
         <>
             <h1>Create Supplier</h1>
 
-            <form onSubmit={handleCreate}>
+            <form onSubmit={handleCreate} onInvalid={showMessage("You've filled every field, right?")}>
                 <label>
                     Name
                 </label>

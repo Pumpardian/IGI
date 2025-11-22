@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import Axios from "../../axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../Auth";
+import { useMessage } from "../Messages";
 
 export default function SupplierEdit() {
     const { id } = useParams();
@@ -14,6 +15,7 @@ export default function SupplierEdit() {
     const navigate = useNavigate();
 
     const { user } = useContext(AuthContext);
+    const { showMessage } = useMessage();
 
     const validatePhone = (phoneNumber) => {
         const isValid = /^((\+375|80)\s?\(?\d{2}\)?|8\s?\(?\d{3}\)?)\s?\d{3}[- ]?\d{2}[- ]?\d{2}$/.test(phoneNumber);
@@ -68,7 +70,9 @@ export default function SupplierEdit() {
                 phone: finalValidation.number,
                 address: address 
             });
+
             navigate("/suppliers");
+            showMessage("Supplier changed successfuly");
         } catch (err) {
             console.error("Error while editing supplier: ", err.response?.data?.message);
         }
@@ -78,7 +82,7 @@ export default function SupplierEdit() {
         <>
             <h1>Edit Supplier</h1>
 
-            <form onSubmit={handleEdit}>
+            <form onSubmit={handleEdit} onInvalid={showMessage("You've filled every field, right?")}>
                 <label>
                     Name
                 </label>

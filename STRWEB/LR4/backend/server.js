@@ -49,12 +49,16 @@ require("./endpoints/supplierEndpoints.js")(app);
 require("./endpoints/aquisitionEndpoints.js")(app);
 require("./endpoints/productEndpoints.js")(app);
 
-app.get("/logout", (req, res) => {
-  req.logout((err) => {
+app.get("/logout", (request, response) => {
+  request.logout((err) => {
     if (err) {
-      return res.status(500).json({ error: "Error while logging out" });
+        return response.status(500).json({
+            error: "Error while logging out"
+        });
     }
-    res.json({ message: "Logged out" });
+    response.json({
+        message: "Logged out"
+    });
   });
 });
 
@@ -63,14 +67,14 @@ app.get("/google", passport.authenticate("google", { scope: [ "profile", "email"
 app.get(
     "/google/callback",
     passport.authenticate("google", { failureRedirect: "/login" }),
-    (req, res) => {
+    (request, response) => {
         const token = jwt.sign(
-            { id: req.user.id, username: req.user.username },
+            { id: request.user.id, username: request.user.username },
             process.env.JWT_SECRET,
             { expiresIn: "1h" },
         );
 
-        res.redirect(`http://localhost:3000?token=${token}`);
+        response.redirect(`http://localhost:3000?token=${token}`);
     },
 );
 

@@ -99,7 +99,7 @@ exports.update = (request, response) => {
 exports.delete = (request, response) => {
     const id = request.params.id;
 
-    Product.findByIdAndRemove(id)
+    Product.findByIdAndDelete(id)
         .then(data => {
             if (!data)
             {

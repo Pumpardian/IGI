@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import Axios from "../../axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../Auth";
+import { useMessage } from "../Messages";
 
 export default function AquisitionEdit() {
     const { id } = useParams();
@@ -17,6 +18,7 @@ export default function AquisitionEdit() {
     const navigate = useNavigate();
 
     const { user } = useContext(AuthContext);
+    const { showMessage } = useMessage();
 
     useEffect(() => {
         if (!user) {
@@ -66,7 +68,9 @@ export default function AquisitionEdit() {
 
         try {
             await Axios.put(`/api/aquisitions/${id}`, { productID: productID, supplierID: supplierID, price: price, count: count, date: date });
+            
             navigate("/aquisitions");
+            showMessage("Aquisition corrected successfuly");
         } catch (err) {
             console.error("Error while editing aquisition: ", err);
         }
@@ -76,7 +80,7 @@ export default function AquisitionEdit() {
         <>
             <h1>Edit Aquisition</h1>
 
-            <form onSubmit={handleEdit}>
+            <form onSubmit={handleEdit} onInvalid={showMessage("You've filled every field, right?")}>
                 <label>
                     Product
                 </label>

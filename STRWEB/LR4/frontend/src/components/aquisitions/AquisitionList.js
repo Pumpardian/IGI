@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Axios from "../../axios";
 import { AuthContext } from "../Auth";
+import { MessageContext } from "../Messages";
 
 export default class AquisitionList extends Component {
     constructor(props) {
@@ -31,8 +32,9 @@ export default class AquisitionList extends Component {
         fetch();
     }
 
-    handleDelete = async (id) => {
-        if (!this.user) {
+    handleDelete = async (id, user, showMessage) => {
+        if (!user) {
+            console.log("User not authenticated");
             return;
         }
 
@@ -41,6 +43,8 @@ export default class AquisitionList extends Component {
             this.setState(prevState => ({
                 aquisitions: prevState.aquisitions.filter(aquisition => aquisition.id !== id)
             }));
+
+            showMessage("Aquisition deleted");
         } catch (err) {
             console.error("Error while deleting aquisition: ", err.response?.data?.message);
         }
@@ -61,7 +65,7 @@ export default class AquisitionList extends Component {
 
     formatTime = (dateString, options) => {
         const date = new Date(dateString);
-        return date.toLocaleTimeString("en-US", options);
+        return date.toLocaleString("en-US", options);
     };
 
     getFilteredAquisitions() {
@@ -100,125 +104,129 @@ export default class AquisitionList extends Component {
         return (
             <AuthContext.Consumer>
                 {({ user, signIn, logOut }) => (
-                    <>
-                        <h1>Aquisitions</h1>
+                    <MessageContext.Consumer>
+                        {({ showMessage }) => (
+                            <>
+                                <h1>Aquisitions</h1>
 
-                        <div className="search">
-                            <input
-                                type="text"
-                                placeholder="Type to search..."
-                                value={this.state.searchQuery}
-                                onChange={(e) => this.setState({ searchQuery: e.target.value })}
-                            />
+                                <div className="search">
+                                    <input
+                                        type="text"
+                                        placeholder="Type to search..."
+                                        value={this.state.searchQuery}
+                                        onChange={(e) => this.setState({ searchQuery: e.target.value })}
+                                    />
 
-                            {user && <Link to="/aquisitions/create" className="btn">Add</Link>}
-                        </div>
+                                    {user && <Link to="/aquisitions/create" className="btn">Add</Link>}
+                                </div>
 
-                        {filteredAquisitions.length === 0 ? (
-                            <p>No aquisitions</p>
-                        ) : (
-                            <table className="table">
-                                <thead>
-                                    <tr>
-                                        <th onClick={() => this.handleSort("id")}>
-                                            ID
-                                            {this.state.sortColumn === "id" && (
-                                                <span className="sort-icon">
-                                                    {this.state.sortDirection === "ascending" ? "▲" : "▼"}
-                                                </span>
-                                            )}
-                                        </th>
-                                        <th onClick={() => this.handleSort("productID")}>
-                                            Product ID
-                                            {this.state.sortColumn === "productID" && (
-                                                <span className="sort-icon">
-                                                    {this.state.sortDirection === "ascending" ? "▲" : "▼"}
-                                                </span>
-                                            )}
-                                        </th>
-                                        <th onClick={() => this.handleSort("supplierID")}>
-                                            Supplier ID
-                                            {this.state.sortColumn === "supplierID" && (
-                                                <span className="sort-icon">
-                                                    {this.state.sortDirection === "ascending" ? "▲" : "▼"}
-                                                </span>
-                                            )}
-                                        </th>
-                                        <th onClick={() => this.handleSort("price")}>
-                                            Price
-                                            {this.state.sortColumn === "price" && (
-                                                <span className="sort-icon">
-                                                    {this.state.sortDirection === "ascending" ? "▲" : "▼"}
-                                                </span>
-                                            )}
-                                        </th>
-                                        <th onClick={() => this.handleSort("count")}>
-                                            Count
-                                            {this.state.sortColumn === "count" && (
-                                                <span className="sort-icon">
-                                                    {this.state.sortDirection === "ascending" ? "▲" : "▼"}
-                                                </span>
-                                            )}
-                                        </th>
-                                        <th onClick={() => this.handleSort("date")}>
-                                            Date
-                                            {this.state.sortColumn === "date" && (
-                                                <span className="sort-icon">
-                                                    {this.state.sortDirection === "ascending" ? "▲" : "▼"}
-                                                </span>
-                                            )}
-                                        </th>
-                                        <th>Created</th>
-                                        <th>Updated</th>
-                                        {user && <th>Actions</th>}
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {sortedAquisitions.map(aquisition => (
-                                        <tr key={aquisition.id}>
-                                            <td>
-                                                {aquisition.id}
-                                            </td>
-                                            <td>
-                                                {aquisition.productID}
-                                            </td>
-                                            <td>
-                                                {aquisition.supplierID}
-                                            </td>
-                                            <td>
-                                                {aquisition.price}
-                                            </td>
-                                            <td>
-                                                {aquisition.count}
-                                            </td>
-                                            <td title={this.formatTime(aquisition.date, { timeZone: "UTC" })}>
-                                                {this.formatTime(aquisition.date)}
-                                            </td>
-                                            <td title={this.formatTime(aquisition.createdAt, { timeZone: "UTC" })}>
-                                                {this.formatTime(aquisition.createdAt)}
-                                            </td>
-                                            <td title={this.formatTime(aquisition.updatedAt, { timeZone: "UTC" })}>
-                                                {this.formatTime(aquisition.updatedAt)}
-                                            </td>
-                                            {user && (
-                                                <td>
-                                                    <Link to={`/aquisitions/${aquisition.id}/edit`} className="btn btn-secondary">
-                                                        Edit
-                                                    </Link>
-                                                    <button 
-                                                        onClick={() => this.handleDelete(aquisition.id)} 
-                                                        className="btn btn-danger"
-                                                    >
-                                                        Delete
-                                                    </button>
-                                                </td>
-                                            )}
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+                                {filteredAquisitions.length === 0 ? (
+                                    <p>No aquisitions</p>
+                                ) : (
+                                    <table className="table">
+                                        <thead>
+                                            <tr>
+                                                <th onClick={() => this.handleSort("id")}>
+                                                    ID
+                                                    {this.state.sortColumn === "id" && (
+                                                        <span className="sort-icon">
+                                                            {this.state.sortDirection === "ascending" ? "▲" : "▼"}
+                                                        </span>
+                                                    )}
+                                                </th>
+                                                <th onClick={() => this.handleSort("productID")}>
+                                                    Product ID
+                                                    {this.state.sortColumn === "productID" && (
+                                                        <span className="sort-icon">
+                                                            {this.state.sortDirection === "ascending" ? "▲" : "▼"}
+                                                        </span>
+                                                    )}
+                                                </th>
+                                                <th onClick={() => this.handleSort("supplierID")}>
+                                                    Supplier ID
+                                                    {this.state.sortColumn === "supplierID" && (
+                                                        <span className="sort-icon">
+                                                            {this.state.sortDirection === "ascending" ? "▲" : "▼"}
+                                                        </span>
+                                                    )}
+                                                </th>
+                                                <th onClick={() => this.handleSort("price")}>
+                                                    Price
+                                                    {this.state.sortColumn === "price" && (
+                                                        <span className="sort-icon">
+                                                            {this.state.sortDirection === "ascending" ? "▲" : "▼"}
+                                                        </span>
+                                                    )}
+                                                </th>
+                                                <th onClick={() => this.handleSort("count")}>
+                                                    Count
+                                                    {this.state.sortColumn === "count" && (
+                                                        <span className="sort-icon">
+                                                            {this.state.sortDirection === "ascending" ? "▲" : "▼"}
+                                                        </span>
+                                                    )}
+                                                </th>
+                                                <th onClick={() => this.handleSort("date")}>
+                                                    Date
+                                                    {this.state.sortColumn === "date" && (
+                                                        <span className="sort-icon">
+                                                            {this.state.sortDirection === "ascending" ? "▲" : "▼"}
+                                                        </span>
+                                                    )}
+                                                </th>
+                                                <th>Created</th>
+                                                <th>Updated</th>
+                                                {user && <th>Actions</th>}
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {sortedAquisitions.map(aquisition => (
+                                                <tr key={aquisition.id}>
+                                                    <td>
+                                                        {aquisition.id}
+                                                    </td>
+                                                    <td>
+                                                        {aquisition.productID}
+                                                    </td>
+                                                    <td>
+                                                        {aquisition.supplierID}
+                                                    </td>
+                                                    <td>
+                                                        {aquisition.price}
+                                                    </td>
+                                                    <td>
+                                                        {aquisition.count}
+                                                    </td>
+                                                    <td title={this.formatTime(aquisition.date, { timeZone: "UTC", dateStyle: "short" })}>
+                                                        {this.formatTime(aquisition.date, { dateStyle: "short" })}
+                                                    </td>
+                                                    <td title={this.formatTime(aquisition.createdAt, { timeZone: "UTC" })}>
+                                                        {this.formatTime(aquisition.createdAt)}
+                                                    </td>
+                                                    <td title={this.formatTime(aquisition.updatedAt, { timeZone: "UTC" })}>
+                                                        {this.formatTime(aquisition.updatedAt)}
+                                                    </td>
+                                                    {user && (
+                                                        <td>
+                                                            <Link to={`/aquisitions/${aquisition.id}/edit`} className="btn btn-secondary">
+                                                                Edit
+                                                            </Link>
+                                                            <button 
+                                                                onDoubleClick={() => this.handleDelete(aquisition.id, user, showMessage)} 
+                                                                className="btn btn-danger"
+                                                            >
+                                                                Delete
+                                                            </button>
+                                                        </td>
+                                                    )}
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                )}
+                            </>
                         )}
-                    </>
+                    </MessageContext.Consumer>
                 )}
             </AuthContext.Consumer>
         );

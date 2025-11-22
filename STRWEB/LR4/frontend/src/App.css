@@ -2,9 +2,9 @@
     --font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
     --font-size: medium;
     --transition-speed: 0.3s;
-/* }
+}
 
-[theme="light"] { */
+[theme="light"] {
     --primary-color: #b8d9ff;
     --secondary-color: #80deea;
     --background-color: #c5e3f0;
@@ -51,6 +51,30 @@ main {
     top: 100px;
     padding-left: 7.5%;
     padding-right: 7.5%;
+    min-height: calc(100vh - 150px);
+    height: auto;
+}
+
+header {
+    width: 100%;
+    height: 100px;
+    position: fixed;
+    z-index: 1000;
+    box-shadow: 0px 1px 8px black;
+    transition: box-shadow var(--transition-speed);
+}
+
+header:hover {
+    box-shadow: 0px 6px 16px black;
+}
+
+footer {
+    margin-top: 100px;
+    position: relative;
+    background: var(--primary-color);
+    width: 100%;
+    box-shadow: 0px -1px 10px black;
+    height: 50px;
 }
 
 nav {
@@ -60,6 +84,7 @@ nav {
     justify-content: space-between;
     margin: 0%;
     padding: 1em;
+    height: 100%;
 }
 
 .nav-menu {
@@ -80,6 +105,12 @@ nav {
     margin: 0.15em;
     text-decoration: none;
     white-space: nowrap;
+    box-shadow: none;
+    transition: box-shadow var(--transition-speed);
+}
+
+.nav-item:hover {
+    box-shadow: 8px 8px 4px var(--primary-color);
 }
 
 .nav-item:hover {
@@ -382,12 +413,15 @@ table tr:nth-child(odd) {
     z-index: 2;
 }
 
-#root > div > div.container {
+main > div.container {
     background-color: var(--main-background-color);
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
     animation: fadeIn 0.5s ease-in-out;
+    display: block;
+    min-height: calc(100vh - 150px);
+    height: auto;
 }
 
 .sort-indicator {
@@ -543,4 +577,60 @@ form > button:disabled:hover {
     box-shadow: none;
     color: #ffffff;
     cursor: default;
+}
+
+.messages-container {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    width: 33%;
+    z-index: 9999;
+}
+
+.message {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    color: aliceblue;
+    border: 0.1em solid var(--message-bg-color);
+    border-radius: 1em;
+    padding: 1em;
+    margin-top: 0.25em;
+    animation: slideIn 0.3s ease-out;
+    background: linear-gradient(140deg,rgba(0,0,0,0.65), 85%, rgba(125, 125, 125, 0.65));
+    transition: opacity 0.3s ease;
+}
+
+.message.closing {
+    opacity: 0;
+}
+
+.message-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.message-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+#themeSwitch {
+    font-size: 250%;
 }
