@@ -99,7 +99,7 @@ export default class SupplierList extends Component {
 
         return (
             <AuthContext.Consumer>
-                {(user) => (
+                {({ user, signIn, logOut }) => (
                     <>
                         <h1>Suppliers</h1>
 

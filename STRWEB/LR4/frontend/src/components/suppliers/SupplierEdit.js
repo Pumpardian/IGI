@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Axios from "../../axios";
 import { useNavigate, useParams } from "react-router-dom";
+import { AuthContext } from "../Auth";
 
 export default function SupplierEdit() {
     const { id } = useParams();
@@ -11,6 +12,8 @@ export default function SupplierEdit() {
     const [phoneError, updatePhoneError] = useState("");
     
     const navigate = useNavigate();
+
+    const { user } = useContext(AuthContext);
 
     const validatePhone = (phoneNumber) => {
         const isValid = /^((\+375|80)\s?\(?\d{2}\)?|8\s?\(?\d{3}\)?)\s?\d{3}[- ]?\d{2}[- ]?\d{2}$/.test(phoneNumber);
@@ -29,6 +32,10 @@ export default function SupplierEdit() {
     };
 
     useEffect(() => {
+        if (!user) {
+            navigate("/signin");
+        }
+
         const fetch = async () => {
             try {
                 const response = await Axios.get(`/api/suppliers/${id}`);

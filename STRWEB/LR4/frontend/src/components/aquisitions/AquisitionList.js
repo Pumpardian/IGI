@@ -99,7 +99,7 @@ export default class AquisitionList extends Component {
 
         return (
             <AuthContext.Consumer>
-                {(user) => (
+                {({ user, signIn, logOut }) => (
                     <>
                         <h1>Aquisitions</h1>
 

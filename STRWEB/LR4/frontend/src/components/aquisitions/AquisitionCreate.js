@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Axios from "../../axios";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../Auth";
 
 export default function AquisitionCreate() {
     const [productID, updateProductID] = useState("");
@@ -14,7 +15,13 @@ export default function AquisitionCreate() {
 
     const navigate = useNavigate();
 
+    const { user } = useContext(AuthContext);
+
     useEffect(() => {
+        if (!user) {
+            navigate("/signin");
+        }
+
         const fetchProducts = async () => {
             try {
                 const response = await Axios.get(`/api/products`);
@@ -35,7 +42,7 @@ export default function AquisitionCreate() {
 
         fetchProducts();
         fetchSuppliers();
-    }, []);
+    }, [user, navigate]);
 
     const handleCreate = async (e) => {
         e.preventDefault();

@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Axios from "../../axios";
 import { useNavigate, useParams } from "react-router-dom";
+import { AuthContext } from "../Auth";
 
 export default function ProductEdit() {
     const { id } = useParams();
@@ -11,7 +12,13 @@ export default function ProductEdit() {
     
     const navigate = useNavigate();
 
+    const { user } = useContext(AuthContext);
+
     useEffect(() => {
+        if (!user) {
+            navigate("/signin");
+        }
+
         const fetch = async () => {
             try {
                 const response = await Axios.get(`/api/products/${id}`);
@@ -27,7 +34,7 @@ export default function ProductEdit() {
         }
 
         fetch();
-    }, [id]);
+    }, [id, user, navigate]);
 
     const handleEdit = async (e) => {
         e.preventDefault();

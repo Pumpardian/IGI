@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Axios from "../../axios";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../Auth";
 
 export default function SupplierCreate() {
     const [name, updateName] = useState("");
@@ -10,6 +11,8 @@ export default function SupplierCreate() {
     const [phoneError, updatePhoneError] = useState("");
 
     const navigate = useNavigate();
+
+    const { user } = useContext(AuthContext);
 
     const validatePhone = (phoneNumber) => {
         const isValid = /^((\+375|80)\s?\(?\d{2}\)?|8\s?\(?\d{3}\)?)\s?\d{3}[- ]?\d{2}[- ]?\d{2}$/.test(phoneNumber);
@@ -26,6 +29,12 @@ export default function SupplierCreate() {
         updatePhone(validation.number);
         updatePhoneError(validation.isValid ? "" : "Please enter a valid phone number");
     };
+
+    useEffect(() => {
+        if (!user) {
+            navigate("/signin");
+        }
+    }, [user, navigate]);
 
     const handleCreate = async (e) => {
         e.preventDefault();

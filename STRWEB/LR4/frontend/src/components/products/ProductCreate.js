@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Axios from "../../axios";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../Auth";
 
 export default function ProductCreate() {
     const [title, updateTitle] = useState("");
@@ -9,6 +10,14 @@ export default function ProductCreate() {
     const [partNumber, updatePartNumber] = useState("");
     
     const navigate = useNavigate();
+
+    const { user } = useContext(AuthContext);
+
+    useEffect(() => {
+        if (!user) {
+            navigate("/signin");
+        }
+    }, [user, navigate]);
 
     const handleCreate = async (e) => {
         e.preventDefault();

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { AuthContext } from "../Auth";
 import Axios from "../../axios";
 
@@ -11,8 +11,6 @@ export default class ProductList extends Component {
             products: [],
             searchQuery: ""
         };
-
-        this.handleDelete = this.handleDelete.bind(this);
     }
 
     componentDidMount() {
@@ -28,8 +26,9 @@ export default class ProductList extends Component {
         fetch();
     }
 
-    handleDelete = async (id) => {
-        if (!this.user) {
+    handleDelete = async (id, user) => {
+        if (!user) {
+            console.log("User not authenticated");
             return;
         }
 
@@ -61,7 +60,7 @@ export default class ProductList extends Component {
 
         return (
             <AuthContext.Consumer>
-                {(user) => (
+                {({ user, signIn, logOut }) => (
                     <>
                         <h1>Products</h1>
 
@@ -110,7 +109,7 @@ export default class ProductList extends Component {
                                                                 Edit
                                                             </Link>
                                                             <button 
-                                                                onClick={() => this.handleDelete(product.id)} 
+                                                                onClick={() => this.handleDelete(product.id, user)} 
                                                                 className="btn btn-danger"
                                                             >
                                                                 Delete
