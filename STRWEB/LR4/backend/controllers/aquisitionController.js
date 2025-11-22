@@ -15,7 +15,7 @@ exports.create = async (request, response) => {
         date: request.body.date
     });
 
-    Aquisition.save(aquisition)
+    aquisition.save()
         .then(data => {
             response.send(data);
         })
@@ -27,14 +27,7 @@ exports.create = async (request, response) => {
 };
 
 exports.findAll = (request, response) => {
-    //const search = request.query.search;
-    const condition = /*title ? { $or: [
-        { name: { $regex: new RegExp(search), $options: "i" } },
-        { phone: { $regex: new RegExp(search), $options: "i" } },
-        { address: { $regex: new RegExp(search), $options: "i" } }
-    ]} :*/ {};
-
-    Aquisition.find(condition)
+    Aquisition.find()
         .then(data => {
             response.send(data);
         })

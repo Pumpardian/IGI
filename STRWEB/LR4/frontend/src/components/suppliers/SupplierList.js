@@ -1,0 +1,198 @@
+import React, { Component } from "react";
+import { Link, Outlet } from "react-router-dom";
+import { AuthContext } from "../Auth";
+import Axios from "../../axios";
+
+export default class SupplierList extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            suppliers: [],
+            searchQuery: "",
+            sortColumn: "",
+            sortDirection: "ascending"
+        };
+
+        this.handleDelete = this.handleDelete.bind(this);
+        this.handleSort = this.handleSort.bind(this);
+    }
+
+    componentDidMount() {
+        const fetch = async () => {
+            try {
+                const response = await Axios.get("/api/suppliers");
+                this.setState({ suppliers: response.data });
+            } catch (err) {
+                console.error("Error while receiving suppliers: ", err);
+            }
+        };
+
+        fetch();
+    }
+
+    handleDelete = async (id) => {
+        if (!this.user) {
+            return;
+        }
+
+        try {
+            await Axios.delete(`/api/suppliers/${id}`);
+            this.setState(prevState => ({
+                suppliers: prevState.suppliers.filter(supplier => supplier.id !== id)
+            }));
+        } catch (err) {
+            console.error("Error while deleting supplier: ", err);
+        }
+    };
+
+    handleSort = (column) => {
+        if (this.state.sortColumn === column) {
+            this.setState(prevState => ({ 
+                sortDirection: prevState.sortDirection === "ascending" ? "descending" : "ascending" 
+            }));
+        } else {
+            this.setState({ 
+                sortDirection: "ascending", 
+                sortColumn: column 
+            });
+        }
+    };
+
+    formatTime = (dateString, options) => {
+        const date = new Date(dateString);
+        return date.toLocaleTimeString("en-US", options);
+    };
+
+    getFilteredSuppliers() {
+        return this.state.suppliers.filter(supplier =>
+            Object.values(supplier).some(value => 
+                value && value.toString().toLowerCase().includes(this.state.searchQuery.toLowerCase())
+            )
+        );
+    }
+
+    getSortedSuppliers() {
+        const filtered = this.getFilteredSuppliers();
+        
+        if (!this.state.sortColumn) {
+            return filtered;
+        }
+
+        return [...filtered].sort((a, b) => {
+            const aValue = a[this.state.sortColumn];
+            const bValue = b[this.state.sortColumn];
+
+            if (aValue < bValue) {
+                return this.state.sortDirection === "ascending" ? -1 : 1;
+            }
+            if (aValue > bValue) {
+                return this.state.sortDirection === "ascending" ? 1 : -1;
+            }
+            return 0;
+        });
+    }
+
+    render() {
+        const sortedSuppliers = this.getSortedSuppliers();
+        const filteredSuppliers = this.getFilteredSuppliers();
+
+        return (
+            <AuthContext.Consumer>
+                {(user) => (
+                    <div className="container">
+                        <h1>Suppliers</h1>
+
+                        <div className="search">
+                            <input
+                                type="text"
+                                placeholder="Type to search..."
+                                value={this.state.searchQuery}
+                                onChange={(e) => this.setState({ searchQuery: e.target.value })}
+                            />
+                        </div>
+
+                        {user && <Link to="/suppliers/create">Add</Link>}
+                        
+                        {filteredSuppliers.length === 0 ? (
+                            <p>No suppliers</p>
+                        ) : (
+                            <table className="table">
+                                <thead>
+                                    <tr>
+                                        <th onClick={() => this.handleSort("id")}>
+                                            ID
+                                            {this.state.sortColumn === "id" && (
+                                                <span className="sort-icon">
+                                                    {this.state.sortDirection === "ascending" ? "▲" : "▼"}
+                                                </span>
+                                            )}
+                                        </th>
+                                        <th onClick={() => this.handleSort("name")}>
+                                            Name
+                                            {this.state.sortColumn === "name" && (
+                                                <span className="sort-icon">
+                                                    {this.state.sortDirection === "ascending" ? "▲" : "▼"}
+                                                </span>
+                                            )}
+                                        </th>
+                                        <th onClick={() => this.handleSort("phone")}>
+                                            Phone
+                                            {this.state.sortColumn === "phone" && (
+                                                <span className="sort-icon">
+                                                    {this.state.sortDirection === "ascending" ? "▲" : "▼"}
+                                                </span>
+                                            )}
+                                        </th>
+                                        <th onClick={() => this.handleSort("address")}>
+                                            Address
+                                            {this.state.sortColumn === "address" && (
+                                                <span className="sort-icon">
+                                                    {this.state.sortDirection === "ascending" ? "▲" : "▼"}
+                                                </span>
+                                            )}
+                                        </th>
+                                        <th>Created</th>
+                                        <th>Updated</th>
+                                        {user && <th>Actions</th>}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {sortedSuppliers.map((supplier) => (
+                                        <tr key={supplier.id}>
+                                            <td>{supplier.id}</td>
+                                            <td>{supplier.name}</td>
+                                            <td>{supplier.phone}</td>
+                                            <td>{supplier.address}</td>
+                                            <td title={this.formatTime(supplier.created_at, { timeZone: "UTC" })}>
+                                                {this.formatTime(supplier.created_at)}
+                                            </td>
+                                            <td title={this.formatTime(supplier.updated_at, { timeZone: "UTC" })}>
+                                                {this.formatTime(supplier.updated_at)}
+                                            </td>
+                                            {user && (
+                                                <td>
+                                                    <Link to={`/suppliers/${supplier.id}/edit`} className="btn btn-secondary">
+                                                        Edit
+                                                    </Link>
+                                                    <button 
+                                                        onClick={() => this.handleDelete(supplier.id)} 
+                                                        className="btn btn-danger"
+                                                    >
+                                                        Delete
+                                                    </button>
+                                                </td>
+                                            )}
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        )}
+
+                        <Outlet />
+                    </div>
+                )}
+            </AuthContext.Consumer>
+        );
+    }
+}

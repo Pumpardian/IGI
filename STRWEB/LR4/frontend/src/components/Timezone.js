@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-export default function Timezone() {
+const Timezone = () => {
     const [local, updateLocal] = useState(new Date());
     const [utc, updateUtc] = useState(new Date().toUTCString());
 
@@ -21,3 +21,5 @@ export default function Timezone() {
         </div>
     );
 }
+
+export default Timezone;

@@ -6,9 +6,9 @@ module.exports = app => {
 
     var router = require("express").Router();
 
-    router.post("/register", users.create);
+    router.post("/signup", users.create);
 
-    router.post("/login", users.login);
+    router.post("/signin", users.login);
 
     router.get("/:id", authToken, users.findOne);
 
@@ -17,6 +17,4 @@ module.exports = app => {
     router.delete("/:id", authToken, users.delete);
 
     app.use('/api/users', router);
-
-    app.get("/google", passport.authenticate("google", { scope: [ "profile", "email" ] }));
 }

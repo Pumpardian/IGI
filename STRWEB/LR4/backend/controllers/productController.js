@@ -14,7 +14,7 @@ exports.create = async (request, response) => {
         partNumber: request.body.partNumber
     });
 
-    Product.save(product)
+    product.save()
         .then(data => {
             response.send(data);
         })
@@ -26,13 +26,7 @@ exports.create = async (request, response) => {
 };
 
 exports.findAll = (request, response) => {
-    const search = request.query.search;
-    const condition = title ? { $or: [
-        { title: { $regex: new RegExp(search), $options: "i" } },
-        { partNumber: { $regex: new RegExp(search), $options: "i" } }
-    ]} : {};
-
-    Product.find(condition)
+    Product.find()
         .then(data => {
             response.send(data);
         })

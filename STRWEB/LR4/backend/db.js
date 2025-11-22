@@ -12,9 +12,7 @@ db.products = require("./models/Product.js")(db.mongoose);
 db.suppliers = require("./models/Supplier.js")(db.mongoose);
 db.aquisitions = require("./models/Aquisition.js")(db.mongoose);
 
-await db.mongoose.connect(db.url, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
+db.mongoose.connect(db.url, {
 }).then(() => {
     console.log("Connection to the database has been established");
 }).catch(err => {

@@ -13,7 +13,7 @@ exports.create = async (request, response) => {
         address: request.body.address
     });
 
-    Supplier.save(supplier)
+    supplier.save()
         .then(data => {
             response.send(data);
         })
@@ -25,14 +25,7 @@ exports.create = async (request, response) => {
 };
 
 exports.findAll = (request, response) => {
-    const search = request.query.search;
-    const condition = title ? { $or: [
-        { name: { $regex: new RegExp(search), $options: "i" } },
-        { phone: { $regex: new RegExp(search), $options: "i" } },
-        { address: { $regex: new RegExp(search), $options: "i" } }
-    ]} : {};
-
-    Supplier.find(condition)
+    Supplier.find()
         .then(data => {
             response.send(data);
         })

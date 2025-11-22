@@ -31,7 +31,7 @@ exports.create = async (request, response) => {
         });
     }
 
-    User.save(user)
+    user.save()
         .then(data => {
             response.send(data);
         })
@@ -45,7 +45,7 @@ exports.create = async (request, response) => {
 exports.login = (request, response) => {
     const { username, password } = request.body;
 
-    User.find({ username: username })
+    User.findOne({ username: username })
         .then(async data => {
             if (!data || !(await bcrypt.compare(password, data.password)))
             {
@@ -58,6 +58,10 @@ exports.login = (request, response) => {
                 const token = jwt.sign({ id: data.id, username: data.username }, JWT_SECRET, { expiresIn: "1h" });
                 response.json({ token, username: username });
             }
+        }).catch(err => {
+            response.status(500).send({
+                message: err.message ?? `Failed to log in`
+            });
         });
 };
 

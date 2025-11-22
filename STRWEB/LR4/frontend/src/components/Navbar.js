@@ -1,64 +1,50 @@
 import React, { useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { AuthContext } from "../Auth";
-import Axios from "../axios";
+import { Link, NavLink } from "react-router-dom";
+import { AuthContext } from "./Auth";
 import Timezone from "./Timezone";
 
-export default function Navbar() {
-    const { user, logOut } = useContext(AuthContext);
-    const navigate = useNavigate();
-
-    const processLogOut = async () => {
-        try {
-            await Axios.get("/logout");
-            logOut();
-            navigate("/login");
-        } catch (err)
-        {
-            console.error("Error while logging out: ", err);
-            alert("Unable to log out");
-        }
-    };
+const Navbar = () => {
+    const { user } = useContext(AuthContext);
 
     return (
         <nav>
             <div>
-                <a href="/" className="companyName">
-                PetShop
-                </a>
+                <NavLink to="/" className={`companyName ${({ isActive }) => (isActive ? "active" : "")}`}>
+                    PetShop
+                </NavLink>
 
                 <Timezone />
             </div>
 
             <ul className="nav-menu">
               <li className="nav-item">
-                <Link to={"/products"} className="nav-link">
+                <NavLink to={"/products"} className={`nav-link ${({ isActive }) => (isActive ? "active" : "")}`}>
                   Products
-                </Link>
+                </NavLink>
               </li>
 
               <li className="nav-item">
-                <Link to={"/suppliers"} className="nav-link">
+                <NavLink to={"/suppliers"} className={`nav-link ${({ isActive }) => (isActive ? "active" : "")}`}>
                   Suppliers
-                </Link>
+                </NavLink>
               </li>
 
               <li className="nav-item">
-                <Link to={"/aquisitions"} className="nav-link">
+                <NavLink to={"/aquisitions"} className={`nav-link ${({ isActive }) => (isActive ? "active" : "")}`}>
                   Aquisitions
-                </Link>
+                </NavLink>
               </li>
             </ul>
             <ul className="nav-menu">
                 {!user ? (
                 <>
                     <li className="nav-item">
-                        <Link to="/login" className="nav-link">
+                        <Link to="/signin" className="nav-link">
                             Sign In
                         </Link>
                     </li>
                     <li className="nav-item">
-                        <Link to="/register" className="nav-link">
+                        <Link to="/signup" className="nav-link">
                             Sign Up
                         </Link>
                     </li>
@@ -71,9 +57,9 @@ export default function Navbar() {
                         </Link>
                     </li>
                     <li className="nav-item">
-                        <button onClick={processLogOut} className="nav-button">
+                        <Link to="/logout" className="nav-button">
                             Log Out
-                        </button>
+                        </Link>
                     </li>
                 </>
                 )}
@@ -81,3 +67,5 @@ export default function Navbar() {
         </nav>
     )
 }
+
+export default Navbar;
