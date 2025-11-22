@@ -55,7 +55,7 @@ export default function ProductEdit() {
         <>
             <h1>Edit Product</h1>
 
-            <form onSubmit={handleEdit} onInvalid={showMessage("You've filled every field, right?")}>
+            <form onSubmit={handleEdit}>
                 <label>
                     Title
                 </label>

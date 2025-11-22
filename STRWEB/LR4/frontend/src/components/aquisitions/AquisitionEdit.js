@@ -80,7 +80,7 @@ export default function AquisitionEdit() {
         <>
             <h1>Edit Aquisition</h1>
 
-            <form onSubmit={handleEdit} onInvalid={showMessage("You've filled every field, right?")}>
+            <form onSubmit={handleEdit}>
                 <label>
                     Product
                 </label>

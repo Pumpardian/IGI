@@ -115,6 +115,8 @@ export default class SupplierList extends Component {
                                         placeholder="Type to search..."
                                         value={this.state.searchQuery}
                                         onChange={(e) => this.setState({ searchQuery: e.target.value })}
+                                        onPaste={() => showMessage("Pasted!")}
+                                        onCopy={() => showMessage("Copied!")}
                                     />
 
                                     {user && <Link to="/suppliers/create" className="btn">Add</Link>}

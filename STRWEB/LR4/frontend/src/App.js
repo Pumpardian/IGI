@@ -4,6 +4,8 @@ import { MessageProvider } from "./components/Messages.js";
 import './App.css';
 
 import Layout from "./components/Layout.js"
+import Timezone from "./components/Timezone.js";
+import ThemeSelector from "./components/ThemeSelector.js";
 
 import ProductList from "./components/products/ProductList.js";
 import ProductDetails from "./components/products/ProductDetails.js"
@@ -57,10 +59,14 @@ function App() {
       </main>
 
       <footer>
-        <nav>
-          <span className="text-muted nowrap">
+        <nav className="container">
+          <span>
             @Pet Shop. 2025. All rights reserved.
           </span>
+
+          <Timezone className="time"/>
+
+          <ThemeSelector />
         </nav>
       </footer>
     </>

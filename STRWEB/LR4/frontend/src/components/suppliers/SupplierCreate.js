@@ -65,7 +65,7 @@ export default function SupplierCreate() {
         <>
             <h1>Create Supplier</h1>
 
-            <form onSubmit={handleCreate} onInvalid={showMessage("You've filled every field, right?")}>
+            <form onSubmit={handleCreate}>
                 <label>
                     Name
                 </label>

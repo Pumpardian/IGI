@@ -1,8 +1,6 @@
 import React, { useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "./Auth";
-import Timezone from "./Timezone";
-import ThemeSelector from "./ThemeSelector";
 
 const Navbar = () => {
     const { user } = useContext(AuthContext);
@@ -13,10 +11,6 @@ const Navbar = () => {
                 <NavLink to="/" className={`${({ isActive }) => (isActive ? "active" : "")}`}>
                     <img src={process.env.PUBLIC_URL + "logo192.png"} className="logo" alt="logo"/>
                 </NavLink>
-
-                <Timezone className="time"/>
-
-                <ThemeSelector />
             </div>
 
             <ul className="nav-menu">

@@ -82,7 +82,7 @@ export default function SupplierEdit() {
         <>
             <h1>Edit Supplier</h1>
 
-            <form onSubmit={handleEdit} onInvalid={showMessage("You've filled every field, right?")}>
+            <form onSubmit={handleEdit}>
                 <label>
                     Name
                 </label>

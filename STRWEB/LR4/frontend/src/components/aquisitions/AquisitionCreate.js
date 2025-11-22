@@ -63,7 +63,7 @@ export default function AquisitionCreate() {
         <>
             <h1>Create Aquisition</h1>
 
-            <form onSubmit={handleCreate} onInvalid={showMessage("You've filled every field, right?")}>
+            <form onSubmit={handleCreate}>
                 <label>
                     Product
                 </label>

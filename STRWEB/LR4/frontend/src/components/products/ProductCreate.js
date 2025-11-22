@@ -38,7 +38,7 @@ export default function ProductCreate() {
         <>
             <h1>Create Product</h1>
 
-            <form onSubmit={handleCreate} onInvalid={showMessage("You've filled every field, right?")}>
+            <form onSubmit={handleCreate}>
                 <label>
                     Title
                 </label>
