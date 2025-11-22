@@ -24,7 +24,7 @@ export default class AquisitionList extends Component {
                 const response = await Axios.get("/api/aquisitions");
                 this.setState({ aquisitions: response.data });
             } catch (err) {
-                console.error("Error while receiving aquisitions: ", err);
+                console.error("Error while receiving aquisitions: ", err.response?.data?.message);
             }
         };
 
@@ -42,7 +42,7 @@ export default class AquisitionList extends Component {
                 aquisitions: prevState.aquisitions.filter(aquisition => aquisition.id !== id)
             }));
         } catch (err) {
-            console.error("Error while deleting aquisition: ", err);
+            console.error("Error while deleting aquisition: ", err.response?.data?.message);
         }
     };
 

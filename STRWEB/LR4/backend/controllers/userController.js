@@ -10,7 +10,10 @@ const User = db.users;
 
 exports.create = async (request, response) => {
     if (!request.body) {
-        response.status(400).send({ message: "Content cannot be empty" });
+        response.status(400).send({
+            message: "Content cannot be empty"
+        });
+
         return;
     }
 
@@ -40,12 +43,12 @@ exports.create = async (request, response) => {
         .catch(err => {
             if (err.code === 11000) {
                 response.status(400).send({
-                    message: err.message ?? "Failed to create user"
+                    message: "User with provided username/email already exists"
                 });
             }
             else {
                 response.status(500).send({
-                    message: err.message ?? "Failed to create user"
+                    message: "Failed to sign up (internal server error)"
                 });
             }
         });
@@ -69,7 +72,7 @@ exports.login = (request, response) => {
             }
         }).catch(err => {
             response.status(500).send({
-                message: err.message ?? `Failed to log in`
+                message: `Failed to sign in (internal server error)`
             });
         });
 };
@@ -92,40 +95,10 @@ exports.findOne = (request, response) => {
         })
         .catch(err => {
             response.status(500).send({
-                message: err.message ?? `Failed to get user with id ${id}`
+                message: `Failed to get user with id ${id} (internal server error)`
             });
         });
 };
-
-/*exports.update = (request, response) => {
-    if (!request.body) {
-        response.status(400).send({ message: "Content cannot be empty" });
-        return;
-    }
-
-    const id = request.params.id;
-
-    User.findByIdAndUpdate(id, request.body, { useFindAndModify: false })
-        .then(data => {
-            if (!data)
-            {
-                response.status(404).send({
-                    message: `User with id ${id} wasnt found, cant update then`
-                });
-            }
-            else
-            {
-                response.send({
-                    message: `User with id ${id} was updated successfuly`
-                });
-            }
-        })
-        .catch(err => {
-            response.status(500).send({
-                message: err.message ?? `Failed to update user with id ${id}`
-            });
-        });
-};*/
 
 exports.delete = (request, response) => {
     const id = request.params.id;
@@ -147,7 +120,7 @@ exports.delete = (request, response) => {
         })
         .catch(err => {
             response.status(500).send({
-                message: err.message ?? `Failed to delete user with id ${id}`
+                message: `Failed to delete user with id ${id} (internal server error)`
             });
         });
 };

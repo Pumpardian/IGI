@@ -17,7 +17,7 @@ export default function ProductCreate() {
             await Axios.post("/api/products", { title: title, description: description, price: price, partNumber: partNumber });
             navigate("/products");
         } catch (err) {
-            console.error("Error while creating product: ", err);
+            console.error("Error while creating product: ", err.response?.data?.message);
         }
     };
 

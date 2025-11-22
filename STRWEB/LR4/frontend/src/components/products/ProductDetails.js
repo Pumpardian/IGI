@@ -12,7 +12,7 @@ export default function ProductDetails() {
                 const response = await Axios.get(`/api/products/${id}`);
                 updateProduct(response.data);
             } catch (err) {
-                console.error("Error while receiving product: ", err);
+                console.error("Error while receiving product: ", err.response?.data?.message);
             }
         }
 

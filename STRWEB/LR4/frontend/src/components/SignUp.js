@@ -46,7 +46,7 @@ export default function SignUp() {
             alert("Sign Up - Success");
             navigate("/signin");
         } catch (err) {
-            console.error("Error while signing up: ", err);
+            console.error("Error while signing up: ", err.response?.data?.message);
             alert("Sign Up - Fail");
         }
     };

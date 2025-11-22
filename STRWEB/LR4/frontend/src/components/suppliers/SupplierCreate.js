@@ -44,7 +44,7 @@ export default function SupplierCreate() {
             });
             navigate("/suppliers");
         } catch (err) {
-            console.error("Error while creating supplier: ", err);
+            console.error("Error while creating supplier: ", err.response?.data?.message);
         }
     };
 

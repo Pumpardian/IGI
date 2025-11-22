@@ -38,7 +38,7 @@ export default function SupplierEdit() {
                 handlePhoneChange(supplier.phone);
                 updateAddress(supplier.address);
             } catch (err) {
-                console.error("Error while receiving supplier: ", err);
+                console.error("Error while receiving supplier: ", err.response?.data?.message);
             }
         }
 
@@ -63,7 +63,7 @@ export default function SupplierEdit() {
             });
             navigate("/suppliers");
         } catch (err) {
-            console.error("Error while editing supplier: ", err);
+            console.error("Error while editing supplier: ", err.response?.data?.message);
         }
     };
 

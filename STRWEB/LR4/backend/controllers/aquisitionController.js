@@ -21,7 +21,7 @@ exports.create = async (request, response) => {
         })
         .catch(err => {
             response.status(500).send({
-                message: err.message ?? "Failed to create aquisition"
+                message: "Failed to create aquisition (internal server error)"
             });
         });
 };
@@ -33,7 +33,7 @@ exports.findAll = (request, response) => {
         })
         .catch(err => {
             response.status(500).send({
-                message: err.message ?? `Failed to get aquisitions`
+                message: "Failed to get aquisitions (internal server error)"
             });
         });
 };
@@ -56,14 +56,17 @@ exports.findOne = (request, response) => {
         })
         .catch(err => {
             response.status(500).send({
-                message: err.message ?? `Failed to get aquisition with id ${id}`
+                message: `Failed to get aquisition with id ${id} (internal server error)`
             });
         });
 };
 
 exports.update = (request, response) => {
     if (!request.body) {
-        response.status(400).send({ message: "Content cannot be empty" });
+        response.status(400).send({
+            message: "Content cannot be empty"
+        });
+
         return;
     }
 
@@ -86,7 +89,7 @@ exports.update = (request, response) => {
         })
         .catch(err => {
             response.status(500).send({
-                message: err.message ?? `Failed to update aquisition with id ${id}`
+                message: `Failed to update aquisition with id ${id} (internal server error)`
             });
         });
 };
@@ -111,7 +114,7 @@ exports.delete = (request, response) => {
         })
         .catch(err => {
             response.status(500).send({
-                message: err.message ?? `Failed to delete aquisition with id ${id}`
+                message: `Failed to delete aquisition with id ${id} (internal server error)`
             });
         });
 };

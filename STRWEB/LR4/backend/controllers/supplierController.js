@@ -3,7 +3,10 @@ const Supplier = db.suppliers;
 
 exports.create = async (request, response) => {
     if (!request.body) {
-        response.status(400).send({ message: "Content cannot be empty" });
+        response.status(400).send({
+            message: "Content cannot be empty"
+        });
+
         return;
     }
 
@@ -18,9 +21,15 @@ exports.create = async (request, response) => {
             response.send(data);
         })
         .catch(err => {
-            response.status(500).send({
-                message: err.message ?? "Failed to create supplier"
-            });
+            if (err.code === 11000) {
+                response.status(400).send({
+                    message: "Supplier with provided phone already exists"
+                });
+            } else {
+                response.status(500).send({
+                    message: "Failed to create supplier (internal server error)"
+                });
+            }
         });
 };
 
@@ -31,7 +40,7 @@ exports.findAll = (request, response) => {
         })
         .catch(err => {
             response.status(500).send({
-                message: err.message ?? `Failed to get suppliers`
+                message: "Failed to get suppliers (internal server error)"
             });
         });
 };
@@ -54,14 +63,17 @@ exports.findOne = (request, response) => {
         })
         .catch(err => {
             response.status(500).send({
-                message: err.message ?? `Failed to get supplier with id ${id}`
+                message: `Failed to get supplier with id ${id} (internal server error)`
             });
         });
 };
 
 exports.update = (request, response) => {
     if (!request.body) {
-        response.status(400).send({ message: "Content cannot be empty" });
+        response.status(400).send({
+            message: "Content cannot be empty"
+        });
+
         return;
     }
 
@@ -83,9 +95,15 @@ exports.update = (request, response) => {
             }
         })
         .catch(err => {
-            response.status(500).send({
-                message: err.message ?? `Failed to update supplier with id ${id}`
-            });
+            if (err.code === 11000) {
+                response.status(400).send({
+                    message: "Supplier with provided phone already exists"
+                });
+            } else {
+                response.status(500).send({
+                    message: `Failed to update supplier with id ${id} (internal server error)`
+                });
+            }
         });
 };
 
@@ -109,7 +127,7 @@ exports.delete = (request, response) => {
         })
         .catch(err => {
             response.status(500).send({
-                message: err.message ?? `Failed to delete supplier with id ${id}`
+                message: `Failed to delete supplier with id ${id} (internal server error)`
             });
         });
 };

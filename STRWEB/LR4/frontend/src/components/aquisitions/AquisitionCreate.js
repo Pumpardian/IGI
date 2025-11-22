@@ -20,7 +20,7 @@ export default function AquisitionCreate() {
                 const response = await Axios.get(`/api/products`);
                 updateProducts(response.data);
             } catch (err) {
-                console.error("Error while receiving products: ", err);
+                console.error("Error while receiving products: ", err.response?.data?.message);
             }
         }
 
@@ -29,7 +29,7 @@ export default function AquisitionCreate() {
                 const response = await Axios.get(`/api/suppliers`);
                 updateSuppliers(response.data);
             } catch (err) {
-                console.error("Error while receiving suppliers: ", err);
+                console.error("Error while receiving suppliers: ", err.response?.data?.message);
             }
         }
 
@@ -44,7 +44,7 @@ export default function AquisitionCreate() {
             await Axios.post("/api/aquisitions", { productID: productID, supplierID: supplierID, price: price, count: count, date: date });
             navigate("/aquisitions");
         } catch (err) {
-            console.error("Error while creating aquisition: ", err);
+            console.error("Error while creating aquisition: ", err.response?.data?.message);
         }
     };
 

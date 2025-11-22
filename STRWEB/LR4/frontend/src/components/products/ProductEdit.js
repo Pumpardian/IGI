@@ -22,7 +22,7 @@ export default function ProductEdit() {
                 updatePrice(product.price);
                 updatePartNumber(product.partNumber);
             } catch (err) {
-                console.error("Error while receiving product: ", err);
+                console.error("Error while receiving product: ", err.response?.data?.message);
             }
         }
 
@@ -36,7 +36,7 @@ export default function ProductEdit() {
             await Axios.put(`/api/products/${id}`, { title: title, description: description, price: price, partNumber: partNumber });
             navigate("/products");
         } catch (err) {
-            console.error("Error while editing product: ", err);
+            console.error("Error while editing product: ", err.response?.data?.message);
         }
     };
 

@@ -3,7 +3,10 @@ const Product = db.products;
 
 exports.create = async (request, response) => {
     if (!request.body) {
-        response.status(400).send({ message: "Content cannot be empty" });
+        response.status(400).send({
+            message: "Content cannot be empty"
+        });
+
         return;
     }
 
@@ -20,7 +23,7 @@ exports.create = async (request, response) => {
         })
         .catch(err => {
             response.status(500).send({
-                message: err.message ?? "Failed to create product"
+                message: "Failed to create product (internal server error)"
             });
         });
 };
@@ -32,7 +35,7 @@ exports.findAll = (request, response) => {
         })
         .catch(err => {
             response.status(500).send({
-                message: err.message ?? `Failed to get products`
+                message: "Failed to get products (internal server error)"
             });
         });
 };
@@ -55,14 +58,17 @@ exports.findOne = (request, response) => {
         })
         .catch(err => {
             response.status(500).send({
-                message: err.message ?? `Failed to get product with id ${id}`
+                message: `Failed to get product with id ${id} (internal server error)`
             });
         });
 };
 
 exports.update = (request, response) => {
     if (!request.body) {
-        response.status(400).send({ message: "Content cannot be empty" });
+        response.status(400).send({
+            message: "Content cannot be empty"
+        });
+
         return;
     }
 
@@ -85,7 +91,7 @@ exports.update = (request, response) => {
         })
         .catch(err => {
             response.status(500).send({
-                message: err.message ?? `Failed to update product with id ${id}`
+                message: `Failed to update product with id ${id} (internal server error)`
             });
         });
 };
@@ -110,7 +116,7 @@ exports.delete = (request, response) => {
         })
         .catch(err => {
             response.status(500).send({
-                message: err.message ?? `Failed to delete product with id ${id}`
+                message: `Failed to delete product with id ${id} (internal server error)`
             });
         });
 };

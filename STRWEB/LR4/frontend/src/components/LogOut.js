@@ -12,7 +12,7 @@ export default function LogoutPage() {
             try {
                 await Axios.get("/logout");
             } catch (err) {
-                console.error("Error while logging out: ", err);
+                console.error("Error while logging out: ", err.response?.data?.message);
             } finally {
                 logOut();
                 navigate("/signin");

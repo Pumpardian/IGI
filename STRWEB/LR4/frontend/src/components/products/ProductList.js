@@ -21,7 +21,7 @@ export default class ProductList extends Component {
                 const response = await Axios.get("/api/products");
                 this.setState({ products: response.data });
             } catch (err) {
-                console.error("Error while receiving products: ", err);
+                console.error("Error while receiving products: ", err.response?.data?.message);
             }
         };
 
@@ -39,7 +39,7 @@ export default class ProductList extends Component {
                 products: prevState.products.filter(product => product.id !== id)
             }));
         } catch (err) {
-            console.error("Error while deleting product: ", err);
+            console.error("Error while deleting product: ", err.response?.data?.message);
         }
     };
 

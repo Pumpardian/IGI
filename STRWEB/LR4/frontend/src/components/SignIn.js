@@ -29,7 +29,7 @@ export default function SignIn() {
             alert("Sign In - Success");
             navigate("/");
         } catch (err) {
-            console.error("Error while signing in: ", err);
+            console.error("Error while signing in: ", err.response?.data?.message);
             alert("Sign In - Fail");
         }
     };

@@ -24,7 +24,7 @@ export default class SupplierList extends Component {
                 const response = await Axios.get("/api/suppliers");
                 this.setState({ suppliers: response.data });
             } catch (err) {
-                console.error("Error while receiving suppliers: ", err);
+                console.error("Error while receiving suppliers: ", err.response?.data?.message);
             }
         };
 
@@ -42,7 +42,7 @@ export default class SupplierList extends Component {
                 suppliers: prevState.suppliers.filter(supplier => supplier.id !== id)
             }));
         } catch (err) {
-            console.error("Error while deleting supplier: ", err);
+            console.error("Error while deleting supplier: ", err.response?.data?.message);
         }
     };
 
