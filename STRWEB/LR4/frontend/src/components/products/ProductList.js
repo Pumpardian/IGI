@@ -92,10 +92,10 @@ export default class ProductList extends Component {
                                             <p className="product-price">
                                                 {product.price}
                                             </p>
-                                            <p title={this.formatTime(product.createdAt, { timeZone: "UTC" })}>
+                                            <p title={this.formatTime(product.createdAt, { timeZone: "UTC" })} className="product-description">
                                                 {`Created: ${this.formatTime(product.createdAt)}`}
                                             </p>
-                                            <p title={this.formatTime(product.updatedAt, { timeZone: "UTC" })}>
+                                            <p title={this.formatTime(product.updatedAt, { timeZone: "UTC" })} className="product-description">
                                                 {`Updated: ${this.formatTime(product.updatedAt)}`}
                                             </p>
                                             <div className="container">

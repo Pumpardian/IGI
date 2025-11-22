@@ -8,7 +8,7 @@ exports.create = async (request, response) => {
     }
 
     const supplier = new Supplier({
-        name: request.body.title,
+        name: request.body.name,
         phone: request.body.phone,
         address: request.body.address
     });
