@@ -90,6 +90,13 @@ export default class ProductList extends Component {
                                         {filteredProducts.map((product) => (
                                             <div className="card-wrapper" key={product.id}>
                                                 <div className="product-card">
+                                                    {product.image && (
+                                                        <img 
+                                                            src={`http://localhost:8000${product.image.url}`}
+                                                            alt={product.name}
+                                                            className="product-image"
+                                                        />
+                                                    )}
                                                     <h3 className="product-title">
                                                         {product.title}
                                                     </h3>

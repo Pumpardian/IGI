@@ -46,6 +46,13 @@ export default function ProductDetails() {
             <p>
                 <strong>Part Number:</strong> {product.partNumber}
             </p>
+            {product.image && (
+                <img 
+                    src={`http://localhost:8000${product.image.url}`}
+                    alt={product.name}
+                    className="product-image"
+                />
+            )}
         </>
     );
 }

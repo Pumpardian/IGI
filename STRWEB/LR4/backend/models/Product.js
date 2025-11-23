@@ -13,6 +13,20 @@ module.exports = mongoose => {
                 type: Number,
                 required: true
             },
+            image: {
+                url: {
+                    type: String,
+                    required: true
+                },
+                filename: {
+                    type: String,
+                    required: true
+                },
+                originalName: {
+                    type: String,
+                    required: true
+                }
+            },
             partNumber: { 
                 type: String,
                 required: true

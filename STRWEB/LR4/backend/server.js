@@ -1,5 +1,6 @@
 const express = require("express");
-const bodyParser = require("body-parser");
+const path = require("path");
+const fs = require("fs");
 const cors = require("cors");
 const session = require("express-session");
 const passport = require("passport");
@@ -18,6 +19,24 @@ app.use(cors(corsOptions));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use('/media', express.static(path.join(__dirname, 'media')));
+
+const mediaDir = path.join(__dirname, 'media');
+if (!fs.existsSync(mediaDir)) {
+    fs.mkdirSync(mediaDir, { recursive: true });
+}
+
+app.use((error, request, response, next) => {
+    if (error instanceof multer.MulterError) {
+        if (error.code === 'LIMIT_FILE_SIZE') {
+            return response.status(400).send({
+                message: 'File too large'
+            });
+        }
+    }
+    response.status(500).send({ message: error.message });
+});
 
 app.use(
     session({
