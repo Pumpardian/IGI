@@ -43,14 +43,12 @@ exports.findOne = (request, response) => {
 
     Aquisition.findById(id)
         .then(data => {
-            if (!data)
-            {
+            if (!data) {
                 response.status(404).send({
                     message: `Aquisition with id ${id} wasnt found`
                 });
             }
-            else
-            {
+            else {
                 response.send(data);
             }
         })
@@ -74,14 +72,12 @@ exports.update = (request, response) => {
 
     Aquisition.findByIdAndUpdate(id, request.body, { useFindAndModify: false })
         .then(data => {
-            if (!data)
-            {
+            if (!data) {
                 response.status(404).send({
                     message: `Aquisition with id ${id} wasnt found, cant update then`
                 });
             }
-            else
-            {
+            else {
                 response.send({
                     message: `Aquisition with id ${id} was updated successfuly`
                 });
@@ -99,14 +95,12 @@ exports.delete = (request, response) => {
 
     Aquisition.findByIdAndDelete(id)
         .then(data => {
-            if (!data)
-            {
+            if (!data) {
                 response.status(404).send({
                     message: `Aquisition with id ${id} wasnt found, cant delete then`
                 });
             }
-            else
-            {
+            else {
                 response.send({
                     message: `Aquisition with id ${id} was deleted successfuly`
                 });

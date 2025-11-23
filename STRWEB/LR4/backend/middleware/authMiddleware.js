@@ -13,6 +13,11 @@ module.exports = function authenticateToken(request, response, next) {
       return response.status(403).json({ error: "Invalid token" });
     }
     request.user = user;
+
+    if (request.session) {
+      request.session.touch();
+      request.session.cookie.maxAge = 24 * 60 * 60 * 1000;
+    }
     next();
   });
 };

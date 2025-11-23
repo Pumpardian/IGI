@@ -13,7 +13,7 @@ export default function SupplierCreate() {
 
     const navigate = useNavigate();
 
-    const { user } = useContext(AuthContext);
+    const { user, loading } = useContext(AuthContext);
     const { showMessage } = useMessage();
 
     const validatePhone = (phoneNumber) => {
@@ -33,10 +33,10 @@ export default function SupplierCreate() {
     };
 
     useEffect(() => {
-        if (!user) {
+        if (!loading && !user) {
             navigate("/signin");
         }
-    }, [user, navigate]);
+    }, [user, loading, navigate]);
 
     const handleCreate = async (e) => {
         e.preventDefault();
@@ -58,6 +58,7 @@ export default function SupplierCreate() {
             showMessage(`Supplier ${name} created`);
         } catch (err) {
             console.error("Error while creating supplier: ", err.response?.data?.message);
+            showMessage(err.response?.data?.message);
         }
     };
 

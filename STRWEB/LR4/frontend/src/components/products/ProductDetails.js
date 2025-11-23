@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import Axios from "../../axios";
 import { useParams } from "react-router-dom";
+import { useMessage } from "../Messages";
 
 export default function ProductDetails() {
     const { id } = useParams();
     const [product, updateProduct] = useState(null);
 
+    const { showMessage } = useMessage();
+    
     useEffect(() => {
         const fetch = async () => {
             try {
@@ -13,10 +16,12 @@ export default function ProductDetails() {
                 updateProduct(response.data);
             } catch (err) {
                 console.error("Error while receiving product: ", err.response?.data?.message);
+                showMessage(err.response?.data?.message);
             }
         }
 
         fetch();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id]);
 
     if (!product) {

@@ -41,11 +41,18 @@ module.exports = function (passport) {
                         return done(new Error('Email is required'), null);
                     }
 
-                    user = await User.create({
-                        googleID: profile.id,
-                        email: email,
-                        username: profile.displayName,
-                    });
+                    let existingUserEmail = await User.findOne({ email: email });
+                    let existingUserName = await User.findOne({ username: profile.displayName });
+
+                    if (!existingUserEmail && !existingUserName) {
+                        user = await User.create({
+                            googleID: profile.id,
+                            email: email,
+                            username: profile.displayName,
+                        });
+                    } else {
+                        return done(new Error('User with email or username that your google account is using already exists, log in using your username instead'), null);
+                    }
 
                     return done(null, user);
                 } catch (err) {

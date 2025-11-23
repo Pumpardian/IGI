@@ -17,14 +17,14 @@ export default function ProductCreate() {
     
     const navigate = useNavigate();
 
-    const { user } = useContext(AuthContext);
+    const { user, loading } = useContext(AuthContext);
     const { showMessage } = useMessage();
 
     useEffect(() => {
-        if (!user) {
+        if (!loading && !user) {
             navigate("/signin");
         }
-    }, [user, navigate]);
+    }, [user, loading, navigate]);
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -74,6 +74,7 @@ export default function ProductCreate() {
             showMessage(`Product ${title} created`);
         } catch (err) {
             console.error("Error while creating product: ", err.response?.data?.message);
+            showMessage(err.response?.data?.message);
         } finally {
             updateIsLoading(false);
         }

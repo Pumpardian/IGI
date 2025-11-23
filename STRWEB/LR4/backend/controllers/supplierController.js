@@ -50,14 +50,12 @@ exports.findOne = (request, response) => {
 
     Supplier.findById(id)
         .then(data => {
-            if (!data)
-            {
+            if (!data) {
                 response.status(404).send({
                     message: `Supplier with id ${id} wasnt found`
                 });
             }
-            else
-            {
+            else {
                 response.send(data);
             }
         })
@@ -81,14 +79,12 @@ exports.update = (request, response) => {
 
     Supplier.findByIdAndUpdate(id, request.body, { useFindAndModify: false })
         .then(data => {
-            if (!data)
-            {
+            if (!data) {
                 response.status(404).send({
                     message: `Supplier with id ${id} wasnt found, cant update then`
                 });
             }
-            else
-            {
+            else {
                 response.send({
                     message: `Supplier with id ${id} was updated successfuly`
                 });
@@ -112,14 +108,12 @@ exports.delete = (request, response) => {
 
     Supplier.findByIdAndDelete(id)
         .then(data => {
-            if (!data)
-            {
+            if (!data) {
                 response.status(404).send({
                     message: `Supplier with id ${id} wasnt found, cant delete then`
                 });
             }
-            else
-            {
+            else {
                 response.send({
                     message: `Supplier with id ${id} was deleted successfuly`
                 });

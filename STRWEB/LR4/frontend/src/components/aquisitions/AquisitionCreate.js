@@ -16,11 +16,11 @@ export default function AquisitionCreate() {
 
     const navigate = useNavigate();
 
-    const { user } = useContext(AuthContext);
+    const { user, loading } = useContext(AuthContext);
     const { showMessage } = useMessage();
 
     useEffect(() => {
-        if (!user) {
+        if (!loading && !user) {
             navigate("/signin");
         }
 
@@ -30,6 +30,7 @@ export default function AquisitionCreate() {
                 updateProducts(response.data);
             } catch (err) {
                 console.error("Error while receiving products: ", err.response?.data?.message);
+                showMessage(err.response?.data?.message);
             }
         }
 
@@ -39,12 +40,14 @@ export default function AquisitionCreate() {
                 updateSuppliers(response.data);
             } catch (err) {
                 console.error("Error while receiving suppliers: ", err.response?.data?.message);
+                showMessage(err.response?.data?.message);
             }
         }
 
         fetchProducts();
         fetchSuppliers();
-    }, [user, navigate]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [user, loading, navigate]);
 
     const handleCreate = async (e) => {
         e.preventDefault();
@@ -56,6 +59,7 @@ export default function AquisitionCreate() {
             showMessage("Aquisition registered");
         } catch (err) {
             console.error("Error while creating aquisition: ", err.response?.data?.message);
+            showMessage(err.response?.data?.message);
         }
     };
 

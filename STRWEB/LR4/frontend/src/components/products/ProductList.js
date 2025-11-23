@@ -42,6 +42,7 @@ export default class ProductList extends Component {
             showMessage("Product deleted");
         } catch (err) {
             console.error("Error while deleting product: ", err.response?.data?.message);
+            showMessage(err.response?.data?.message);
         }
     };
 
@@ -63,7 +64,7 @@ export default class ProductList extends Component {
 
         return (
             <AuthContext.Consumer>
-                {({ user, signIn, logOut }) => (
+                {({ user, signIn, logOut, loading }) => (
                     <MessageContext.Consumer>
                         {({ showMessage }) => (
                         <>
@@ -85,56 +86,54 @@ export default class ProductList extends Component {
                             {filteredProducts.length === 0 ? (
                                 <p>No products</p>
                             ) : (
-                                <div className="table-container">
-                                    <div className="product-list">
-                                        {filteredProducts.map((product) => (
-                                            <div className="card-wrapper" key={product.id}>
-                                                <div className="product-card">
-                                                    {product.image && (
-                                                        <img 
-                                                            src={`http://localhost:8000${product.image.url}`}
-                                                            alt={product.name}
-                                                            className="product-image"
-                                                        />
-                                                    )}
-                                                    <h3 className="product-title">
-                                                        {product.title}
-                                                    </h3>
-                                                    <p className="product-description">
-                                                        {product.description}
-                                                    </p>
-                                                    <p className="product-price">
-                                                        {product.price}
-                                                    </p>
-                                                    <p title={this.formatTime(product.createdAt, { timeZone: "UTC" })} className="product-description">
-                                                        {`Created: ${this.formatTime(product.createdAt)}`}
-                                                    </p>
-                                                    <p title={this.formatTime(product.updatedAt, { timeZone: "UTC" })} className="product-description">
-                                                        {`Updated: ${this.formatTime(product.updatedAt)}`}
-                                                    </p>
-                                                    <div className="container">
-                                                        <Link to={`/products/${product.id}`} className="btn btn-primary">
-                                                            View
-                                                        </Link>
+                                <div className="product-list">
+                                    {filteredProducts.map((product) => (
+                                        <div className="card-wrapper" key={product.id}>
+                                            <div className="product-card">
+                                                {product.image && (
+                                                    <img 
+                                                        src={`http://localhost:8000${product.image.url}`}
+                                                        alt={product.name}
+                                                        className="product-image"
+                                                    />
+                                                )}
+                                                <h3 className="product-title">
+                                                    {product.title}
+                                                </h3>
+                                                <p className="product-description">
+                                                    {product.description}
+                                                </p>
+                                                <p className="product-price">
+                                                    {product.price}
+                                                </p>
+                                                <p title={this.formatTime(product.createdAt, { timeZone: "UTC" })} className="product-description">
+                                                    {`Created: ${this.formatTime(product.createdAt)}`}
+                                                </p>
+                                                <p title={this.formatTime(product.updatedAt, { timeZone: "UTC" })} className="product-description">
+                                                    {`Updated: ${this.formatTime(product.updatedAt)}`}
+                                                </p>
+                                                <div className="container">
+                                                    <Link to={`/products/${product.id}`} className="btn btn-primary">
+                                                        View
+                                                    </Link>
 
-                                                        {user && (
-                                                            <>
-                                                                <Link to={`/products/${product.id}/edit`} className="btn btn-secondary">
-                                                                    Edit
-                                                                </Link>
-                                                                <button 
-                                                                    onDoubleClick={() => this.handleDelete(product.id, user, showMessage)} 
-                                                                    className="btn btn-danger"
-                                                                >
-                                                                    Delete
-                                                                </button>
-                                                            </>
-                                                        )}
-                                                    </div>
+                                                    {user && (
+                                                        <>
+                                                            <Link to={`/products/${product.id}/edit`} className="btn btn-secondary">
+                                                                Edit
+                                                            </Link>
+                                                            <button 
+                                                                onDoubleClick={() => this.handleDelete(product.id, user, showMessage)} 
+                                                                className="btn btn-danger"
+                                                            >
+                                                                Delete
+                                                            </button>
+                                                        </>
+                                                    )}
                                                 </div>
                                             </div>
-                                        ))}
-                                    </div>
+                                        </div>
+                                    ))}
                                 </div>
                                 )}
                             </>

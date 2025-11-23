@@ -4,12 +4,14 @@ export const AuthContext = createContext(null);
 
 export const AuthWrapper = ({ children }) => {
     const [user, updateUser] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const savedUser = JSON.parse(localStorage.getItem("user"));
         if (savedUser) {
             updateUser(savedUser);
         }
+        setLoading(false);
     }, []);
 
     const signIn = (data) => {
@@ -23,5 +25,9 @@ export const AuthWrapper = ({ children }) => {
         localStorage.removeItem("token");
     };
     
-    return <AuthContext.Provider value={{ user, signIn, logOut }}>{children}</AuthContext.Provider>;
+    return (
+        <AuthContext.Provider value={{ user, signIn, logOut, loading }}>
+            {children}
+        </AuthContext.Provider>
+    );
 };

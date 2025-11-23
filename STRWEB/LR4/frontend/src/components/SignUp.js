@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Axios from "../axios";
 import { useNavigate } from "react-router-dom";
+import { useMessage } from "./Messages";
 
 export default function SignUp() {
     const [username, updateUsername] = useState("");
@@ -10,6 +11,8 @@ export default function SignUp() {
     const [emailError, updateEmailError] = useState("");
 
     const navigate = useNavigate();
+
+    const { showMessage } = useMessage();
 
     const validateEmail = (email) => {
         const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -43,11 +46,11 @@ export default function SignUp() {
                 password
             });
 
-            alert("Sign Up - Success");
+            showMessage("Sign Up - Success");
             navigate("/signin");
         } catch (err) {
             console.error("Error while signing up: ", err.response?.data?.message);
-            alert("Sign Up - Fail");
+            showMessage("Sign Up - Fail");
         }
     };
 

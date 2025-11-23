@@ -45,7 +45,7 @@ app.use(
         saveUninitialized: false,
         cookie: { 
             secure: false,
-            maxAge: 60000
+            maxAge: 24 * 60 * 60 * 1000
         }
     })
 );
@@ -58,15 +58,12 @@ require("./config/auth.config.js")(passport);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get("/", (request, response) => {
-    response.json({ message: "Hello World!" });
-});
-
 //Endpoints
 require("./endpoints/userEndpoints.js")(app);
 require("./endpoints/supplierEndpoints.js")(app);
 require("./endpoints/aquisitionEndpoints.js")(app);
 require("./endpoints/productEndpoints.js")(app);
+require("./endpoints/chatEndpoints.js")(app);
 
 app.get("/logout", (request, response) => {
   request.logout((err) => {
@@ -90,7 +87,7 @@ app.get(
         const token = jwt.sign(
             { id: request.user.id, username: request.user.username },
             process.env.JWT_SECRET,
-            { expiresIn: "1h" },
+            { expiresIn: "24h" },
         );
 
         response.redirect(`http://localhost:3000/signin?token=${token}`);

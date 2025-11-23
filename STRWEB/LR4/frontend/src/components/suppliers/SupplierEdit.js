@@ -14,7 +14,7 @@ export default function SupplierEdit() {
     
     const navigate = useNavigate();
 
-    const { user } = useContext(AuthContext);
+    const { user, loading } = useContext(AuthContext);
     const { showMessage } = useMessage();
 
     const validatePhone = (phoneNumber) => {
@@ -34,7 +34,7 @@ export default function SupplierEdit() {
     };
 
     useEffect(() => {
-        if (!user) {
+        if (!loading && !user) {
             navigate("/signin");
         }
 
@@ -48,12 +48,13 @@ export default function SupplierEdit() {
                 updateAddress(supplier.address);
             } catch (err) {
                 console.error("Error while receiving supplier: ", err.response?.data?.message);
+                showMessage(err.response?.data?.message);
             }
         }
 
         fetch();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [id]);
+    }, [id, loading, user, navigate]);
 
     const handleEdit = async (e) => {
         e.preventDefault();
@@ -75,6 +76,7 @@ export default function SupplierEdit() {
             showMessage("Supplier changed successfuly");
         } catch (err) {
             console.error("Error while editing supplier: ", err.response?.data?.message);
+            showMessage(err.response?.data?.message);
         }
     };
 

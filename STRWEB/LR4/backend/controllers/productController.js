@@ -66,9 +66,19 @@ exports.create = async (request, response) => {
                     response.send(data);
                 })
                 .catch(err => {
-                    response.status(500).send({
-                        message: "Failed to create product (internal server error)"
-                    });
+                    if (err.code === 11000) {
+                        response.status(400).send({
+                            message: "Product with provided part number already exists"
+                        });
+                    } else {
+                        response.status(500).send({
+                            message: "Failed to create product (internal server error)"
+                        });
+                    }
+
+                    if (product.image) {
+                        deleteFile(product.image.url);
+                    }
                 });
         } catch (error) {
             response.status(400).send({
@@ -95,14 +105,12 @@ exports.findOne = (request, response) => {
 
     Product.findById(id)
         .then(data => {
-            if (!data)
-            {
+            if (!data) {
                 response.status(404).send({
                     message: `Product with id ${id} wasnt found`
                 });
             }
-            else
-            {
+            else {
                 response.send(data);
             }
         })
@@ -164,11 +172,19 @@ exports.update = (request, response) => {
                     }
                 })
                 .catch(err => {
-                    response.status(500).send({
-                        message: `Failed to update product with id ${id} (internal server error)`
-                    });
+                    if (err.code === 11000) {
+                        response.status(400).send({
+                            message: "Product with provided part number already exists"
+                        });
+                    } else {
+                        response.status(500).send({
+                            message: `Failed to update product with id ${id} (internal server error)`
+                        });
+                    }
 
-                    console.error(err.message);
+                    if (updatedData.image) {
+                        deleteFile(updatedData.image.url);
+                    }
                 });
         } catch (error) {
             response.status(400).send({
@@ -189,14 +205,12 @@ exports.delete = async (request, response) => {
 
     Product.findByIdAndDelete(id)
         .then(data => {
-            if (!data)
-            {
+            if (!data) {
                 response.status(404).send({
                     message: `Product with id ${id} wasnt found, cant delete then`
                 });
             }
-            else
-            {
+            else {
                 response.send({
                     message: `Product with id ${id} was deleted successfuly`
                 });

@@ -1,4 +1,4 @@
-import { Route, Routes, BrowserRouter } from "react-router-dom";
+import { Route, Routes, BrowserRouter, Navigate } from "react-router-dom";
 import { AuthWrapper } from "./components/Auth.js";
 import { MessageProvider } from "./components/Messages.js";
 import './App.css';
@@ -25,6 +25,7 @@ import SignIn from "./components/SignIn.js"
 import LogOut from "./components/LogOut.js"
 
 import Navbar from "./components/Navbar.js";
+import Chat from "./components/Chat.js";
 
 function App() {
   return (
@@ -35,6 +36,8 @@ function App() {
 
       <main>
         <Routes>
+          <Route path="/" element={<Navigate to="/products" />} />
+
           <Route path="/products" element={<Layout/>}>
             <Route index element={<ProductList/>}/>
             <Route path=":id" element={<ProductDetails/>}/>
@@ -52,9 +55,13 @@ function App() {
             <Route path=":id/edit" element={<AquisitionEdit/>}/>
           </Route>
 
+          <Route path="/chat" element={<Chat/>} />
+
           <Route path="/signup" element={<SignUp/>} />
           <Route path="/signin" element={<SignIn/>} />
           <Route path="/logout" element={<LogOut/>} />
+
+          <Route path="/*" element={<Navigate to="/products" />} />
         </Routes>
       </main>
 

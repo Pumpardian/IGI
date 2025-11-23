@@ -17,11 +17,11 @@ export default function AquisitionEdit() {
 
     const navigate = useNavigate();
 
-    const { user } = useContext(AuthContext);
+    const { user, loading } = useContext(AuthContext);
     const { showMessage } = useMessage();
 
     useEffect(() => {
-        if (!user) {
+        if (!loading && !user) {
             navigate("/signin");
         }
 
@@ -31,6 +31,7 @@ export default function AquisitionEdit() {
                 updateProducts(response.data);
             } catch (err) {
                 console.error("Error while receiving products: ", err.response?.data?.message);
+                showMessage(err.response?.data?.message);
             }
         }
 
@@ -40,6 +41,7 @@ export default function AquisitionEdit() {
                 updateSuppliers(response.data);
             } catch (err) {
                 console.error("Error while receiving suppliers: ", err.response?.data?.message);
+                showMessage(err.response?.data?.message);
             }
         }
 
@@ -55,13 +57,15 @@ export default function AquisitionEdit() {
                 updateDate(aquisition.date)
             } catch (err) {
                 console.error("Error while receiving aquisition: ", err.response?.data?.message);
+                showMessage(err.response?.data?.message);
             }
         }
 
         fetchProducts();
         fetchSuppliers();
         fetch();
-    }, [id, user, navigate]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [id, user, loading, navigate]);
 
     const handleEdit = async (e) => {
         e.preventDefault();
@@ -73,6 +77,7 @@ export default function AquisitionEdit() {
             showMessage("Aquisition corrected successfuly");
         } catch (err) {
             console.error("Error while editing aquisition: ", err);
+            showMessage(err.response?.data?.message);
         }
     };
 

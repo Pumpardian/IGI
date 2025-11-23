@@ -29,7 +29,8 @@ module.exports = mongoose => {
             },
             partNumber: { 
                 type: String,
-                required: true
+                required: true,
+                unique: true
             }
         },
         { timestamps: true }

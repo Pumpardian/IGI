@@ -19,11 +19,11 @@ export default function ProductEdit() {
 
     const navigate = useNavigate();
 
-    const { user } = useContext(AuthContext);
+    const { user, loading } = useContext(AuthContext);
     const { showMessage } = useMessage();
 
     useEffect(() => {
-        if (!user) {
+        if (!loading && !user) {
             navigate("/signin");
         }
 
@@ -41,11 +41,13 @@ export default function ProductEdit() {
                 }
             } catch (err) {
                 console.error("Error while receiving product: ", err.response?.data?.message);
+                showMessage(err.response?.data?.message);
             }
         }
 
         fetch();
-    }, [id, user, navigate]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [id, user, loading, navigate]);
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -99,6 +101,7 @@ export default function ProductEdit() {
             showMessage("Product changed successfuly");
         } catch (err) {
             console.error("Error while editing product: ", err.response?.data?.message);
+            showMessage(err.response?.data?.message);
         }
     };
 

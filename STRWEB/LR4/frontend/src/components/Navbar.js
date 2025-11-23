@@ -14,23 +14,30 @@ const Navbar = () => {
             </div>
 
             <ul className="nav-menu">
-              <li className="nav-item">
-                <NavLink to={"/products"} className={`nav-link ${({ isActive }) => (isActive ? "active" : "")}`}>
-                  Products
-                </NavLink>
-              </li>
+                <li className="nav-item">
+                    <NavLink to={"/products"} className={`nav-link ${({ isActive }) => (isActive ? "active" : "")}`}>
+                        Products
+                    </NavLink>
+                </li>
 
-              <li className="nav-item">
-                <NavLink to={"/suppliers"} className={`nav-link ${({ isActive }) => (isActive ? "active" : "")}`}>
-                  Suppliers
-                </NavLink>
-              </li>
+                <li className="nav-item">
+                    <NavLink to={"/suppliers"} className={`nav-link ${({ isActive }) => (isActive ? "active" : "")}`}>
+                        Suppliers
+                    </NavLink>
+                </li>
 
-              <li className="nav-item">
-                <NavLink to={"/aquisitions"} className={`nav-link ${({ isActive }) => (isActive ? "active" : "")}`}>
-                  Aquisitions
-                </NavLink>
-              </li>
+                <li className="nav-item">
+                    <NavLink to={"/aquisitions"} className={`nav-link ${({ isActive }) => (isActive ? "active" : "")}`}>
+                        Aquisitions
+                    </NavLink>
+                </li>
+
+                <li className="nav-item">
+                    <NavLink to={"/chat"} className={`nav-link ${({ isActive }) => (isActive ? "active" : "")}`}>
+                        Chat
+                    </NavLink>
+                </li>
+
             </ul>
             <ul className="nav-menu">
                 {!user ? (

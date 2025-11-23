@@ -47,6 +47,7 @@ export default class SupplierList extends Component {
             showMessage("Supplier deleted");
         } catch (err) {
             console.error("Error while deleting supplier: ", err.response?.data?.message);
+            showMessage(err.response?.data?.message);
         }
     };
 
@@ -103,7 +104,7 @@ export default class SupplierList extends Component {
 
         return (
             <AuthContext.Consumer>
-                {({ user, signIn, logOut }) => (
+                {({ user, signIn, logOut, loading }) => (
                     <MessageContext.Consumer>
                         {({ showMessage }) => (
                             <>

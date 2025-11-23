@@ -70,7 +70,7 @@ exports.login = (request, response) => {
             }
             else
             {
-                const token = jwt.sign({ id: data.id, username: data.username }, JWT_SECRET, { expiresIn: "1h" });
+                const token = jwt.sign({ id: data.id, username: data.username }, JWT_SECRET, { expiresIn: "24h" });
                 response.json({ token, username: username });
             }
         }).catch(err => {

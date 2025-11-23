@@ -3,6 +3,7 @@ import Axios from "../axios";
 import { jwtDecode } from "jwt-decode";
 import { AuthContext } from "./Auth";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { useMessage } from "./Messages";
 
 export default function SignIn() {
     const [username, updateUsername] = useState("");
@@ -12,6 +13,8 @@ export default function SignIn() {
 
     const { signIn } = useContext(AuthContext);
     const navigate = useNavigate();
+
+    const { showMessage } = useMessage();
 
     const handleSignIn = async (e) => {
         e.preventDefault();
@@ -28,11 +31,11 @@ export default function SignIn() {
             const decoded = jwtDecode(token);
             signIn({ username: decoded.username, id: decoded.id });
 
-            alert("Sign In - Success");
+            showMessage("Sign In - Success");
             navigate("/");
         } catch (err) {
             console.error("Error while signing in: ", err.response?.data?.message);
-            alert("Sign In - Fail");
+            showMessage("Sign In - Fail");
         }
     };
 
@@ -51,11 +54,11 @@ export default function SignIn() {
             const decoded = jwtDecode(token);
             signIn({ username: decoded.username, id: decoded.id });
 
-            alert("Google Sign In - Success");
+            showMessage("Google Sign In - Success");
             navigate("/");
         } catch (err) {
             console.error("Error processing Google token: ", err);
-            alert("Google Sign In - Fail");
+            showMessage("Google Sign In - Fail");
         }
     };
 
