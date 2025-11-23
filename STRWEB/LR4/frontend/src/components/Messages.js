@@ -14,9 +14,9 @@ export const useMessage = () => {
 export const MessageProvider = ({ children }) => {
   const [messages, updateMessages] = useState([]);
 
-  const showMessage = (content, duration = 3000) => {
+  const showMessage = (content) => {
     const id = Date.now();
-    updateMessages(prev => [...prev, { id, content, duration }]);
+    updateMessages(prev => [...prev, { id, content }]);
   };
 
   const removeMessage = (id) => {
@@ -31,7 +31,6 @@ export const MessageProvider = ({ children }) => {
           <Message
             key={message.id}
             content={message.content}
-            duration={message.duration}
             onClose={() => removeMessage(message.id)}
           />
         ))}

@@ -1,12 +1,14 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import Axios from "../axios";
 import { jwtDecode } from "jwt-decode";
 import { AuthContext } from "./Auth";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 export default function SignIn() {
     const [username, updateUsername] = useState("");
     const [password, updatePassword] = useState("");
+    const [searchParams] = useSearchParams();
+    const processedToken = useRef(false);
 
     const { signIn } = useContext(AuthContext);
     const navigate = useNavigate();
@@ -35,13 +37,13 @@ export default function SignIn() {
     };
 
     useEffect(() => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const token = urlParams.get('token');
-        
-        if (token) {
+        const token = searchParams.get('token');
+        if (token && !processedToken.current) {
+            processedToken.current = true;
             handleGoogleToken(token);
         }
-    }, []);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [searchParams]);
 
     const handleGoogleToken = (token) => {
         try {

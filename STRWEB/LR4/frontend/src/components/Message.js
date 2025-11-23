@@ -1,35 +1,54 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
-const Message = ({ content, onClose, duration = 3000 }) => {
-  const [closing, updateClosing] = useState(false);
+class Message extends React.Component {
+  constructor(props) {
+    super(props)
 
-  useEffect(() => {
-    if (duration > 0) {
-      const timer = setTimeout(() => {
-        handleClose();
-      }, duration);
+    this.state = { closing: false };
+    this.timer = null;
+  }
 
-      return () => clearTimeout(timer);
+  static defaultProps = {
+    duration: 5000,
+    onClose: () => console.log("Message closed"),
+    content: "Message content"
+  };
+
+  componentDidMount() {
+    if (this.props.duration > 0) {
+        this.timer = setTimeout(() => {
+          this.handleClose()
+        }, this.props.duration);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [duration]);
+  }
 
-  const handleClose = () => {
-    updateClosing(true);
+  componentWillUnmount() {
+    if (this.timer) {
+      clearTimeout(this.timer);
+    }
+  }
+
+  handleClose = () => {
+    this.setState({ closing: true });
 
     setTimeout(() => {
-      onClose();
+      this.props.onClose();
     }, 300);
   }
 
-  return (
-    <div className={`message ${closing ? "closing" : ""}`}>
-      <div className="message-content">
-        <span>{content}</span>
-        <button className="message-close" onClick={onClose}>×</button>
+  render() {
+    const { content } = this.props;
+    const { closing } = this.state;
+
+    return (
+      <div className={`message ${closing ? "closing" : ""}`}>
+        <div className="message-content">
+          <span>{content}</span>
+          <button className="message-close" onClick={this.handleClose}>×</button>
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 };
 
 export default Message;
