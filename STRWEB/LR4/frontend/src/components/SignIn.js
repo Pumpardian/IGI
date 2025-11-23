@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Axios from "../axios";
 import { jwtDecode } from "jwt-decode";
 import { AuthContext } from "./Auth";
@@ -31,6 +31,29 @@ export default function SignIn() {
         } catch (err) {
             console.error("Error while signing in: ", err.response?.data?.message);
             alert("Sign In - Fail");
+        }
+    };
+
+    useEffect(() => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const token = urlParams.get('token');
+        
+        if (token) {
+            handleGoogleToken(token);
+        }
+    }, []);
+
+    const handleGoogleToken = (token) => {
+        try {
+            localStorage.setItem("token", token);
+            const decoded = jwtDecode(token);
+            signIn({ username: decoded.username, id: decoded.id });
+
+            alert("Google Sign In - Success");
+            navigate("/");
+        } catch (err) {
+            console.error("Error processing Google token: ", err);
+            alert("Google Sign In - Fail");
         }
     };
 

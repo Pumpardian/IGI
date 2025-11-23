@@ -93,7 +93,7 @@ app.get(
             { expiresIn: "1h" },
         );
 
-        response.redirect(`http://localhost:3000?token=${token}`);
+        response.redirect(`http://localhost:3000/signin?token=${token}`);
     },
 );
 

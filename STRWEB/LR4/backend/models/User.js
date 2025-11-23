@@ -23,7 +23,7 @@ module.exports = mongoose => {
                     validator: function(value) {
                         if (value === null) return true;
                         return new Promise(async (resolve) => {
-                            const existing = await mongoose.model('User').findOne({ googleID: value });
+                            const existing = await mongoose.model('user').findOne({ googleID: value });
                             resolve(!existing);
                         });
                     },
