@@ -188,6 +188,7 @@ export default class SupplierList extends Component {
                                                                 <button 
                                                                     onDoubleClick={() => this.handleDelete(supplier.id, user, showMessage)} 
                                                                     className="btn btn-danger"
+                                                                    title="Double-click to delete"
                                                                 >
                                                                     Delete
                                                                 </button>

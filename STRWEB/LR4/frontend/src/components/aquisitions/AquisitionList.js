@@ -10,6 +10,8 @@ export default class AquisitionList extends Component {
 
         this.state = {
             aquisitions: [],
+            suppliers: [],
+            products: [],
             searchQuery: "",
             sortColumn: "",
             sortDirection: "ascending"
@@ -29,7 +31,27 @@ export default class AquisitionList extends Component {
             }
         };
 
+        const fetchProducts = async () => {
+            try {
+                const response = await Axios.get(`/api/products`);
+                this.setState({ products: response.data });
+            } catch (err) {
+                console.error("Error while receiving products: ", err.response?.data?.message);
+            }
+        }
+
+        const fetchSuppliers = async () => {
+            try {
+                const response = await Axios.get(`/api/suppliers`);
+                this.setState({ suppliers: response.data });
+            } catch (err) {
+                console.error("Error while receiving suppliers: ", err.response?.data?.message);
+            }
+        }
+
         fetch();
+        fetchProducts();
+        fetchSuppliers();
     }
 
     handleDelete = async (id, user, showMessage) => {
@@ -138,17 +160,17 @@ export default class AquisitionList extends Component {
                                                             </span>
                                                         )}
                                                     </th>
-                                                    <th onClick={() => this.handleSort("productID")}>
-                                                        Product ID
-                                                        {this.state.sortColumn === "productID" && (
+                                                    <th onClick={() => this.handleSort("product")}>
+                                                        Product
+                                                        {this.state.sortColumn === "product" && (
                                                             <span className="sort-icon">
                                                                 {this.state.sortDirection === "ascending" ? "▲" : "▼"}
                                                             </span>
                                                         )}
                                                     </th>
-                                                    <th onClick={() => this.handleSort("supplierID")}>
-                                                        Supplier ID
-                                                        {this.state.sortColumn === "supplierID" && (
+                                                    <th onClick={() => this.handleSort("supplier")}>
+                                                        Supplier
+                                                        {this.state.sortColumn === "supplier" && (
                                                             <span className="sort-icon">
                                                                 {this.state.sortDirection === "ascending" ? "▲" : "▼"}
                                                             </span>
@@ -190,10 +212,10 @@ export default class AquisitionList extends Component {
                                                             {aquisition.id}
                                                         </td>
                                                         <td>
-                                                            {aquisition.productID}
+                                                            {this.state.products.find(p => p.id === aquisition.productID)?.title || "N/A"}
                                                         </td>
                                                         <td>
-                                                            {aquisition.supplierID}
+                                                            {this.state.suppliers.find(s => s.id === aquisition.supplierID)?.name || "N/A"}
                                                         </td>
                                                         <td>
                                                             {aquisition.price}
@@ -218,6 +240,7 @@ export default class AquisitionList extends Component {
                                                                 <button 
                                                                     onDoubleClick={() => this.handleDelete(aquisition.id, user, showMessage)} 
                                                                     className="btn btn-danger"
+                                                                    title="Double-click to delete"
                                                                 >
                                                                     Delete
                                                                 </button>

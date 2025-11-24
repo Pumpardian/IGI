@@ -125,6 +125,7 @@ export default class ProductList extends Component {
                                                             <button 
                                                                 onDoubleClick={() => this.handleDelete(product.id, user, showMessage)} 
                                                                 className="btn btn-danger"
+                                                                title="Double-click to delete"
                                                             >
                                                                 Delete
                                                             </button>
