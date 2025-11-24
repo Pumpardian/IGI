@@ -8,6 +8,9 @@ const ThemeSelector = () => {
         if (saved) {
             handleChange(saved);
         }
+        else {
+            toggleTheme();
+        }
     }, []);
 
     const toggleTheme = () => {
