@@ -11,6 +11,7 @@ const ThemeSelector = () => {
         else {
             toggleTheme();
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const toggleTheme = () => {
